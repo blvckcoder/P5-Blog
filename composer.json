@@ -1,0 +1,21 @@
+{
+    "name": "blvckcoder/blogp5",
+    "description": "Blog MVC POO",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Blvck Coder",
+            "email": "dev@blvckcoder.com"
+        }
+    ],
+    "require": {
+        "altorouter/altorouter": "2.0.2",
+        "filp/whoops": "^2.15",
+        "twig/twig": "^3.7",
+        "twig/string-extra": "^3.7"
+    }
+}
