@@ -49,7 +49,10 @@ class PostRepository implements Repository
 
         $userRepository = new UserRepository;
         $post->setAuthor($userRepository->getById($post->getUserId()));
-        //commentRepository
+
+        $commentRepository = new CommentRepository;
+        $comments = $commentRepository->getAllBy($post->getId());
+        $post->setComments($comments);
         //categoryRepository
         //tagRepository
         
@@ -76,7 +79,7 @@ class PostRepository implements Repository
         $statement->bindValue(':userId', $post->getUserId());
 
         if (!$statement->execute()) {
-            throw new \RuntimeException('Erreur lors de l\'insertion du commentaire.');
+            throw new \RuntimeException('Erreur lors de l\'insertion du post.');
         } else {
             return true;
         }
@@ -101,7 +104,7 @@ class PostRepository implements Repository
         $statement->bindValue(':postStatus', $post->getPostStatus());
 
         if (!$statement->execute()) {
-            throw new \RuntimeException('Erreur lors de l\'insertion du commentaire.');
+            throw new \RuntimeException('Erreur lors de l\'insertion du post.');
         } else {
             return true;
         }
@@ -116,7 +119,7 @@ class PostRepository implements Repository
         $statement->bindValue(':id', $post->getId());
 
         if (!$statement->execute()) {
-            throw new \RuntimeException('Erreur lors de l\'insertion du commentaire.');
+            throw new \RuntimeException('Erreur lors de l\'insertion du post.');
         } else {
             return true;
         }

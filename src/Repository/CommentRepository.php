@@ -21,7 +21,6 @@ class CommentRepository implements Repository
     public function create(object $comment)
     {
         if(!$comment instanceof Comment) {
-            //throw new \InvalidArgumentException('$comment n\'est pas un objet Comment');
             return false;
         }
 
@@ -42,7 +41,7 @@ class CommentRepository implements Repository
 
     }
 
-    public function update(object $entity)
+    public function update(object $comment)
     {
         $statement = $this->connection->prepare(
             'UPDATE comment SET userId = ?, content = ? WHERE id = ?'

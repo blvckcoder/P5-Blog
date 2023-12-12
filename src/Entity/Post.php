@@ -18,6 +18,7 @@ class Post
     private string $createdDate;
     private ?string $updateDate = null;
     private string $postStatus = "draft";
+    private string $comment;
 
     // category, slug, comment, tag
 
@@ -151,6 +152,18 @@ class Post
     public function setUserId(int $userId): object
     {
         $this->userId = $userId;
+        return $this;
+    }
+
+    //USER
+    public function getComment(): int
+    {
+        return $this->comment;
+    }
+
+    public function setComment(int $comment): object
+    {
+        $this->comment = $comment;
         return $this;
     }
 }
