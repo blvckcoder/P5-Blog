@@ -131,6 +131,9 @@ class CommentRepository implements Repository
     }
     
     public function count()
-    {}
+    {
+        $statement = $this->connection->query("SELECT COUNT(*) FROM comment");
+        return $statement->fetchColumn();
+    }
 
 }
