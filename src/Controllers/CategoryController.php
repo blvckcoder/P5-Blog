@@ -52,4 +52,25 @@ class CategoryController
         }
     }
 
+    public function delete(array $id)
+    {
+        $id = (int)$id['id']; 
+
+        $categoryRepository = new CategoryRepository();
+
+        $category = $categoryRepository->getById($id);
+
+        if($category->getId() === $id) {
+            $success = $categoryRepository->delete($category);
+        } else {
+            return false;
+        }
+
+        if (!$success) {
+            throw new \Exception('Impossible de supprimer la categorie!');
+        } else {
+            header('Location: /admin/categories');
+        }
+    }
+
 }

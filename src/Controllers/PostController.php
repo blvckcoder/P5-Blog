@@ -132,6 +132,34 @@ class PostController
         }
     }
 
+    public function delete(array $id)
+    {
+        $id = (int)$id['id']; 
+
+        $postRepository = new PostRepository();
+        $commentRepository = new CommentRepository();
+
+        $post = $postRepository->getById($id);
+
+        if($post->getId() === $id) {
+            $comments = $commentRepository->getAllBy($id);
+            foreach ($comments as $comment) {
+                $commentRepository->delete($comment);
+            }
+            $success = $postRepository->delete($post);
+
+        } else {
+            return false;
+        }
+
+        if (!$success) {
+            throw new \Exception('Impossible de supprimer l\'article !');
+        } else {
+            header('Location: /admin/posts');
+        }
+
+    }
+
 
 
 

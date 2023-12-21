@@ -68,7 +68,7 @@ class UserRepository implements Repository {
         $statement->bindValue(':id', $user->getId());
 
         if (!$statement->execute()) {
-            throw new \RuntimeException('Erreur lors de l\'insertion de l\'utilisateur.');
+            throw new \RuntimeException('Erreur lors de la suppression de l\'utilisateur.');
         } else {
             return true;
         }

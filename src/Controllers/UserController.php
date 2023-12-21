@@ -74,4 +74,20 @@ class UserController
         }
     }
 
+    public function delete(array $id)
+    {
+        $id = (int)$id['id'];
+
+        $userRepository = new UserRepository();
+        $user = $userRepository->getById($id);
+        $success = $userRepository->delete($user);
+
+        // Redirection après le succès
+        if (!$success) {
+            throw new \Exception('Impossible de supprimer l\'utilisateur !');
+        } else {
+            header('Location: /admin/users');
+        }
+    }
+
 }
