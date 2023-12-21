@@ -51,6 +51,54 @@ class TagController
         }
     }
 
+    public function updateForm(array $id)
+    {
+        $tagId = (int)$id['id'];
+
+        $tagRepository = new TagRepository();
+        $existingTag = $tagRepository->getById($tagId);
+
+        if (!$existingTag) {
+            header( $_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
+            echo 'Le tag n\'existe pas 404 not found baby';
+            die();
+        }
+
+        echo $this->twig->getTwig()->render('backend/forms/editTag.twig', [
+            'tag' => $existingTag
+        ]);
+    }
+
+
+    public function update(array $id)
+    {
+        $tagId = (int)$id['id'];
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $postData = $_POST;
+            if (!isset($postData['name'], $postData['description'], $postData['slug'])) {
+                throw new \Exception('Les données du formulaire sont invalides.');
+            }
+
+            $tagRepository = new TagRepository();
+            $tag = $tagRepository->getById($tagId);
+    
+            if ($tag) {
+                $tag = Hydrator::hydrate($postData, $tag);
+                $success = $tagRepository->update($tag);
+    
+                if (!$success) {
+                    throw new \Exception('Impossible de mettre à jour le tag!');
+                } else {
+                    header('Location: /admin/tags');
+                }
+            } else {
+                throw new \Exception('Tag non trouvé.');
+            }
+        }
+        
+    }
+
     public function delete(array $id)
     {
         $id = (int)$id['id']; 
@@ -71,5 +119,8 @@ class TagController
             header('Location: /admin/tags');
         }
     }
+
+
+
 
 }
