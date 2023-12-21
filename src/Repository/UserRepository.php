@@ -45,10 +45,16 @@ class UserRepository implements Repository {
 
     public function update(object $user)
     {
+        if(!$user instanceof User) {
+            return false;
+        }
+
         $statement = $this->connection->prepare(
-            'UPDATE user SET firstname = :firstname, nickname = :nickname, biography = :biography, picture = :picture, mail = :mail, password = :password, role = :role, status = :status WHERE id = :id;'
+            "UPDATE user SET name = :name, firstname = :firstname, nickname = :nickname, biography = :biography, picture = :picture, mail = :mail, password = :password, role = :role, status = :status WHERE id = :id"
         );
 
+        $statement->bindValue(':id', $user->getId(), PDO::PARAM_INT);
+        $statement->bindValue(':name', $user->getName());
         $statement->bindValue(':firstname', $user->getFirstname());
         $statement->bindValue(':nickname', $user->getNickname());
         $statement->bindValue(':biography', $user->getBiography());
@@ -57,6 +63,12 @@ class UserRepository implements Repository {
         $statement->bindValue(':password', $user->getPassword());
         $statement->bindValue(':role', $user->getRole());
         $statement->bindValue(':status', $user->getStatus());
+
+        if (!$statement->execute()) {
+            throw new \RuntimeException('Erreur lors de la modification de l\'utilisateur.');
+        } else {
+            return true;
+        }
     }
 
     public function delete(object $user)

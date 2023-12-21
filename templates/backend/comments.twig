@@ -53,7 +53,7 @@
                             <span class="badge badge-sm bg-gradient-success">Publié</span>
                           </td>
                           <td class="align-middle text-center">
-                            <span class="text-secondary text-xs font-weight-bold">{{ comment.creationDate }}</span>
+                            <span class="text-secondary text-xs font-weight-bold">{{ comment.createdDate }}</span>
                           </td>
                           <td class="align-middle text-center">
                             <!-- BTN UPDATE -->
@@ -156,24 +156,24 @@
                           <span class="badge badge-sm bg-gradient-secondary">en attente</span>
                         </td>
                         <td class="align-middle text-center">
-                          <span class="text-secondary text-xs font-weight-bold">{{ comment.creationDate }}</span>
+                          <span class="text-secondary text-xs font-weight-bold">{{ comment.createdDate }}</span>
                         </td>
                         <td class="align-middle text-center">
                           <!-- BTN UPDATE -->
                           <a class="btn btn-link text-secondary px-3 mb-0"
-                            href="/admin/commentupdate/{{ comment.id}}"><i
+                            href="/admin/commentupdate/{{comment.id}}"><i
                               class="material-icons text-sm me-2">edit</i>Modifier</a>
                           <!-- BTN DELETE -->
                           <a class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal"
-                            data-bs-target="#modal-delete{{ comment.id}}"><i
+                            data-bs-target="#modal-delete{{comment.id}}"><i
                               class="material-icons text-sm me-2">delete</i>Supprimer</a>
                           <!-- MODAL DELETE -->
                           <div class="modal fade" id="modal-delete{{ comment.id}}" tabindex="-1"
-                            aria-labelledby="modal-delete{{ comment.id}}" style="display: none;" aria-hidden="true">
+                            aria-labelledby="modal-delete{{comment.id}}" style="display: none;" aria-hidden="true">
                             <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h6 class="modal-title font-weight-normal" id="modal-title-delete{{ comment.id}}">
+                                  <h6 class="modal-title font-weight-normal" id="modal-title-delete{{comment.id}}">
                                     Confirmation
                                     de suppression</h6>
                                   <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
