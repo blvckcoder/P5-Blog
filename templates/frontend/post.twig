@@ -1,0 +1,192 @@
+{% extends 'frontend/layout.html.twig' %}
+
+{% block title %}
+<title>Blog PHP</title>
+{% endblock %}
+
+
+{% block content %}
+
+<!-- HEADER -->
+<header class="bg-gradient-dark">
+    <div class="page-header min-vh-75"
+        style="background-image: url('../public/{{post.imgCover}}'); transform: translate3d(0px, 0px, 0px);">
+        <span class="mask bg-gradient-dark opacity-6"></span>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center mx-auto my-auto">
+                    <h1 class="text-white">{{post.title}}</h1>
+                    <p class="lead mb-4 text-white opacity-8">{{post.excerpt}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- POST -->
+<div class="card card-body shadow-xl mx-3 mx-md-4 mt-n6">
+
+    <section class="py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 ms-auto me-auto">
+                    <h6 class="opacity-7 text-uppercase font-weight-bolder text-sm">{{post.status}}</h6>
+                    <h2 class="title mb-4">{{post.title}}</h2>
+                    <p class="text-dark">
+                        {{post.content |striptags('<h2><h3>')|raw}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 offset-2">
+                    <small>Posté le {{post.createdDate}}</small>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- AUTEUR -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 ms-auto me-auto">
+                    <div class="row">
+                        <div class="col-md-6 my-auto">
+                            <div>
+                                <span class="badge badge-sm bg-gradient-primary">Photography</span>
+                                <span class="badge badge-sm bg-gradient-primary">Stories</span>
+                                <span class="badge badge-sm bg-gradient-primary">Castle</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="javascript:;" class="btn btn-pinterest btn-sm mb-0 mx-1 mt-md-0 mt-4 float-md-end">
+                                <i class="fab fa-pinterest me-2"></i> 232
+                            </a>
+                            <a href="javascript:;" class="btn btn-twitter btn-sm mb-0 mx-1 mt-md-0 mt-4 float-md-end">
+                                <i class="fab fa-twitter me-2"></i> 910
+                            </a>
+                            <a href="javascript:;" class="btn btn-facebook btn-sm mb-0 mx-1 mt-md-0 mt-4 float-md-end">
+                                <i class="fab fa-facebook me-2"></i> 872
+                            </a>
+
+                        </div>
+                    </div>
+
+                    <hr class="dark horizontal">
+
+                    <div class="d-flex">
+                        <div>
+                            <a href="javascript:;">
+                                <div class="position-relative">
+                                    <div class="blur-shadow-avatar">
+                                        <img class="avatar avatar-xxl border-radius-xl"
+                                            src="../public/assets/img/profil/{{post.author.picture}}">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="ms-4 my-auto">
+                            <h5>{{post.author.nickname}}</h5>
+                            <p class="text-sm mb-0">{{post.author.biography}}</p>
+                        </div>
+                        <div class="my-auto d-md-block d-none ms-2">
+                            <button type="button" class="btn btn-dark pull-end mb-0">Follow</button>
+                        </div>
+                    </div>
+                    <div class="my-auto d-md-none d-block ms-2">
+                        <button type="button" class="btn btn-dark mt-3">Follow</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+
+
+
+<!-- COMMENTAIRES -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 ms-auto me-auto">
+                <div>
+                    <!-- NOMBRE COMMENTAIRES -->
+                    <h4 class="text-center mb-5">3 Commentaires</h4>
+
+                    {% for comment in comments %}
+                    <div class="d-flex">
+                        <div>
+                            <a href="javascript:;">
+                                <div class="position-relative">
+                                    <div class="blur-shadow-avatar rounded-circle">
+                                        <img class="avatar" src="../public/assets/img/profil/{{comment.author.picture}}" alt="...">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="ms-3">
+                            <h6>{{ comment.author.nickname }} <span class="text-muted text-xs">·
+                                    {{ comment.createdDate }}</span></h6>
+
+                            <p>{{ comment.content }}</p>
+
+                            <div class="ms-auto text-end">
+                                <a href="javascript:;" class="btn text-dark px-2 btn-link" rel="tooltip" title=""
+                                    data-original-title="Reply to Comment">
+                                    <i class="fa fa-reply"></i> Répondre
+                                </a>
+                                <a href="javascript:;" class="btn text-danger px-2 btn-link">
+                                    <i class="fas fa-heart"></i> 243
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+                <!-- FORMULAIRE COMMENTAIRE -->
+                <h4 class="text-center mb-4 mt-5">Poster un commentaire</h4>
+                <div class="d-flex">
+                    <div>
+                        <a class="author" href="javascript:;">
+                            <div class="position-relative">
+                                <div class="blur-shadow-avatar rounded-circle">
+                                    <img class="avatar" alt="64x64" src="../public/assets/img/profil/blvckcoder">
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="ms-3 w-100">
+                        <!-- Action addcomment + passer l'id du post -->
+                        <form action="/comment/create" method="post">
+                            <div class="input-group input-group-static">
+                                <label for="comment">Votre message</label>
+                                <textarea id="comment" name="content" class="form-control" placeholder="Exprimez vous..." rows="4"></textarea>
+                                <input type="hidden" name="postId" value="{{post.id}}">
+                                <input type="hidden" name="userId" value="1">
+                            </div>
+                            <div>
+                                <button type="submit" class="btn bg-gradient-dark pull-end mt-2">
+                                    <i class="fa fa-send me-2"></i> Poster
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div> <!-- end media-post -->
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}

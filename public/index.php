@@ -22,12 +22,12 @@ $router->map('GET', '/admin', 'App\Controllers\AdminController#index', 'Dashboar
 $router->map('GET', '/admin/documents', 'App\Controllers\AdminController#docForm', 'AddDocForm');
 $router->map('GET', '/admin/mails', 'App\Controllers\AdminController#displayMails', 'AllMails');
     //posts
-$router->map('GET', '/admin/posts', 'App\Controllers\AdminController#displayAdminPosts', 'AdminPosts');
-$router->map('GET', '/admin/postcreate', 'App\Controllers\AdminController#createPostForm', 'CreatePostForm');
-$router->map('POST', '/post/create', 'App\Controllers\AdminController#createPost', 'CreatePost');
-$router->map('GET', '/postupdate/[i:id]', 'App\Controllers\AdminController#updatePostForm', 'UpdatePostForm');
-$router->map('POST', '/postupdate/[i:id]', 'App\Controllers\AdminController#updatePost', 'UpdatePost');
-$router->map('GET', '/admin/postdelete/[i:id]', 'App\Controllers\AdminController#deletePost', 'DeletePost');
+$router->map('GET', '/admin/posts', 'App\Controllers\PostController#displayAdminPosts', 'AdminPosts');
+$router->map('GET', '/admin/postcreate', 'App\Controllers\PostController#createPostForm', 'CreatePostForm');
+$router->map('POST', '/post/create', 'App\Controllers\PostController#createPost', 'CreatePost');
+$router->map('GET', '/postupdate/[i:id]', 'App\Controllers\PostController#updatePostForm', 'UpdatePostForm');
+$router->map('POST', '/postupdate/[i:id]', 'App\Controllers\PostController#updatePost', 'UpdatePost');
+$router->map('GET', '/admin/postdelete/[i:id]', 'App\Controllers\PostController#deletePost', 'DeletePost');
     //comments
 $router->map('GET', '/admin/comments', 'App\Controllers\AdminController#displayAdminComments', 'AdminComments');
 $router->map('GET', '/admin/commentdelete/[i:id]', 'App\Controllers\AdminController#deleteComment', 'DeleteComment');
@@ -41,7 +41,7 @@ $router->map('POST', '/categorie/create', 'App\Controllers\AdminController#creat
 $router->map('GET', '/categorieupdate/[i:id]', 'App\Controllers\AdminController#updateCategorieForm', 'UpdateCategorieForm');
 $router->map('POST', '/categorieupdate/[i:id]', 'App\Controllers\AdminController#updateCategorie', 'UpdateCategorie');
 $router->map('GET', '/admin/categoriedelete/[i:id]', 'App\Controllers\AdminController#deleteCategorie', 'DeleteCategorie');
-    //Tags
+    //tags
 $router->map('GET', '/admin/tags', 'App\Controllers\AdminController#displayAdminTags', 'AdminTags');
 $router->map('GET', '/admin/tagcreate', 'App\Controllers\AdminController#createTagForm', 'CreateTagForm');
 $router->map('POST', '/tag/create', 'App\Controllers\AdminController#createTag', 'CreateTag');
