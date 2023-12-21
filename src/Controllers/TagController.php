@@ -51,7 +51,7 @@ class TagController
         }
     }
 
-    public function deleteTag(array $id)
+    public function delete(array $id)
     {
         $id = (int)$id['id']; 
 

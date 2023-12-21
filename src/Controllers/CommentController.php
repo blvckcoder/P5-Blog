@@ -46,5 +46,20 @@ class CommentController
         }
     }
 
+    public function delete(array $id)
+    {
+        $id = (int)$id['id'];
+
+        $commentRepository = new CommentRepository();
+        $comment = $commentRepository->getById($id);
+        $success = $commentRepository->delete($comment);
+
+        // Redirection après le succès
+        if (!$success) {
+            throw new \Exception('Impossible d\'ajouter le commentaire !');
+        } else {
+            header('Location: /admin/comments');
+        }
+    }
 
 }
