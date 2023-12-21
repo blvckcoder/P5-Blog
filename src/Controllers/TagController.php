@@ -27,6 +27,11 @@ class TagController
         ]);
     }
 
+    public function createForm()
+    {
+        echo $this->twig->getTwig()->render('backend/forms/addTag.twig');
+    }
+
     public function create(array $params)
     {
         if (!isset($params['post']['name'], $params['post']['description'], $params['post']['slug'])) {

@@ -27,29 +27,30 @@ $router->map('GET', '/admin/postcreate', 'App\Controllers\PostController#createF
 $router->map('POST', '/admin/postcreate', 'App\Controllers\PostController#create', 'CreatePost');//✔️
 $router->map('GET', '/postupdate/[i:id]', 'App\Controllers\PostController#updateForm', 'UpdatePostForm');
 $router->map('POST', '/postupdate/[i:id]', 'App\Controllers\PostController#update', 'UpdatePost');
-$router->map('GET', '/admin/postdelete/[i:id]', 'App\Controllers\PostController#delete', 'DeletePost');
+$router->map('GET', '/admin/postdelete/[i:id]', 'App\Controllers\PostController#delete', 'DeletePost');//🔳
     //comments
 $router->map('GET', '/admin/comments', 'App\Controllers\CommentController#displayAdminComments', 'AdminComments');//✔️
-$router->map('GET', '/admin/commentdelete/[i:id]', 'App\Controllers\CommentController#deleteComment', 'DeleteComment');
+$router->map('GET', '/admin/commentdelete/[i:id]', 'App\Controllers\CommentController#deleteComment', 'DeleteComment');//🔳
     //users
 $router->map('GET', '/admin/users', 'App\Controllers\UserController#displayAdminUsers', 'AdminUsers');//✔️
-$router->map('GET', '/admin/usercreate', 'App\Controllers\UserController#createForm', 'CreateUserForm');//🔳
-$router->map('POST', '/admin/usercreate', 'App\Controllers\UserController#create', 'CreateUser');//🔳
+$router->map('GET', '/admin/usercreate', 'App\Controllers\UserController#createForm', 'CreateUserForm');//✔️
+$router->map('POST', '/admin/usercreate', 'App\Controllers\UserController#create', 'CreateUser');//✔️
+$router->map('GET', '/admin/postdelete/[i:id]', 'App\Controllers\PostController#delete', 'DeletePost');//🔳
 $router->map('GET', '/admin/profil', 'App\Controllers\UserController#displayAdminProfil', 'AdminProfil');
     //categories
 $router->map('GET', '/admin/categories', 'App\Controllers\CategoryController#displayAdminCategories', 'AdminCategories');//✔️
-$router->map('GET', '/admin/categorycreate', 'App\Controllers\CategoryController#createForm', 'CreateCategoryForm');//🔳
-$router->map('POST', '/admin/categorycreate', 'App\Controllers\CategoryController#create', 'CreateCategory');//🔳
+$router->map('GET', '/admin/categorycreate', 'App\Controllers\CategoryController#createForm', 'CreateCategoryForm');//✔️
+$router->map('POST', '/admin/categorycreate', 'App\Controllers\CategoryController#create', 'CreateCategory');//✔️
 $router->map('GET', '/categoryupdate/[i:id]', 'App\Controllers\CategoryController#updateCategorieForm', 'UpdateCategorieForm');
 $router->map('POST', '/categoryupdate/[i:id]', 'App\Controllers\CategoryController#updateCategorie', 'UpdateCategorie');
-$router->map('GET', '/admin/categorydelete/[i:id]', 'App\Controllers\CategoryController#deleteCategorie', 'DeleteCategorie');
+$router->map('GET', '/admin/categorydelete/[i:id]', 'App\Controllers\CategoryController#deleteCategorie', 'DeleteCategorie');//🔳
     //tags
 $router->map('GET', '/admin/tags', 'App\Controllers\TagController#displayAdminTags', 'AdminTags');//✔️
-$router->map('GET', '/admin/tagcreate', 'App\Controllers\TagController#createForm', 'CreateTagForm');//🔳
-$router->map('POST', '/admin/tagcreate', 'App\Controllers\TagController#create', 'CreateTag');//🔳
+$router->map('GET', '/admin/tagcreate', 'App\Controllers\TagController#createForm', 'CreateTagForm');//✔️
+$router->map('POST', '/admin/tagcreate', 'App\Controllers\TagController#create', 'CreateTag');//✔️
 $router->map('GET', '/tagupdate/[i:id]', 'App\Controllers\TagController#updateTagForm', 'UpdateTagForm');
 $router->map('POST', '/tagupdate/[i:id]', 'App\Controllers\TagController#updateTag', 'UpdateTag');
-$router->map('GET', '/admin/tagdelete/[i:id]', 'App\Controllers\TagController#deleteTag', 'DeleteTag');
+$router->map('GET', '/admin/tagdelete/[i:id]', 'App\Controllers\TagController#deleteTag', 'DeleteTag');//🔳
 //OTHERS
 $router->map('POST', '/test', 'App\Controllers\TestController#test', 'test');
 

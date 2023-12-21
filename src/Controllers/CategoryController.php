@@ -28,4 +28,28 @@ class CategoryController
 
     }
 
+    public function createForm()
+    {
+        echo $this->twig->getTwig()->render('backend/forms/addCategory.twig');
+    }
+
+    public function create(array $params)
+    {
+        if (!isset($params['post']['name'], $params['post']['description'], $params['post']['slug'])) {
+            throw new \Exception('Les données du formulaire sont invalides.');
+        }
+
+        $category = new Category();
+        $category = Hydrator::hydrate($params['post'], $category);
+
+        $categoryRepository = new CategoryRepository();
+        $success = $categoryRepository->create($category);
+
+        if (!$success) {
+            throw new \Exception('Impossible d\'ajouter la catégorie !');
+        } else {
+            header('Location: /admin/categories');
+        }
+    }
+
 }
