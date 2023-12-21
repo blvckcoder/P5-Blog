@@ -1,0 +1,93 @@
+{% include 'backend/parts/head.twig' %}
+
+<body class="g-sidenav-show bg-gray-200">
+  {% include 'backend/parts/aside.twig' %}
+  <div class="main-content position-relative max-height-vh-100 h-100">
+    {% include 'backend/parts/navbar.twig' %}
+    <div class="container-fluid px-2 px-md-4">
+      <div class="page-header min-height-300 border-radius-xl mt-4"
+        style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
+        <span class="mask  bg-gradient-info opacity-6"></span>
+      </div>
+      <div class="card card-body mx-3 mx-md-4 mt-n6">
+        <div class="row gx-4 mb-2">
+          <!-- FORMULAIRE ARTICLE -->
+          <h4 class="text-center mb-4 mt-5">Poster un article</h4>
+          <div class="d-flex">
+            <div class="ms-3 w-100">
+              <!-- Action addPost + passer l'id du post -->
+              <!-- -  -  - IMAGE CARD - IMAGE COVER - USER ID - POSTSTATUS -->
+              <form action="/post/create" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="userId" value="1">
+
+                <div class="row">
+                  <div class="input-group input-group-dynamic mb-4">
+                    <label class="form-label" for="title">Titre</label>
+                    <input type="text" class="form-control" id="title" name="title">
+                  </div>
+                </div>
+
+                <div class="row my-3">
+                  <div class="col-md-6 ps-2">
+                    <label class="form-label" for="imgCover">Image de couverture</label>
+                    <div class="input-group input-group-lg input-group-outline mb-3">
+                      <input type="file" class="form-control" id="imgCover" name="imgCover" accept="image/*">
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 ps-2">
+                    <label class="form-label" for="imgCard">Image de card</label>
+                    <div class="input-group input-group-lg input-group-outline mb-3">
+                      <input type="file" class="form-control" id="imgCard" name="imgCard" accept="image/*">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-4">
+                  <div class="input-group input-group-dynamic">
+                    <label class="form-label" for="excerpt">Résumé</label>
+                    <input type="text" id="excerpt" name="excerpt" class="form-control">
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="input-group  input-group-dynamic">
+                    <label class="form-label" for="content">Votre article</label>
+                    <textarea id="content" name="content" class="form-control" rows="8"></textarea>
+                  </div>
+                </div>
+
+                <div class="form-check form-switch mt-4">
+                  <input class="form-check-input" type="checkbox" id="postStatus" checked="">
+                  <label class="form-check-label" for="postStatus" name="postStatus">Publier ou passer en
+                    brouillon</label>
+                </div>
+
+
+                <div>
+                  <button type="submit" class="btn bg-gradient-dark pull-end mt-2">
+                    <i class="fa fa-send me-2"></i> Poster
+                  </button>
+                </div>
+              </form>
+
+            </div>
+          </div> <!-- end media-post -->
+        </div>
+
+      </div>
+    </div>
+
+
+
+    {% include 'backend/parts/footer.twig' %}
+</body>
+
+</html>
+
+
+
+
+
+
+</div>

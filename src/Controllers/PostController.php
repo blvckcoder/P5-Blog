@@ -54,6 +54,16 @@ class PostController
         ]);
     }
 
+    public function displayAdminPosts()
+    {
+        $postRepository = new PostRepository();
+        $posts = $postRepository->getAll();
+ 
+        echo $this->twig->getTwig()->render('backend/posts.twig', [
+            'posts' => $posts
+        ]);
+    }
+
 
 
 
