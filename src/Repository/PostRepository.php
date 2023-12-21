@@ -68,7 +68,7 @@ class PostRepository implements Repository
         }
 
         $statement = $this->connection->prepare(
-            'INSERT INTO post(title, excerpt, content, imgCard, imgCover, postStatus, userId, creationDate) VALUES(:title, :excerpt, :content, :imgCard, :imgCover, :postStatus, :userId, NOW())'
+            'INSERT INTO post(title, excerpt, content, imgCard, imgCover, postStatus, userId, createdDate) VALUES(:title, :excerpt, :content, :imgCard, :imgCover, :postStatus, :userId, NOW())'
         );
 
         $statement->bindValue(':title', $post->getTitle());

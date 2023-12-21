@@ -106,8 +106,7 @@ class TagRepository implements Repository
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\Tag');
         $tag = $statement->fetch();
 
-        $userRepository = new UserRepository;
-        $tag->setAuthor($userRepository->getById($tag->getUserId()));
+        return $tag;
     }
 
     public function getBy(string $value)
