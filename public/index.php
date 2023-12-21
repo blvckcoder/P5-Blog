@@ -41,9 +41,9 @@ $router->map('GET', '/admin/profil', 'App\Controllers\UserController#displayAdmi
 $router->map('GET', '/admin/categories', 'App\Controllers\CategoryController#displayAdminCategories', 'AdminCategories');//✔️
 $router->map('GET', '/admin/categorycreate', 'App\Controllers\CategoryController#createForm', 'CreateCategoryForm');//✔️
 $router->map('POST', '/admin/categorycreate', 'App\Controllers\CategoryController#create', 'CreateCategory');//✔️
-$router->map('GET', '/categoryupdate/[i:id]', 'App\Controllers\CategoryController#updateCategorieForm', 'UpdateCategorieForm');//🔴
-$router->map('POST', '/categoryupdate/[i:id]', 'App\Controllers\CategoryController#updateCategorie', 'UpdateCategorie');//🔴
-$router->map('GET', '/admin/categorydelete/[i:id]', 'App\Controllers\CategoryController#delete', 'DeleteCategorie');//✔️
+$router->map('GET', '/admin/categoryupdate/[i:id]', 'App\Controllers\CategoryController#updateForm', 'UpdateCategoryForm');//✔️
+$router->map('POST', '/admin/categoryupdate/[i:id]', 'App\Controllers\CategoryController#update', 'UpdateCategory');//✔️
+$router->map('GET', '/admin/categorydelete/[i:id]', 'App\Controllers\CategoryController#delete', 'DeleteCategory');//✔️
     //tags
 $router->map('GET', '/admin/tags', 'App\Controllers\TagController#displayAdminTags', 'AdminTags');//✔️
 $router->map('GET', '/admin/tagcreate', 'App\Controllers\TagController#createForm', 'CreateTagForm');//✔️

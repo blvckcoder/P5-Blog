@@ -52,6 +52,55 @@ class CategoryController
         }
     }
 
+    public function updateForm(array $id)
+    {
+        $categoryId = (int)$id['id'];
+
+        $categoryRepository = new CategoryRepository();
+        $existingCategory = $categoryRepository->getById($categoryId);
+
+        if (!$existingCategory) {
+            header( $_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
+            echo 'La catégorie n\'existe pas 404 not found baby';
+            die();
+        }
+
+        echo $this->twig->getTwig()->render('backend/forms/editCategory.twig', [
+            'category' => $existingCategory
+        ]);
+    }
+
+
+    public function update(array $id)
+    {
+        $categoryId = (int)$id['id'];
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $postData = $_POST;
+            if (!isset($postData['name'], $postData['description'], $postData['slug'])) {
+                throw new \Exception('Les données du formulaire sont invalides.');
+            }
+
+            $categoryRepository = new CategoryRepository();
+            $category = $categoryRepository->getById($categoryId);
+    
+            if ($category) {
+                $category = Hydrator::hydrate($postData, $category);
+                $success = $categoryRepository->update($category);
+    
+                if (!$success) {
+                    throw new \Exception('Impossible de mettre à jour la Catégorie!');
+                } else {
+                    header('Location: /admin/categories');
+                }
+            } else {
+                throw new \Exception('Catégorie non trouvé.');
+            }
+        }
+        
+    }
+
+
     public function delete(array $id)
     {
         $id = (int)$id['id']; 
