@@ -35,6 +35,8 @@ $router->map('GET', '/admin/commentdelete/[i:id]', 'App\Controllers\CommentContr
 $router->map('GET', '/admin/users', 'App\Controllers\UserController#displayAdminUsers', 'AdminUsers');//✔️
 $router->map('GET', '/admin/usercreate', 'App\Controllers\UserController#createForm', 'CreateUserForm');//✔️
 $router->map('POST', '/admin/usercreate', 'App\Controllers\UserController#create', 'CreateUser');//✔️
+$router->map('GET', '/admin/userupdate/[i:id]', 'App\Controllers\UserController#updateForm', 'UpdateUserForm');//✔️
+$router->map('POST', '/admin/userupdate/[i:id]', 'App\Controllers\UserController#update', 'UpdateUser');//✔️
 $router->map('GET', '/admin/userdelete/[i:id]', 'App\Controllers\UserController#delete', 'DeleteUser');//✔️
 $router->map('GET', '/admin/profil', 'App\Controllers\UserController#displayAdminProfil', 'AdminProfil');
     //categories

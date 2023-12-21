@@ -1,0 +1,138 @@
+{% include 'backend/parts/head.twig' %}
+
+<body class="g-sidenav-show bg-gray-200">
+    {% include 'backend/parts/aside.twig' %}
+    <div class="main-content position-relative max-height-vh-100 h-100">
+        {% include 'backend/parts/navbar.twig' %}
+        <div class="container-fluid px-2 px-md-4">
+            <div class="page-header min-height-300 border-radius-xl mt-4"
+                style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
+                <span class="mask  bg-gradient-info opacity-6"></span>
+            </div>
+            <div class="card card-body mx-3 mx-md-4 mt-n6">
+                <div class="row gx-4 mb-2">
+                    <!-- FORMULAIRE USER -->
+                    <h4 class="text-center mb-4 mt-5">Modifier un Utilisateur</h4>
+                    <div class="d-flex">
+                        <div class="ms-3 w-100">
+                            <form action="/admin/userupdate/{{user.id}}" method="post" enctype="multipart/form-data">
+                                
+
+                                <div class="row">
+                                    <div class="input-group input-group-static mb-4">
+                                        <label for="nickname">Pseudo</label>
+                                        <input type="text" class="form-control" id="nickname" name="nickname"
+                                            value="{{user.nickname}}">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label for="firstname">Prénom</label>
+                                            <input type="text" class="form-control" id="firstname" name="firstname"
+                                                value="{{user.firstname}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label for="name">Nom</label>
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                value="{{user.name}}">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row py-4">
+                                    <div class="col-md-6">
+                                        <label for="picture">Image de profil</label>
+                                        <div class="input-group input-group-lg input-group-outline mb-3">
+                                            <input type="file" class="form-control" id="picture" name="picture" accept="image/*">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 ps-4">
+                                        <div class="avatar avatar-xl">
+                                            <img src="../../public/assets/img/profil/{{user.picture}}" alt="profile_image"
+                                                class="w-100 border-radius-lg shadow-sm">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="input-group  input-group-static">
+                                        <label for="biography">Biographie</label>
+                                        <textarea id="biography" name="biography" class="form-control"
+                                            rows="8">{{user.biography}}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="input-group input-group-static">
+                                        <label for="mail">Mail</label>
+                                        <input type="email" id="mail" name="mail" value="{{user.mail}}"
+                                            class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <div class="input-group input-group-static">
+                                        <label for="password">Mot de Passe</label>
+                                        <input type="password" id="password" name="password" value="{{user.password}}"
+                                            class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="row my-3">
+                                    <div class="col-md-6 ps-2">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label for="role" class="ms-0">Role</label>
+                                            <select class="form-control" id="role" name="role">
+                                                <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>
+                                                    admin</option>
+                                                <option value="user" {% if user.role == 'user' %}selected{% endif %}>
+                                                    user</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 ps-2">
+                                        <div class="input-group input-group-static mb-4">
+                                            <label for="status" class="ms-0">Status</label>
+                                            <select class="form-control" id="status" name="status">
+                                                <option value="active"
+                                                    {% if user.status == 'active' %}selected{% endif %}>active</option>
+                                                <option value="inactive"
+                                                    {% if user.status == 'inactive' %}selected{% endif %}>inactive
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <button type="submit" class="btn bg-gradient-dark pull-end mt-2">
+                                        <i class="fa fa-send me-2"></i> Enregistrer
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div> <!-- end media-post -->
+                </div>
+
+            </div>
+        </div>
+
+
+
+        {% include 'backend/parts/footer.twig' %}
+</body>
+
+</html>
+
+
+
+
+
+
+</div>
