@@ -25,7 +25,7 @@ class CommentRepository implements Repository
         }
 
         $statement = $this->connection->prepare(
-            'INSERT INTO comment(content, commentStatus, userId, postId, creationDate) VALUES(:content, :commentStatus, :userId, :postId, NOW())'
+            'INSERT INTO comment(content, commentStatus, userId, postId, createdDate) VALUES(:content, :commentStatus, :userId, :postId, NOW())'
         );
 
         $statement->bindValue(':content', $comment->getContent());
@@ -73,7 +73,7 @@ class CommentRepository implements Repository
 
     public function getAll() {
         $statement = $this->connection->query(
-            "SELECT id FROM comment ORDER BY creationDate DESC");
+            "SELECT id FROM comment ORDER BY createdDate DESC");
 
         $statement->execute();
         $commentIds = $statement->fetchAll();
@@ -92,7 +92,7 @@ class CommentRepository implements Repository
     public function getAllBy(int $postId)
     {
         $statement = $this->connection->prepare(
-            "SELECT * FROM comment WHERE postId = :postId ORDER BY creationDate DESC"
+            "SELECT * FROM comment WHERE postId = :postId ORDER BY createdDate DESC"
         );
 
         $statement->bindValue(':postId', $postId);

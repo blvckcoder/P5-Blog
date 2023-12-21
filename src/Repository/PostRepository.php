@@ -19,7 +19,7 @@ class PostRepository implements Repository
     public function getAll()
     {
         $statement = $this->connection->query(
-            "SELECT id FROM post ORDER BY creationDate DESC LIMIT 0, 5");
+            "SELECT id FROM post ORDER BY createdDate DESC LIMIT 0, 5");
 
         $statement->execute();
         $postIds = $statement->fetchAll();
@@ -48,11 +48,12 @@ class PostRepository implements Repository
         $post = $statement->fetch();
 
         $userRepository = new UserRepository;
-        $post->setAuthor($userRepository->getById($post->getUserId()));
-
+        $author = $userRepository->getById($post->getUserId());
+        $post->setAuthor($author);
+        
         $commentRepository = new CommentRepository;
         $comments = $commentRepository->getAllBy($post->getId());
-        $post->setComments($comments);
+        $post->setComment($comments);
         //categoryRepository
         //tagRepository
         
