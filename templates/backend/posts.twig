@@ -36,12 +36,12 @@
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div>
-                            <img src="../public/{{post.imgCard}}" class="avatar avatar-sm me-3 border-radius-lg"
+                            <img src="../public/assets/img/cards/{{post.imgCard}}" class="avatar avatar-sm me-3 border-radius-lg"
                               alt="user1">
                           </div>
                           <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{ post.title }}</h6>
-                            <p class="text-xs text-secondary mb-0">{{ post.author.nickname }}</p>
+                            <h6 class="mb-0 text-sm">{{post.title }}</h6>
+                            <p class="text-xs text-secondary mb-0">{{post.author.nickname }}</p>
                           </div>
                         </div>
                       </td>
@@ -53,23 +53,23 @@
                         <span class="badge badge-sm bg-gradient-success">Publié</span>
                       </td>
                       <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{ post.createdDate }}</span>
+                        <span class="text-secondary text-xs font-weight-bold">{{post.createdDate }}</span>
                       </td>
                         <td class="align-middle text-center">
                           <!-- BTN UPDATE -->
-                          <a class="btn btn-link text-secondary px-3 mb-0" href="/postupdate/{{ post.id}}"><i
+                          <a class="btn btn-link text-secondary px-3 mb-0" href="/admin/postupdate/{{post.id}}"><i
                               class="material-icons text-sm me-2">edit</i>Modifier</a>
                           <!-- BTN DELETE -->    
                           <a class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal"
-                            data-bs-target="#modal-delete{{ post.id}}"><i
+                            data-bs-target="#modal-delete{{post.id}}"><i
                               class="material-icons text-sm me-2">delete</i>Supprimer</a>
                               <!-- MODAL DELETE -->
-                              <div class="modal fade" id="modal-delete{{ post.id}}" tabindex="-1"
-                                aria-labelledby="modal-delete{{ post.id}}" style="display: none;" aria-hidden="true">
+                              <div class="modal fade" id="modal-delete{{post.id}}" tabindex="-1"
+                                aria-labelledby="modal-delete{{post.id}}" style="display: none;" aria-hidden="true">
                                 <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
                                   <div class="modal-content">
                                     <div class="modal-header">
-                                      <h6 class="modal-title font-weight-normal" id="modal-title-delete{{ post.id}}">Confirmation
+                                      <h6 class="modal-title font-weight-normal" id="modal-title-delete{{post.id}}">Confirmation
                                         de suppression</h6>
                                       <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                                         aria-label="Close">
@@ -85,7 +85,7 @@
                                     </div>
                                     <div class="modal-footer">
                                       <a role="button" class="btn btn-danger"
-                                        href="/admin/postdelete/{{ post.id}}">Oui, supprimer</a>
+                                        href="/admin/postdelete/{{post.id}}">Oui, supprimer</a>
                                       <button type="button" class="btn btn-link ml-auto text-danger"
                                         data-bs-dismiss="modal">Annuler</button>
                                     </div>
@@ -138,12 +138,12 @@
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div>
-                              <img src="../public/{{post.imgCard}}" class="avatar avatar-sm me-3 border-radius-lg"
+                              <img src="../public/assets/img/cards/{{post.imgCard}}" class="avatar avatar-sm me-3 border-radius-lg"
                                 alt="user1">
                             </div>
                             <div class="d-flex flex-column justify-content-center">
-                              <h6 class="mb-0 text-sm">{{ post.title }}</h6>
-                              <p class="text-xs text-secondary mb-0">{{ post.author.nickname }}</p>
+                              <h6 class="mb-0 text-sm">{{post.title }}</h6>
+                              <p class="text-xs text-secondary mb-0">{{post.author.nickname }}</p>
                             </div>
                           </div>
                         </td>
@@ -155,23 +155,23 @@
                           <span class="badge badge-sm bg-gradient-secondary">brouillon</span>
                         </td>
                         <td class="align-middle text-center">
-                          <span class="text-secondary text-xs font-weight-bold">{{ post.createdDate }}</span>
+                          <span class="text-secondary text-xs font-weight-bold">{{post.createdDate }}</span>
                         </td>
                         <td class="align-middle text-center">
                           <!-- BTN UPDATE -->
-                          <a class="btn btn-link text-secondary px-3 mb-0" href="/postupdate/{{ post.id}}"><i
+                          <a class="btn btn-link text-secondary px-3 mb-0" href="/admin/postupdate/{{post.id}}"><i
                               class="material-icons text-sm me-2">edit</i>Modifier</a>
                           <!-- BTN DELETE -->    
                           <a class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal"
-                            data-bs-target="#modal-delete{{ post.id}}"><i
+                            data-bs-target="#modal-delete{{post.id}}"><i
                               class="material-icons text-sm me-2">delete</i>Supprimer</a>
                               <!-- MODAL DELETE -->
-                              <div class="modal fade" id="modal-delete{{ post.id}}" tabindex="-1"
-                                aria-labelledby="modal-delete{{ post.id}}" style="display: none;" aria-hidden="true">
+                              <div class="modal fade" id="modal-delete{{post.id}}" tabindex="-1"
+                                aria-labelledby="modal-delete{{post.id}}" style="display: none;" aria-hidden="true">
                                 <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
                                   <div class="modal-content">
                                     <div class="modal-header">
-                                      <h6 class="modal-title font-weight-normal" id="modal-title-delete{{ post.id}}">Confirmation
+                                      <h6 class="modal-title font-weight-normal" id="modal-title-delete{{post.id}}">Confirmation
                                         de suppression</h6>
                                       <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
                                         aria-label="Close">
@@ -187,7 +187,7 @@
                                     </div>
                                     <div class="modal-footer">
                                       <a role="button" class="btn btn-danger"
-                                        href="/admin/postdelete/{{ post.id}}">Oui, supprimer</a>
+                                        href="/admin/postdelete/{{post.id}}">Oui, supprimer</a>
                                       <button type="button" class="btn btn-link ml-auto text-danger"
                                         data-bs-dismiss="modal">Annuler</button>
                                     </div>
