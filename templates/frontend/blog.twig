@@ -1,0 +1,79 @@
+{% extends 'frontend/layout.html.twig' %}
+
+{% block title %}
+<title>Blog PHP</title>
+{% endblock %}
+
+{% block content %}
+
+<section class="pt-5 pb-0">
+    <div class="container">
+        <div class="row mt-8">
+            <div class="col-lg-7 text-center mx-auto">
+                <h1 class="pt-3 mt-n5">BLOG</h1>
+            </div>
+        </div>
+
+        <div class="row my-5">
+            {% for post in posts %}
+            <div class="col-lg-4 col-md-6 my-5">
+                <div class="card">
+                    <div class="card-header p-0 mx-3 mt-n4 position-relative z-index-2">
+                        <a class="d-block blur-shadow-image">
+                            <img src="../public/assets/img/cards/{{ post.imgCard }}" alt="img-blur-shadow"
+                                class="img-fluid border-radius-lg">
+                        </a>
+                    </div>
+                    <div class="card-body pt-3">
+                        <p class="text-dark mb-2 text-sm">{{ post.category }} • {{ post.tag }}</p>
+                        <a href="javascript:;">
+                            <h5>
+                                {{ post.title | u.truncate(40, '...') }}
+                            </h5>
+                        </a>
+                        <p>
+                            {{ post.excerpt | u.truncate(125, '...') }}
+                        </p>
+                        <a href="post/{{ post.id }}" class="h5 d-block text-dark"><button type="button" class="btn btn-outline-secondary btn-sm mb-0">Lire Plus</button></a>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+        
+            <div class="col-sm-7 text-center">
+                <ul class="pagination pagination-dark mt-4">
+                    <li class="page-item ms-auto">
+                        <a class="page-link" href="#" aria-label="Previous">
+                            <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+                        </a>
+                    </li>
+                    
+                    <li class="page-item  active ">
+                        <a class="page-link text-white" href="#">1</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">3</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">4</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">5</a>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

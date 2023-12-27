@@ -19,7 +19,7 @@ class PostRepository implements Repository
     public function getAll()
     {
         $statement = $this->connection->query(
-            "SELECT id FROM post ORDER BY createdDate DESC LIMIT 0, 5");
+            "SELECT id FROM post ORDER BY createdDate DESC");
 
         $statement->execute();
         $postIds = $statement->fetchAll();

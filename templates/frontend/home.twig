@@ -86,7 +86,7 @@
               </div>
 
               <div class="row">
-                {% for post in posts %}
+                {% for post in posts|slice(-3) %}
                   <div class="col-lg-4 mb-lg-0 mb-4">
                     <div class="card">
                       <div class="card-header p-0 m-3 mt-n4 position-relative z-index-2">
@@ -100,7 +100,7 @@
                         {{ post.title }}
                         </a>
                         <p class="card-description mb-4">
-                          {{ post.excerpt | u.truncate(180, '...') }}
+                          {{ post.excerpt | u.truncate(125, '...') }}
                         </p>
                         <div class="author align-items-center">
                           <img src="../public/assets/img/profil/{{post.author.picture}}" alt="..." class="avatar shadow border-radius-lg">
