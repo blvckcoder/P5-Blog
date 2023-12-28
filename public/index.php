@@ -9,6 +9,11 @@ $whoops->register();
 $router = new AltoRouter();
 
 //$method, $route, $target, $name
+// AUTH
+$router->map('GET', '/login', 'App\Controllers\AuthController#loginForm', 'LoginForm');//🔴
+$router->map('POST', '/login', 'App\Controllers\AuthController#login', 'Login');//🔴
+$router->map('GET', '/signup', 'App\Controllers\AuthController#registerForm', 'RegisterUserForm');//🔴
+$router->map('POST', '/signup', 'App\Controllers\AuthController#register', 'registerUser'); //🔴
 //FRONT
 $router->map('GET', '/', 'App\Controllers\PostController#index', 'HomePage'); //✔️
 $router->map('GET', '/blog', 'App\Controllers\PostController#displayPosts', 'AllPosts'); //✔️
@@ -37,11 +42,11 @@ $router->map('GET', '/admin/comments', 'App\Controllers\CommentController#displa
 $router->map('GET', '/admin/commentdelete/[i:id]', 'App\Controllers\CommentController#delete', 'DeleteComment'); //✔️
 //users
 $router->map('GET', '/admin/users', 'App\Controllers\UserController#displayAdminUsers', 'AdminUsers'); //✔️
-$router->map('GET', '/admin/usercreate', 'App\Controllers\UserController#createForm', 'CreateUserForm'); //✔️
-$router->map('POST', '/admin/usercreate', 'App\Controllers\UserController#create', 'CreateUser'); //✔️
-$router->map('GET', '/admin/userupdate/[i:id]', 'App\Controllers\UserController#updateForm', 'UpdateUserForm'); //✔️
-$router->map('POST', '/admin/userupdate/[i:id]', 'App\Controllers\UserController#update', 'UpdateUser'); //✔️
-$router->map('GET', '/admin/userdelete/[i:id]', 'App\Controllers\UserController#delete', 'DeleteUser'); //✔️
+$router->map('GET', '/admin/usercreate', 'App\Controllers\UserController#createForm', 'AdminCreateUserForm'); //✔️
+$router->map('POST', '/admin/usercreate', 'App\Controllers\UserController#create', 'AdminCreateUser'); //✔️
+$router->map('GET', '/admin/userupdate/[i:id]', 'App\Controllers\UserController#updateForm', 'AdminUpdateUserForm'); //✔️
+$router->map('POST', '/admin/userupdate/[i:id]', 'App\Controllers\UserController#update', 'AdminUpdateUser'); //✔️
+$router->map('GET', '/admin/userdelete/[i:id]', 'App\Controllers\UserController#delete', 'AdminDeleteUser'); //✔️
 $router->map('GET', '/admin/profil', 'App\Controllers\UserController#displayAdminProfil', 'AdminProfil'); //🔴
 //categories
 $router->map('GET', '/admin/categories', 'App\Controllers\CategoryController#displayAdminCategories', 'AdminCategories'); //✔️

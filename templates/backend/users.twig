@@ -71,7 +71,7 @@
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <span
-                                                    class="badge badge-sm bg-gradient-success">{{ user.status }}</span>
+                                                    class="badge badge-sm {{ user.status == 'active' ? 'bg-gradient-success' : 'bg-gradient-secondary'}}">{{ user.status }}</span>
                                             </td>
                                             <td class="align-middle text-center">
                                                 <!-- BTN UPDATE -->

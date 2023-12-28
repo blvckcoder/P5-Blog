@@ -100,7 +100,16 @@ class UserRepository implements Repository {
     }
 
     public function getBy(string $value)
-    {}
+    {
+        $statement = $this->connection->prepare(
+            "SELECT * FROM user WHERE value = :value");
+
+        $statement->bindValue(':value', $value);
+        $statement->execute();
+        $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\User');
+
+        return $statement->fetch();    
+    }
 
     public function getById(int $id)
     {
