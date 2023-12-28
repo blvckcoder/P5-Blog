@@ -25,7 +25,6 @@ class UserController
         echo $this->twig->getTwig()->render('backend/users.twig', [
             'users' => $users
         ]);
-
     }
 
     public function createForm()
@@ -52,21 +51,19 @@ class UserController
             if (isset($_FILES['picture']) && $_FILES['picture']['error'] === UPLOAD_ERR_OK) {
                 $destinationFolder = 'assets/img/profil/';
                 $pictureFilePath = handleFileUpload($_FILES['picture'], $destinationFolder);
-                // Enregistre $pictureFilePath en base de données ou effectue d'autres opérations nécessaires
                 $params['post']['picture'] = $pictureFilePath;
             }
-
         }
 
-        // Hydrate les données du formulaire dans un objet Post
         $user = new User();
         $user = Hydrator::hydrate($params['post'], $user);
 
-        // Appel de la méthode create du PostRepository
+        $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
+        $user->setPassword($hashedPassword);
+
         $userRepository = new UserRepository();
         $success = $userRepository->create($user);
 
-        // Redirection après le succès
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter l\'utilisateur !');
         } else {
@@ -82,7 +79,7 @@ class UserController
         $existingUser = $userRepository->getById($userId);
 
         if (!$existingUser) {
-            header( $_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
+            header($_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
             echo 'L\'utilisateur n\'existe pas 404 not found baby';
             die();
         }
@@ -98,35 +95,39 @@ class UserController
         $userId = (int)$id['id'];
 
         $postData = $_POST;
-        
+
         if (!isset($postData['name'], $postData['firstname'], $postData['nickname'], $postData['biography'], $postData['mail'], $postData['password'], $postData['role'], $postData['status'])) {
             throw new \Exception('Les données du formulaire sont invalides.');
         }
 
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                function handleFileUpload(array $file, string $destinationFolder): string
-                {
-                    $tmpFilePath = $file['tmp_name'];
-                    $originalFileName = $file['name'];
-                    $destinationFilePath = $destinationFolder . $originalFileName;
-                    move_uploaded_file($tmpFilePath, $destinationFilePath);
-                    return $destinationFilePath;
-                }
-    
-                if (isset($_FILES['picture']) && $_FILES['picture']['error'] === UPLOAD_ERR_OK) {
-                    $destinationFolder = 'assets/img/profil/';
-                    $pictureFilePath = handleFileUpload($_FILES['picture'], $destinationFolder);
-                    $postData['picture'] = $_FILES['picture']['name'];
-                }
-            
+            function handleFileUpload(array $file, string $destinationFolder): string
+            {
+                $tmpFilePath = $file['tmp_name'];
+                $originalFileName = $file['name'];
+                $destinationFilePath = $destinationFolder . $originalFileName;
+                move_uploaded_file($tmpFilePath, $destinationFilePath);
+                return $destinationFilePath;
+            }
+
+            if (isset($_FILES['picture']) && $_FILES['picture']['error'] === UPLOAD_ERR_OK) {
+                $destinationFolder = 'assets/img/profil/';
+                $pictureFilePath = handleFileUpload($_FILES['picture'], $destinationFolder);
+                $postData['picture'] = $_FILES['picture']['name'];
+            }
+
             $userRepository = new UserRepository();
             $user = $userRepository->getById($userId);
-    
+
             if ($user) {
                 $user = Hydrator::hydrate($postData, $user);
+
+                $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
+                $user->setPassword($hashedPassword);
+                
                 $success = $userRepository->update($user);
-    
+
                 if (!$success) {
                     throw new \Exception('Impossible de mettre à jour l\'utilisateur!');
                 } else {
@@ -136,7 +137,6 @@ class UserController
                 throw new \Exception('Utilisateur non trouvé.');
             }
         }
-        
     }
 
 
@@ -155,5 +155,4 @@ class UserController
             header('Location: /admin/users');
         }
     }
-
 }
