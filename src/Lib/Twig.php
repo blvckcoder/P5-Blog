@@ -3,6 +3,7 @@
 namespace App\Lib;
 
 use Twig\Extra\String\StringExtension;
+use Twig\Extra\Intl\IntlExtension;
 
 class Twig
 {
@@ -18,6 +19,7 @@ class Twig
         ]);
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
         $this->twig->addExtension(new StringExtension());
+        $this->twig->addExtension(new IntlExtension());
     }
 
     public function getTwig()

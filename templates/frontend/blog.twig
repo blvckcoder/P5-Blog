@@ -1,0 +1,74 @@
+{% extends 'frontend/layout.html.twig' %}
+
+{% block title %}
+<title>Blog PHP</title>
+{% endblock %}
+
+{% block content %}
+
+<section class="pt-5 pb-0">
+    <div class="container">
+        <div class="row mt-7">
+            <div class="col-8 mx-auto text-center mb-4">
+                <span class="badge bg-gradient-dark mb-2">BLOG</span>
+                <h2 class="display-4 fw-bold">Les dernières actualités</h2>
+                <p>
+                    If you can’t decide, the answer is no. If two equally difficult paths,
+                    choose the one more painful in the short term (pain avoidance
+                    is creating an illusion of equality).
+                </p>
+            </div>
+        </div>
+
+
+        <div class="row my-5">
+            {% for post in posts %}
+            <div class="col-lg-4 mb-lg-0 py-5">
+                <div class="card">
+                    <div class="card-header p-0 m-3 mt-n4 position-relative z-index-2">
+                        <a href="post/{{ post.id }}" class="d-block blur-shadow-image">
+                            <img src="../public/assets/img/cards/{{post.imgCard}}" alt="img-blur-shadow"
+                                class="img-fluid border-radius-lg">
+                        </a>
+                    </div>
+                    <div class="card-body pt-2">
+                        <span
+                            class="text-gradient text-warning text-uppercase text-xs font-weight-bold my-2">{{ post.category.name|default('Non classé') }}</span>
+                        <a href="post/{{ post.id }}" class="h5 d-block text-dark">
+                            {{ post.title | u.truncate(40, '...') }}
+                        </a>
+                        <p class="card-description mb-4">
+                            {{ post.excerpt | u.truncate(125, '...') }}
+                        </p>
+                        <div class="author align-items-center">
+                            <img src="../public/assets/img/profil/{{post.author.picture}}" alt="..."
+                                class="avatar shadow border-radius-lg">
+                            <div class="name ps-3">
+                                <span>{{ post.author.nickname }}</span>
+                                <div class="stats">
+                                    {% if post.updateDate is null %}
+                                    <small>Posté le
+                                        {{ post.createdDate | format_datetime('medium', 'none', locale='fr') }}</small>
+                                    {% else %}
+                                    <small>Modifié le
+                                        {{ post.updateDate | format_datetime('medium', 'none', locale='fr') }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+
+
+        </div>
+
+        {% include 'frontend/parts/pagination.twig' %}
+
+    </div>
+
+</section>
+
+{% endblock %}

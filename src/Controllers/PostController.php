@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Lib\Twig;
 use App\Entity\Post;
 use App\Lib\Hydrator;
+use App\Lib\Pagination;
 use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
 
@@ -20,8 +21,7 @@ class PostController
     public function index()
     {
         $postRepository = new PostRepository();
-        $posts = $postRepository->getAll();
-        //limiter à 3
+        $posts = $postRepository->getLast();
 
         echo $this->twig->getTwig()->render('frontend/home.twig', [
             'posts' => $posts
@@ -30,12 +30,19 @@ class PostController
 
     public function displayPosts()
     {
+        $itemsPerPage = 9;
+        $currentPage = intval($_GET['page'] ?? 1);
+
         $postRepository = new PostRepository();
-        $posts = $postRepository->getAll();
-        //ajouter pagination
+        $totalItems = $postRepository->count();
+        
+        $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
+
+        $posts = $postRepository->getPaginated($itemsPerPage, $pagination->getOffset());
 
         echo $this->twig->getTwig()->render('frontend/blog.twig', [
-            'posts' => $posts
+            'posts' => $posts,
+            'pagination' => $pagination
         ]);
     }
 
@@ -73,41 +80,42 @@ class PostController
 
     public function create(array $params)
     {
-        if (!isset($params['post']['userId'], $params['post']['title'], $params['post']['excerpt'], $params['post']['content'], $params['post']['imgCover'], $params['post']['imgCard'])) {
+        $postData = $_POST;
+
+        if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'], $postData['postStatus'])) {
             throw new \Exception('Les données du formulaire sont invalides.');
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            function handleFileUpload(array $file, string $destinationFolder): string
+            function handleFileUpload(array $file, string $destinationFolder): void
             {
                 $tmpFilePath = $file['tmp_name'];
                 $originalFileName = $file['name'];
                 $destinationFilePath = $destinationFolder . $originalFileName;
                 move_uploaded_file($tmpFilePath, $destinationFilePath);
-                return $destinationFilePath;
             }
 
             if (isset($_FILES['imgCover']) && $_FILES['imgCover']['error'] === UPLOAD_ERR_OK) {
                 $destinationFolder = 'assets/img/covers/';
-                $imgCoverFilePath = handleFileUpload($_FILES['imgCover'], $destinationFolder);
-                $params['post']['imgCover'] = $imgCoverFilePath;
+                handleFileUpload($_FILES['imgCover'], $destinationFolder);
+                $postData['imgCover'] = $_FILES['imgCover']['name'];
             }
 
             if (isset($_FILES['imgCard']) && $_FILES['imgCard']['error'] === UPLOAD_ERR_OK) {
                 $destinationFolder = 'assets/img/cards/';
-                $imgCardFilePath = handleFileUpload($_FILES['imgCard'], $destinationFolder);
-                $params['post']['imgCard'] = $imgCardFilePath;
+                handleFileUpload($_FILES['imgCard'], $destinationFolder);
+                $postData['imgCard'] = $_FILES['imgCard']['name'];
             }
         }
 
         $post = new Post();
-        $post = Hydrator::hydrate($params['post'], $post);
+        $post = Hydrator::hydrate($postData, $post);
 
         $postRepository = new PostRepository();
         $success = $postRepository->create($post);
 
         if (!$success) {
-            throw new \Exception('Impossible d\'ajouter le commentaire !');
+            throw new \Exception('Impossible d\'ajouter l\'article !');
         } else {
             header('Location: /admin/posts');
         }

@@ -95,19 +95,23 @@
                         </a>
                       </div>
                       <div class="card-body pt-2">
-                        <span class="text-gradient text-warning text-uppercase text-xs font-weight-bold my-2">Symfony</span>
+                        <span class="text-gradient text-warning text-uppercase text-xs font-weight-bold my-2">{{ post.category.name|default('Non classé') }}</span>
                         <a href="post/{{ post.id }}" class="h5 d-block text-dark">
-                        {{ post.title }}
+                        {{ post.title | u.truncate(40, '...') }}
                         </a>
                         <p class="card-description mb-4">
-                          {{ post.excerpt | u.truncate(180, '...') }}
+                          {{ post.excerpt | u.truncate(125, '...') }}
                         </p>
                         <div class="author align-items-center">
                           <img src="../public/assets/img/profil/{{post.author.picture}}" alt="..." class="avatar shadow border-radius-lg">
                           <div class="name ps-3">
                             <span>{{ post.author.nickname }}</span>
                             <div class="stats">
-                              <small>Posté le {{ post.createdDate }}</small>
+                              {% if post.updateDate is null %}
+                              <small>Posté le {{ post.createdDate | format_datetime('medium', 'none', locale='fr') }}</small>
+                              {% else %}
+                              <small>Modifié le {{ post.updateDate | format_datetime('medium', 'none', locale='fr') }}</small>
+                              {% endif %}
                             </div>
                           </div>
                         </div>

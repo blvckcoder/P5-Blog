@@ -120,7 +120,7 @@ class Post
     }
 
     //UPDATE DATE
-    public function getUpdateDate(): string
+    public function getUpdateDate(): ?string
     {
         return $this->updateDate;
     }
