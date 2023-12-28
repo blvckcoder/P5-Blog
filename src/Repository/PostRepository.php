@@ -16,7 +16,25 @@ class PostRepository implements Repository
         $this->connection = $database->getConnection();
     }
 
-    public function getAll(int $limit, int $offset)
+    public function getLast()
+    {
+        $statement = $this->connection->query(
+            "SELECT id FROM post ORDER BY createdDate DESC LIMIT 3"
+        );
+
+        $statement->execute();
+        $postIds = $statement->fetchAll();
+        $posts = [];
+
+        foreach ($postIds as $data) {
+            $post = $this->getById($data['id']);
+            $posts[] = $post;
+        }
+
+        return $posts;
+    }
+
+    public function getPaginated(int $limit, int $offset)
     {
         $statement = $this->connection->prepare(
             "SELECT id FROM post ORDER BY createdDate DESC LIMIT :limit OFFSET :offset"
@@ -24,6 +42,24 @@ class PostRepository implements Repository
 
         $statement->bindValue(':limit', $limit, PDO::PARAM_INT);
         $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $statement->execute();
+        $postIds = $statement->fetchAll();
+        $posts = [];
+
+        foreach ($postIds as $data) {
+            $post = $this->getById($data['id']);
+            $posts[] = $post;
+        }
+
+        return $posts;
+    }
+
+    public function getAll()
+    {
+        $statement = $this->connection->query(
+            "SELECT id FROM post ORDER BY createdDate DESC"
+        );
+
         $statement->execute();
         $postIds = $statement->fetchAll();
         $posts = [];

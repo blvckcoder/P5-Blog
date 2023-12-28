@@ -4,7 +4,7 @@ namespace App\Repository;
 
 interface Repository
 {
-    public function getAll(int $limit, int $offset);
+    public function getAll();
 
     public function getBy(string $value);
 

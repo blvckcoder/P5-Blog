@@ -86,7 +86,7 @@ class UserRepository implements Repository {
         }
     }
 
-    public function getAll(int $limit, int $offset)
+    public function getAll()
     {
         $statement = $this->connection->query(
             "SELECT * FROM user ORDER BY id"

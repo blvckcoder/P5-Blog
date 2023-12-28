@@ -21,7 +21,7 @@ class PostController
     public function index()
     {
         $postRepository = new PostRepository();
-        $posts = $postRepository->getAll();
+        $posts = $postRepository->getLast();
 
         echo $this->twig->getTwig()->render('frontend/home.twig', [
             'posts' => $posts
@@ -38,7 +38,7 @@ class PostController
         
         $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
 
-        $posts = $postRepository->getAll($itemsPerPage, $pagination->getOffset());
+        $posts = $postRepository->getPaginated($itemsPerPage, $pagination->getOffset());
 
         echo $this->twig->getTwig()->render('frontend/blog.twig', [
             'posts' => $posts,
