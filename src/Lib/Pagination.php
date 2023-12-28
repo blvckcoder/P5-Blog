@@ -7,31 +7,19 @@ class Pagination
     private $totalItems;
     private $itemsPerPage;
     private $currentPage;
-    private $totalPages;
 
     public function __construct(int $totalItems, int $itemsPerPage, int $currentPage)
     {
         $this->totalItems = $totalItems;
         $this->itemsPerPage = $itemsPerPage;
-        $this->setCurrentPage($currentPage);
-        $this->calculateTotalPages();
+        $this->currentPage = max(1, min($currentPage, $this->getTotalPages()));
     }
-
-    private function calculateTotalPages()
+    
+    public function getTotalPages(): int 
     {
-        $this->totalPages = ceil($this->totalItems / $this->itemsPerPage);
+        return ceil($this->totalItems / $this->itemsPerPage);
     }
-
-    private function setCurrentPage($currentPage)
-    {
-        $this->currentPage = max(1, min($currentPage, $this->totalPages));
-    }
-
-    public function getTotalPages(): int
-    {
-        return $this->totalPages;
-    }
-
+    
     public function getCurrentPage(): int
     {
         return $this->currentPage;

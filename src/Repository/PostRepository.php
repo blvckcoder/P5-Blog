@@ -10,17 +10,20 @@ class PostRepository implements Repository
 {
     public ?\PDO $connection;
 
-    public function __construct() 
+    public function __construct()
     {
         $database = new Database();
         $this->connection = $database->getConnection();
     }
 
-    public function getAll()
+    public function getAll(int $limit, int $offset)
     {
-        $statement = $this->connection->query(
-            "SELECT id FROM post ORDER BY createdDate DESC");
+        $statement = $this->connection->prepare(
+            "SELECT id FROM post ORDER BY createdDate DESC LIMIT :limit OFFSET :offset"
+        );
 
+        $statement->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
         $statement->execute();
         $postIds = $statement->fetchAll();
         $posts = [];
@@ -50,20 +53,20 @@ class PostRepository implements Repository
         $userRepository = new UserRepository;
         $author = $userRepository->getById($post->getUserId());
         $post->setAuthor($author);
-        
+
         $commentRepository = new CommentRepository;
         $comments = $commentRepository->getAllBy($post->getId());
         $post->setComment($comments);
         //categoryRepository
         //tagRepository
-        
+
 
         return $post;
     }
-    
+
     public function create(object $post)
     {
-        if(!$post instanceof Post) {
+        if (!$post instanceof Post) {
             return false;
         }
 
@@ -88,7 +91,7 @@ class PostRepository implements Repository
 
     public function update(object $post)
     {
-        if(!$post instanceof Post) {
+        if (!$post instanceof Post) {
             return false;
         }
 

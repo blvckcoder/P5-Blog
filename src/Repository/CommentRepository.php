@@ -71,7 +71,7 @@ class CommentRepository implements Repository
         }
     }
 
-    public function getAll() {
+    public function getAll(int $limit, int $offset) {
         $statement = $this->connection->query(
             "SELECT id FROM comment ORDER BY createdDate DESC");
 

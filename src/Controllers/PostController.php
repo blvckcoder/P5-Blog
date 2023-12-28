@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Lib\Twig;
 use App\Entity\Post;
 use App\Lib\Hydrator;
+use App\Lib\Pagination;
 use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
 
@@ -21,7 +22,6 @@ class PostController
     {
         $postRepository = new PostRepository();
         $posts = $postRepository->getAll();
-        //limiter à 3
 
         echo $this->twig->getTwig()->render('frontend/home.twig', [
             'posts' => $posts
@@ -30,12 +30,19 @@ class PostController
 
     public function displayPosts()
     {
+        $itemsPerPage = 9;
+        $currentPage = intval($_GET['page'] ?? 1);
+
         $postRepository = new PostRepository();
-        $posts = $postRepository->getAll();
-        //ajouter pagination
+        $totalItems = $postRepository->count();
+        
+        $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
+
+        $posts = $postRepository->getAll($itemsPerPage, $pagination->getOffset());
 
         echo $this->twig->getTwig()->render('frontend/blog.twig', [
-            'posts' => $posts
+            'posts' => $posts,
+            'pagination' => $pagination
         ]);
     }
 
