@@ -62,11 +62,19 @@ class PostController
 
         $commentRepository = new CommentRepository();
         $comments = $commentRepository->getAllBy($postId);
+        $totalComments = $commentRepository->countByPost($postId);
         //récupérer tags + category
+
+        if(isset($_SESSION['userId'])) {
+            $userId = $_SESSION['userId'];
+        }
+        //var_dump($userId); die;
 
         echo $this->twig->getTwig()->render('frontend/post.twig', [
             'post' => $post,
-            'comments' => $comments
+            'comments' => $comments,
+            'userId' => $userId,
+            'totalComments' => $totalComments
         ]);
     }
 

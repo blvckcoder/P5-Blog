@@ -43,7 +43,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 offset-2">
-                    <small>Posté le {{post.createdDate}}</small>
+                    <small>Posté le {{post.createdDate | format_datetime('medium', 'short', locale='fr') }}</small>
                 </div>
             </div>
         </div>
@@ -119,7 +119,7 @@
             <div class="col-md-8 ms-auto me-auto">
                 <div>
                     <!-- NOMBRE COMMENTAIRES -->
-                    <h4 class="text-center mb-5">3 Commentaires</h4>
+                    <h4 class="text-center mb-5">{{ totalComments }} Commentaire{{ totalComments > 1 ? 's': ''}}</h4>
 
                     {% for comment in comments %}
                     <div class="d-flex">
@@ -134,7 +134,7 @@
                         </div>
                         <div class="ms-3">
                             <h6>{{ comment.author.nickname }} <span class="text-muted text-xs">·
-                                    {{ comment.createdDate }}</span></h6>
+                                    {{ comment.createdDate | format_datetime('medium', 'short', locale='fr') }}</span></h6>
 
                             <p>{{ comment.content }}</p>
 
@@ -144,7 +144,7 @@
                                     <i class="fa fa-reply"></i> Répondre
                                 </a>
                                 <a href="javascript:;" class="btn text-danger px-2 btn-link">
-                                    <i class="fas fa-heart"></i> 243
+                                    <i class="fas fa-heart"></i> Supprimer
                                 </a>
                             </div>
                         </div>
@@ -154,6 +154,7 @@
                 </div>
 
                 <!-- FORMULAIRE COMMENTAIRE -->
+                {% if userId %}
                 <h4 class="text-center mb-4 mt-5">Poster un commentaire</h4>
                 <div class="d-flex">
                     <div>
@@ -172,7 +173,7 @@
                                 <label for="comment">Votre message</label>
                                 <textarea id="comment" name="content" class="form-control" placeholder="Exprimez vous..." rows="4"></textarea>
                                 <input type="hidden" name="postId" value="{{post.id}}">
-                                <input type="hidden" name="userId" value="1">
+                                <input type="hidden" name="userId" value="{{userId}}">
                             </div>
                             <div>
                                 <button type="submit" class="btn bg-gradient-dark pull-end mt-2">
@@ -182,6 +183,7 @@
                         </form>
                     </div>
                 </div> <!-- end media-post -->
+                {% endif %}
             </div>
         </div>
     </div>
