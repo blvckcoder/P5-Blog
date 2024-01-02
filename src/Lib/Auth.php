@@ -1,37 +1,63 @@
-<?php 
+<?php
+
 namespace App\Lib;
 
 use App\Repository\UserRepository;
 use App\Entity\User;
 
-class Auth {
+class Auth
+{
     private $userRepository;
 
-    public function __construct(UserRepository $userRepository) {
+    public function __construct(UserRepository $userRepository)
+    {
         $this->userRepository = $userRepository;
     }
 
-    public function login(string $email, string $password): bool {
+    public function login(string $email, string $password): bool
+    {
         $user = $this->userRepository->getBy($email);
+
         if ($user && password_verify($password, $user->getPassword())) {
-            $_SESSION['user_id'] = $user->getId();
+/*             if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            } */
+            $_SESSION['userId'] = $user->getId();
+            var_dump($_SESSION);
+
             return true;
         }
         return false;
     }
 
-    public function check(): bool {
-        return isset($_SESSION['user_id']);
+    public function check(): bool
+    {
+        return isset($_SESSION['userId']);
     }
 
-    public function user(): ?User {
+    public function user(): ?User
+    {
         if ($this->check()) {
-            return $this->userRepository->getById($_SESSION['user_id']);
+            return $this->userRepository->getById($_SESSION['userId']);
         }
         return null;
     }
 
-    public function logout() {
-        unset($_SESSION['user_id']);
+    public function checkAdmin()
+    {
+        if (!$this->check()) {
+            header('Location: /login');
+            exit;
+        }
+        
+        if ($this->user()->getRole() !== 'admin') {
+            header('Location: /');
+            exit;
+        }
+    }
+
+    public function logout()
+    {
+        unset($_SESSION['userId']);
     }
 }

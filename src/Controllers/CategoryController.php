@@ -2,23 +2,30 @@
 
 namespace App\Controllers;
 
-use App\Lib\Database;
 use App\Lib\Twig;
+use App\Lib\Auth;
 use App\Lib\Hydrator;
 use App\Entity\Category;
+use App\Repository\UserRepository;
 use App\Repository\CategoryRepository;
 
 class CategoryController
 {
     public $twig;
 
+    public $auth;
+
     public function __construct()
     {
         $this->twig = new Twig();
+        
+        $userRepository = new UserRepository();
+        $this->auth = new Auth($userRepository);
     }
 
     public function displayAdminCategories()
     {
+        $this->auth->checkAdmin();
         $categoryRepository = new CategoryRepository();
         $categories = $categoryRepository->getAll();
 
@@ -30,11 +37,13 @@ class CategoryController
 
     public function createForm()
     {
+        $this->auth->checkAdmin();
         echo $this->twig->getTwig()->render('backend/forms/addCategory.twig');
     }
 
     public function create(array $params)
     {
+        $this->auth->checkAdmin();
         if (!isset($params['post']['name'], $params['post']['description'], $params['post']['slug'])) {
             throw new \Exception('Les données du formulaire sont invalides.');
         }
@@ -54,6 +63,7 @@ class CategoryController
 
     public function updateForm(array $id)
     {
+        $this->auth->checkAdmin();
         $categoryId = (int)$id['id'];
 
         $categoryRepository = new CategoryRepository();
@@ -73,6 +83,7 @@ class CategoryController
 
     public function update(array $id)
     {
+        $this->auth->checkAdmin();
         $categoryId = (int)$id['id'];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -103,6 +114,7 @@ class CategoryController
 
     public function delete(array $id)
     {
+        $this->auth->checkAdmin();
         $id = (int)$id['id']; 
 
         $categoryRepository = new CategoryRepository();

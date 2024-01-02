@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require "../vendor/autoload.php";
 
@@ -10,21 +11,16 @@ $router = new AltoRouter();
 
 //$method, $route, $target, $name
 // AUTH
-$router->map('GET', '/login', 'App\Controllers\AuthController#loginForm', 'LoginForm');//🔴
-$router->map('POST', '/login', 'App\Controllers\AuthController#login', 'Login');//🔴
-$router->map('GET', '/signup', 'App\Controllers\AuthController#registerForm', 'RegisterUserForm');//🔴
-$router->map('POST', '/signup', 'App\Controllers\AuthController#register', 'registerUser'); //🔴
+$router->map('GET', '/login', 'App\Controllers\AuthController#loginForm', 'LoginForm');//✔️
+$router->map('POST', '/login', 'App\Controllers\AuthController#login', 'Login');//✔️
+$router->map('GET', '/signup', 'App\Controllers\AuthController#registerForm', 'RegisterUserForm');//✔️
+$router->map('POST', '/signup', 'App\Controllers\AuthController#register', 'RegisterUser'); //✔️
+$router->map('GET', '/logout', 'App\Controllers\AuthController#logout', 'Logout');//✔️
 //FRONT
 $router->map('GET', '/', 'App\Controllers\PostController#index', 'HomePage'); //✔️
 $router->map('GET', '/blog', 'App\Controllers\PostController#displayPosts', 'AllPosts'); //✔️
 $router->map('GET', '/post/[i:id]', 'App\Controllers\PostController#displayPost', 'SinglePost'); //✔️
 $router->map('POST', '/comment/create', 'App\Controllers\CommentController#create', 'CreateComment'); //✔️
-$router->map('GET', '/contact', function () {
-    echo ('CONTACT');
-}, 'contact');
-$router->map('GET', '/a-propos', function () {
-    echo ('A PROPOS');
-}, 'APropos');
 //BACK
 //admin
 $router->map('GET', '/admin', 'App\Controllers\AdminController#index', 'Dashboard'); //✔️ afficher dashboard

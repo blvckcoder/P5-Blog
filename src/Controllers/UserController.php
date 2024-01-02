@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Lib\Database;
+use App\Lib\Auth;
 use App\Lib\Twig;
 use App\Repository\UserRepository;
 use App\Entity\User;
@@ -12,13 +12,19 @@ class UserController
 {
     public $twig;
 
+    public $auth;
+
     public function __construct()
     {
         $this->twig = new Twig();
+
+        $userRepository = new UserRepository();
+        $this->auth = new Auth($userRepository);
     }
 
     public function displayAdminUsers()
     {
+        $this->auth->checkAdmin();
         $userRepository = new UserRepository();
         $users = $userRepository->getAll();
 
@@ -29,11 +35,13 @@ class UserController
 
     public function createForm()
     {
+        $this->auth->checkAdmin();
         echo $this->twig->getTwig()->render('backend/forms/addUser.twig');
     }
 
     public function create(array $params)
     {
+        $this->auth->checkAdmin();
         if (!isset($params['post']['name'], $params['post']['firstname'], $params['post']['nickname'], $params['post']['biography'], $params['post']['picture'], $params['post']['mail'], $params['post']['password'], $params['post']['role'], $params['post']['status'])) {
             throw new \Exception('Les données du formulaire sont invalides.');
         }
@@ -73,6 +81,7 @@ class UserController
 
     public function updateForm(array $id)
     {
+        $this->auth->checkAdmin();
         $userId = (int)$id['id'];
 
         $userRepository = new UserRepository();
@@ -92,6 +101,7 @@ class UserController
 
     public function update(array $id)
     {
+        $this->auth->checkAdmin();
         $userId = (int)$id['id'];
 
         $postData = $_POST;
@@ -142,6 +152,7 @@ class UserController
 
     public function delete(array $id)
     {
+        $this->auth->checkAdmin();
         $id = (int)$id['id'];
 
         $userRepository = new UserRepository();

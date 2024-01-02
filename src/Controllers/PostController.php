@@ -2,20 +2,27 @@
 
 namespace App\Controllers;
 
+use App\Lib\Auth;
 use App\Lib\Twig;
 use App\Entity\Post;
 use App\Lib\Hydrator;
 use App\Lib\Pagination;
 use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use App\Repository\CommentRepository;
 
 class PostController
 {
     public $twig;
 
+    private $auth;
+
     public function __construct()
     {
         $this->twig = new Twig();
+
+        $userRepository = new UserRepository();
+        $this->auth = new Auth($userRepository);
     }
 
     public function index()
@@ -65,6 +72,7 @@ class PostController
 
     public function displayAdminPosts()
     {
+        $this->auth->checkAdmin();
         $postRepository = new PostRepository();
         $posts = $postRepository->getAll();
 
@@ -75,11 +83,13 @@ class PostController
 
     public function createForm()
     {
+        $this->auth->checkAdmin();
         echo $this->twig->getTwig()->render('backend/forms/addPost.twig');
     }
 
     public function create(array $params)
     {
+        $this->auth->checkAdmin();
         $postData = $_POST;
 
         if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'], $postData['postStatus'])) {
@@ -123,6 +133,7 @@ class PostController
 
     public function updateForm(array $id)
     {
+        $this->auth->checkAdmin();
         $postId = (int)$id['id'];
 
         $postRepository = new PostRepository();
@@ -141,6 +152,7 @@ class PostController
 
     public function update(array $id)
     {
+        $this->auth->checkAdmin();
         $postId = (int)$id['id'];
 
         $postData = $_POST;
@@ -191,6 +203,7 @@ class PostController
 
     public function delete(array $id)
     {
+        $this->auth->checkAdmin();
         $id = (int)$id['id'];
 
         $postRepository = new PostRepository();

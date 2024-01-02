@@ -99,12 +99,12 @@ class UserRepository implements Repository {
         return $user;
     }
 
-    public function getBy(string $value)
+    public function getBy(string $email)
     {
         $statement = $this->connection->prepare(
-            "SELECT * FROM user WHERE value = :value");
+            "SELECT * FROM user WHERE mail = :mail");
 
-        $statement->bindValue(':value', $value);
+        $statement->bindValue(':mail', $email);
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\User');
 

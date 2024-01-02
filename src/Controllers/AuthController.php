@@ -16,47 +16,53 @@ class AuthController
 
     public function __construct()
     {
+        $this->twig = new Twig();
+        
         $userRepository = new UserRepository();
         $this->auth = new Auth($userRepository);
-        $this->twig = new Twig();
     }
 
     public function loginForm()
     {
-            echo $this->twig->getTwig()->render('frontend/login.twig');
+        echo $this->twig->getTwig()->render('auth/login.twig');
     }
 
     public function login()
     {
-        var_dump($_POST);
-        die;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
-
+            
             if ($this->auth->login($email, $password)) {
-                //if admin → backend, if user → home
-                header('Location: /home');
+                $user = $this->auth->user();
+
+                if ($user->getRole() === 'admin') {
+                    var_dump($user->getRole());
+
+                    header('Location: /admin');
+                } else {
+                    header('Location: /');
+                }
                 exit;
             } else {
-                // ERROR
+                throw new \Exception('Identifiants incorrects. Veuillez réessayer.');
             }
         }
 
-        // Afficher FORM
+        return $this->loginForm();
     }
 
     public function logout()
     {
         $this->auth->logout();
-        // Redirection
-        header('Location: /');
+
+        header('Location: /login');
         exit;
     }
 
     public function registerForm()
     {
-        echo $this->twig->getTwig()->render('frontend/signup.twig');
+        echo $this->twig->getTwig()->render('auth/signup.twig');
     }
 
     public function register()

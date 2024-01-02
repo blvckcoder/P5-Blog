@@ -3,21 +3,29 @@
 namespace App\Controllers;
 
 use App\Lib\Twig;
+use App\Lib\Auth;
 use App\Lib\Hydrator;
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
+use App\Repository\UserRepository;
 
 class CommentController
 {
     public $twig;
 
+    public $auth;
+
     public function __construct()
     {
         $this->twig = new Twig();
+        
+        $userRepository = new UserRepository();
+        $this->auth = new Auth($userRepository);
     }
 
     public function displayAdminComments()
     {
+        $this->auth->checkAdmin();
         $commentRepository = new CommentRepository();
         $comments = $commentRepository->getAll();
 
@@ -48,6 +56,7 @@ class CommentController
 
     public function delete(array $id)
     {
+        $this->auth->checkAdmin();
         $id = (int)$id['id'];
 
         $commentRepository = new CommentRepository();

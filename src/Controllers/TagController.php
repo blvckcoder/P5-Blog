@@ -2,23 +2,29 @@
 
 namespace App\Controllers;
 
-use App\Lib\Database;
+use App\Lib\Auth;
 use App\Lib\Twig;
 use App\Lib\Hydrator;
 use App\Entity\Tag;
 use App\Repository\TagRepository;
+use App\Repository\UserRepository;
 
 class TagController
 {
     public $twig;
 
+    public $auth;
+
     public function __construct()
     {
         $this->twig = new Twig();
+        $userRepository = new UserRepository();
+        $this->auth = new Auth($userRepository);
     }
 
     public function displayAdminTags()
     {
+        $this->auth->checkAdmin();
         $tagRepository = new TagRepository;
         $tags = $tagRepository->getAll();
 
@@ -29,11 +35,13 @@ class TagController
 
     public function createForm()
     {
+        $this->auth->checkAdmin();
         echo $this->twig->getTwig()->render('backend/forms/addTag.twig');
     }
 
     public function create(array $params)
     {
+        $this->auth->checkAdmin();
         if (!isset($params['post']['name'], $params['post']['description'], $params['post']['slug'])) {
             throw new \Exception('Les données du formulaire sont invalides.');
         }
@@ -53,6 +61,7 @@ class TagController
 
     public function updateForm(array $id)
     {
+        $this->auth->checkAdmin();
         $tagId = (int)$id['id'];
 
         $tagRepository = new TagRepository();
@@ -72,6 +81,7 @@ class TagController
 
     public function update(array $id)
     {
+        $this->auth->checkAdmin();
         $tagId = (int)$id['id'];
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -101,6 +111,7 @@ class TagController
 
     public function delete(array $id)
     {
+        $this->auth->checkAdmin();
         $id = (int)$id['id']; 
 
         $tagRepository = new TagRepository();
@@ -119,8 +130,4 @@ class TagController
             header('Location: /admin/tags');
         }
     }
-
-
-
-
 }
