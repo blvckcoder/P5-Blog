@@ -138,15 +138,17 @@
 
                             <p>{{ comment.content }}</p>
 
+                            {% if comment.author.id == userId %}
                             <div class="ms-auto text-end">
                                 <a href="javascript:;" class="btn text-dark px-2 btn-link" rel="tooltip" title=""
-                                    data-original-title="Reply to Comment">
-                                    <i class="fa fa-reply"></i> Répondre
+                                    data-original-title="Update Comment">
+                                    <i class="fa fa-pen"></i> Modifier
                                 </a>
-                                <a href="javascript:;" class="btn text-danger px-2 btn-link">
-                                    <i class="fas fa-heart"></i> Supprimer
+                                <a href="/commentdelete/{{comment.id}}" class="btn text-danger px-2 btn-link">
+                                    <i class="fas fa-trash"></i> Supprimer
                                 </a>
                             </div>
+                            {% endif%}
                         </div>
                     </div>
                     {% endfor %}
@@ -161,7 +163,7 @@
                         <a class="author" href="javascript:;">
                             <div class="position-relative">
                                 <div class="blur-shadow-avatar rounded-circle">
-                                    <img class="avatar" alt="64x64" src="../public/assets/img/profil/blvckcoder">
+                                    <img class="avatar" alt="64x64" src="../public/assets/img/profil/{{ picture }}">
                                 </div>
                             </div>
                         </a>
@@ -173,7 +175,6 @@
                                 <label for="comment">Votre message</label>
                                 <textarea id="comment" name="content" class="form-control" placeholder="Exprimez vous..." rows="4"></textarea>
                                 <input type="hidden" name="postId" value="{{post.id}}">
-                                <input type="hidden" name="userId" value="{{userId}}">
                             </div>
                             <div>
                                 <button type="submit" class="btn bg-gradient-dark pull-end mt-2">
@@ -182,7 +183,7 @@
                             </div>
                         </form>
                     </div>
-                </div> <!-- end media-post -->
+                </div> 
                 {% endif %}
             </div>
         </div>

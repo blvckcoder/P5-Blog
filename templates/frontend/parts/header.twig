@@ -42,7 +42,11 @@
           </a>
         </li>
         <li class="nav-item ms-lg-auto my-auto ms-3 ms-lg-0">
+          {% if isLoggedIn %}
+          <a href="/logout" class="btn btn-sm  bg-gradient-dark  mb-0 me-1 mt-2 mt-md-0">Se Déconnecter</a></li>
+          {% else %}
           <a href="/login" class="btn btn-sm  bg-gradient-dark  mb-0 me-1 mt-2 mt-md-0">Se Connecter</a></li>
+          {% endif %}
       </ul>
     </div>
   </div>

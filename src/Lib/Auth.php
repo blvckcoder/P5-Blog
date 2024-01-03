@@ -23,7 +23,9 @@ class Auth
                 session_start();
             } */
             $_SESSION['userId'] = $user->getId();
-            var_dump($_SESSION);
+            $_SESSION['nickname'] = $user->getNickname();
+            $_SESSION['picture'] = $user->getPicture();
+            
 
             return true;
         }
@@ -59,5 +61,6 @@ class Auth
     public function logout()
     {
         unset($_SESSION['userId']);
+        session_destroy();
     }
 }

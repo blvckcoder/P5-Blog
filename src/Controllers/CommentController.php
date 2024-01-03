@@ -18,7 +18,7 @@ class CommentController
     public function __construct()
     {
         $this->twig = new Twig();
-        
+
         $userRepository = new UserRepository();
         $this->auth = new Auth($userRepository);
     }
@@ -37,10 +37,12 @@ class CommentController
     
     public function create(array $params)
     {
-        if (!isset($params['post']['userId'], $params['post']['postId'], $params['post']['content'])) {
+        $this->auth->check();
+        if (!isset($_SESSION['userId'], $params['post']['postId'], $params['post']['content'])) {
             throw new \Exception('Les données du formulaire sont invalides.');
         }
 
+        $params['post']['userId'] = $_SESSION['userId'];
         $comment = new Comment;
         $comment = Hydrator::hydrate($params['post'], $comment);
 
@@ -55,6 +57,23 @@ class CommentController
     }
 
     public function delete(array $id)
+    {
+        $this->auth->check();
+        $id = (int)$id['id'];
+
+        $commentRepository = new CommentRepository();
+        $comment = $commentRepository->getById($id);
+        $success = $commentRepository->delete($comment);
+
+        // Redirection après le succès
+        if (!$success) {
+            throw new \Exception('Impossible d\'ajouter le commentaire !');
+        } else {
+            header('Location: /post/' . $comment->getPostId());
+        }
+    }
+
+    public function adminDelete(array $id)
     {
         $this->auth->checkAdmin();
         $id = (int)$id['id'];

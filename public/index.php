@@ -21,6 +21,7 @@ $router->map('GET', '/', 'App\Controllers\PostController#index', 'HomePage'); //
 $router->map('GET', '/blog', 'App\Controllers\PostController#displayPosts', 'AllPosts'); //✔️
 $router->map('GET', '/post/[i:id]', 'App\Controllers\PostController#displayPost', 'SinglePost'); //✔️
 $router->map('POST', '/comment/create', 'App\Controllers\CommentController#create', 'CreateComment'); //✔️
+$router->map('GET', '/commentdelete/[i:id]', 'App\Controllers\CommentController#delete', 'DeleteComment'); //✔️
 //BACK
 //admin
 $router->map('GET', '/admin', 'App\Controllers\AdminController#index', 'Dashboard'); //✔️ afficher dashboard
@@ -35,7 +36,7 @@ $router->map('POST', '/admin/postupdate/[i:id]', 'App\Controllers\PostController
 $router->map('GET', '/admin/postdelete/[i:id]', 'App\Controllers\PostController#delete', 'DeletePost'); //✔️
 //comments
 $router->map('GET', '/admin/comments', 'App\Controllers\CommentController#displayAdminComments', 'AdminComments'); //✔️
-$router->map('GET', '/admin/commentdelete/[i:id]', 'App\Controllers\CommentController#delete', 'DeleteComment'); //✔️
+$router->map('GET', '/admin/commentdelete/[i:id]', 'App\Controllers\CommentController#adminDelete', 'AdminDeleteComment'); //✔️
 //users
 $router->map('GET', '/admin/users', 'App\Controllers\UserController#displayAdminUsers', 'AdminUsers'); //✔️
 $router->map('GET', '/admin/usercreate', 'App\Controllers\UserController#createForm', 'AdminCreateUserForm'); //✔️
