@@ -32,9 +32,8 @@ class CommentController
         echo $this->twig->getTwig()->render('backend/comments.twig', [
             'comments' => $comments
         ]);
-
     }
-    
+
     public function create(array $params)
     {
         $this->auth->check();
@@ -63,13 +62,19 @@ class CommentController
 
         $commentRepository = new CommentRepository();
         $comment = $commentRepository->getById($id);
+
+        $currentUserId = $_SESSION['userId'] ?? null; 
+        if ($comment->getUserId() !== $currentUserId) {
+            throw new \Exception('Vous n\'êtes pas autorisé à supprimer ce commentaire.');
+        }
+
         $success = $commentRepository->delete($comment);
 
-        // Redirection après le succès
         if (!$success) {
-            throw new \Exception('Impossible d\'ajouter le commentaire !');
+            throw new \Exception('Impossible de supprimer le commentaire !');
         } else {
             header('Location: /post/' . $comment->getPostId());
+            exit;
         }
     }
 
@@ -89,5 +94,4 @@ class CommentController
             header('Location: /admin/comments');
         }
     }
-
 }
