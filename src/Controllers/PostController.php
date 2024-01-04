@@ -89,10 +89,11 @@ class PostController
         echo $this->twig->getTwig()->render('backend/forms/addPost.twig');
     }
 
-    public function create(array $params)
+    public function create(array $postData)
     {
         $this->auth->checkAdmin();
         $postData = $_POST;
+        $postData['userId'] = $_SESSION['userId'];
 
         if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'], $postData['postStatus'])) {
             throw new \Exception('Les données du formulaire sont invalides.');
@@ -158,6 +159,7 @@ class PostController
         $postId = (int)$id['id'];
 
         $postData = $_POST;
+        $postData['userId'] = $_SESSION['userId'];
 
         if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'])) {
             throw new \Exception('Les données du formulaire sont invalides.');
