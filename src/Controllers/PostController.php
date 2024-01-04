@@ -48,9 +48,11 @@ class PostController
 
         $posts = $postRepository->getPaginated($postStatus, $itemsPerPage, $pagination->getOffset());
 
+        $paginationHtml = $pagination->renderHtml();
+
         echo $this->twig->getTwig()->render('frontend/blog.twig', [
             'posts' => $posts,
-            'pagination' => $pagination
+            'pagination' => $paginationHtml
         ]);
     }
 

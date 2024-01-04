@@ -78,6 +78,26 @@ class CategoryRepository implements Repository
         }
     }
 
+    public function getPaginated(int $limit, int $offset)
+    {
+        $statement = $this->connection->prepare(
+            "SELECT id FROM category ORDER BY id LIMIT :limit OFFSET :offset"
+        );
+
+        $statement->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $statement->execute();
+        $categoryIds = $statement->fetchAll();
+        $categories = [];
+
+        foreach ($categoryIds as $data) {
+            $category = $this->getById($data['id']);
+            $categories[] = $category;
+        }
+
+        return $categories;
+    }
+
     public function getAll()
     {
         $statement = $this->connection->query(

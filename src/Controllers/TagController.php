@@ -4,8 +4,9 @@ namespace App\Controllers;
 
 use App\Lib\Auth;
 use App\Lib\Twig;
-use App\Lib\Hydrator;
 use App\Entity\Tag;
+use App\Lib\Hydrator;
+use App\Lib\Pagination;
 use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 
@@ -25,11 +26,22 @@ class TagController
     public function displayAdminTags()
     {
         $this->auth->checkAdmin();
+        
+        $itemsPerPage = 9;
+        $currentPage = intval($_GET['page'] ?? 1);
+
         $tagRepository = new TagRepository;
-        $tags = $tagRepository->getAll();
+        $totalItems = $tagRepository->count();
+        
+        $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
+
+        $tags = $tagRepository->getPaginated($itemsPerPage, $pagination->getOffset());
+
+        $paginationHtml = $pagination->renderHtml();
 
         echo $this->twig->getTwig()->render('backend/tags.twig', [
-            'tags' => $tags
+            'tags' => $tags,
+            'pagination' => $paginationHtml
         ]);
     }
 

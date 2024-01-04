@@ -86,6 +86,26 @@ class UserRepository implements Repository {
         }
     }
 
+    public function getPaginated(int $limit, int $offset)
+    {
+        $statement = $this->connection->prepare(
+            "SELECT id FROM user ORDER BY id LIMIT :limit OFFSET :offset"
+        );
+
+        $statement->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $statement->execute();
+        $userIds = $statement->fetchAll();
+        $users = [];
+
+        foreach ($userIds as $data) {
+            $user = $this->getById($data['id']);
+            $users[] = $user;
+        }
+
+        return $users;
+    }
+
     public function getAll()
     {
         $statement = $this->connection->query(
@@ -124,5 +144,8 @@ class UserRepository implements Repository {
     }
     
     public function count()
-    {}
+    {
+        $statement = $this->connection->query("SELECT COUNT(*) FROM user");
+        return $statement->fetchColumn();
+    }
 }

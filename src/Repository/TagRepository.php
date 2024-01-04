@@ -78,6 +78,26 @@ class TagRepository implements Repository
         }
     }
 
+    public function getPaginated(int $limit, int $offset)
+    {
+        $statement = $this->connection->prepare(
+            "SELECT id FROM tag ORDER BY id LIMIT :limit OFFSET :offset"
+        );
+
+        $statement->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $statement->execute();
+        $tagIds = $statement->fetchAll();
+        $tags = [];
+
+        foreach ($tagIds as $data) {
+            $tag = $this->getById($data['id']);
+            $tags[] = $tag;
+        }
+
+        return $tags;
+    }
+
     public function getAll()
     {
         $statement = $this->connection->query(
