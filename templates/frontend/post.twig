@@ -43,7 +43,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 offset-2">
-                    <small>Posté le {{post.createdDate}}</small>
+                    <small>Posté le {{post.createdDate | format_datetime('medium', 'short', locale='fr') }}</small>
                 </div>
             </div>
         </div>
@@ -119,7 +119,7 @@
             <div class="col-md-8 ms-auto me-auto">
                 <div>
                     <!-- NOMBRE COMMENTAIRES -->
-                    <h4 class="text-center mb-5">3 Commentaires</h4>
+                    <h4 class="text-center mb-5">{{ totalComments }} Commentaire{{ totalComments > 1 ? 's': ''}}</h4>
 
                     {% for comment in comments %}
                     <div class="d-flex">
@@ -134,19 +134,21 @@
                         </div>
                         <div class="ms-3">
                             <h6>{{ comment.author.nickname }} <span class="text-muted text-xs">·
-                                    {{ comment.createdDate }}</span></h6>
+                                    {{ comment.createdDate | format_datetime('medium', 'short', locale='fr') }}</span></h6>
 
                             <p>{{ comment.content }}</p>
 
+                            {% if comment.author.id == userId %}
                             <div class="ms-auto text-end">
                                 <a href="javascript:;" class="btn text-dark px-2 btn-link" rel="tooltip" title=""
-                                    data-original-title="Reply to Comment">
-                                    <i class="fa fa-reply"></i> Répondre
+                                    data-original-title="Update Comment">
+                                    <i class="fa fa-pen"></i> Modifier
                                 </a>
-                                <a href="javascript:;" class="btn text-danger px-2 btn-link">
-                                    <i class="fas fa-heart"></i> 243
+                                <a href="/commentdelete/{{comment.id}}" class="btn text-danger px-2 btn-link">
+                                    <i class="fas fa-trash"></i> Supprimer
                                 </a>
                             </div>
+                            {% endif%}
                         </div>
                     </div>
                     {% endfor %}
@@ -154,13 +156,14 @@
                 </div>
 
                 <!-- FORMULAIRE COMMENTAIRE -->
+                {% if userId %}
                 <h4 class="text-center mb-4 mt-5">Poster un commentaire</h4>
                 <div class="d-flex">
                     <div>
                         <a class="author" href="javascript:;">
                             <div class="position-relative">
                                 <div class="blur-shadow-avatar rounded-circle">
-                                    <img class="avatar" alt="64x64" src="../public/assets/img/profil/blvckcoder">
+                                    <img class="avatar" alt="64x64" src="../public/assets/img/profil/{{ picture }}">
                                 </div>
                             </div>
                         </a>
@@ -172,7 +175,6 @@
                                 <label for="comment">Votre message</label>
                                 <textarea id="comment" name="content" class="form-control" placeholder="Exprimez vous..." rows="4"></textarea>
                                 <input type="hidden" name="postId" value="{{post.id}}">
-                                <input type="hidden" name="userId" value="1">
                             </div>
                             <div>
                                 <button type="submit" class="btn bg-gradient-dark pull-end mt-2">
@@ -181,7 +183,8 @@
                             </div>
                         </form>
                     </div>
-                </div> <!-- end media-post -->
+                </div> 
+                {% endif %}
             </div>
         </div>
     </div>

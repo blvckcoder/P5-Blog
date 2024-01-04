@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 require "../vendor/autoload.php";
 
@@ -9,17 +10,18 @@ $whoops->register();
 $router = new AltoRouter();
 
 //$method, $route, $target, $name
+// AUTH
+$router->map('GET', '/login', 'App\Controllers\AuthController#loginForm', 'LoginForm');//✔️
+$router->map('POST', '/login', 'App\Controllers\AuthController#login', 'Login');//✔️
+$router->map('GET', '/signup', 'App\Controllers\AuthController#registerForm', 'RegisterUserForm');//✔️
+$router->map('POST', '/signup', 'App\Controllers\AuthController#register', 'RegisterUser'); //✔️
+$router->map('GET', '/logout', 'App\Controllers\AuthController#logout', 'Logout');//✔️
 //FRONT
 $router->map('GET', '/', 'App\Controllers\PostController#index', 'HomePage'); //✔️
 $router->map('GET', '/blog', 'App\Controllers\PostController#displayPosts', 'AllPosts'); //✔️
 $router->map('GET', '/post/[i:id]', 'App\Controllers\PostController#displayPost', 'SinglePost'); //✔️
 $router->map('POST', '/comment/create', 'App\Controllers\CommentController#create', 'CreateComment'); //✔️
-$router->map('GET', '/contact', function () {
-    echo ('CONTACT');
-}, 'contact');
-$router->map('GET', '/a-propos', function () {
-    echo ('A PROPOS');
-}, 'APropos');
+$router->map('GET', '/commentdelete/[i:id]', 'App\Controllers\CommentController#delete', 'DeleteComment'); //✔️
 //BACK
 //admin
 $router->map('GET', '/admin', 'App\Controllers\AdminController#index', 'Dashboard'); //✔️ afficher dashboard
@@ -34,14 +36,14 @@ $router->map('POST', '/admin/postupdate/[i:id]', 'App\Controllers\PostController
 $router->map('GET', '/admin/postdelete/[i:id]', 'App\Controllers\PostController#delete', 'DeletePost'); //✔️
 //comments
 $router->map('GET', '/admin/comments', 'App\Controllers\CommentController#displayAdminComments', 'AdminComments'); //✔️
-$router->map('GET', '/admin/commentdelete/[i:id]', 'App\Controllers\CommentController#delete', 'DeleteComment'); //✔️
+$router->map('GET', '/admin/commentdelete/[i:id]', 'App\Controllers\CommentController#adminDelete', 'AdminDeleteComment'); //✔️
 //users
 $router->map('GET', '/admin/users', 'App\Controllers\UserController#displayAdminUsers', 'AdminUsers'); //✔️
-$router->map('GET', '/admin/usercreate', 'App\Controllers\UserController#createForm', 'CreateUserForm'); //✔️
-$router->map('POST', '/admin/usercreate', 'App\Controllers\UserController#create', 'CreateUser'); //✔️
-$router->map('GET', '/admin/userupdate/[i:id]', 'App\Controllers\UserController#updateForm', 'UpdateUserForm'); //✔️
-$router->map('POST', '/admin/userupdate/[i:id]', 'App\Controllers\UserController#update', 'UpdateUser'); //✔️
-$router->map('GET', '/admin/userdelete/[i:id]', 'App\Controllers\UserController#delete', 'DeleteUser'); //✔️
+$router->map('GET', '/admin/usercreate', 'App\Controllers\UserController#createForm', 'AdminCreateUserForm'); //✔️
+$router->map('POST', '/admin/usercreate', 'App\Controllers\UserController#create', 'AdminCreateUser'); //✔️
+$router->map('GET', '/admin/userupdate/[i:id]', 'App\Controllers\UserController#updateForm', 'AdminUpdateUserForm'); //✔️
+$router->map('POST', '/admin/userupdate/[i:id]', 'App\Controllers\UserController#update', 'AdminUpdateUser'); //✔️
+$router->map('GET', '/admin/userdelete/[i:id]', 'App\Controllers\UserController#delete', 'AdminDeleteUser'); //✔️
 $router->map('GET', '/admin/profil', 'App\Controllers\UserController#displayAdminProfil', 'AdminProfil'); //🔴
 //categories
 $router->map('GET', '/admin/categories', 'App\Controllers\CategoryController#displayAdminCategories', 'AdminCategories'); //✔️

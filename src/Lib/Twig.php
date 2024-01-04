@@ -17,6 +17,13 @@ class Twig
             'debug' => true,
             'cache' => false, // __DIR__ . '/tmp'
         ]);
+
+        $this->twig->addGlobal('isLoggedIn', isset($_SESSION['userId']) && $_SESSION['userId']);
+        $this->twig->addGlobal('userId', $_SESSION['userId'] ?? null);
+        $this->twig->addGlobal('nickname', $_SESSION['nickname'] ?? 'Invité');
+        $this->twig->addGlobal('picture', $_SESSION['picture'] ?? 'avatar.jpg');
+
+
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
         $this->twig->addExtension(new StringExtension());
         $this->twig->addExtension(new IntlExtension());

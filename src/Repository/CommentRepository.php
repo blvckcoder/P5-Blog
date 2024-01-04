@@ -136,4 +136,12 @@ class CommentRepository implements Repository
         return $statement->fetchColumn();
     }
 
+    public function countByPost(int $postId)
+    {
+        $statement = $this->connection->prepare("SELECT COUNT(*) FROM comment WHERE postId = :postId");
+        $statement->bindValue(':postId', $postId);
+        $statement->execute();
+        return $statement->fetchColumn();
+    }
+
 }

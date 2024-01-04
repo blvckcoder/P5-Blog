@@ -2,20 +2,27 @@
 
 namespace App\Controllers;
 
+use App\Lib\Auth;
 use App\Lib\Twig;
 use App\Entity\Post;
 use App\Lib\Hydrator;
 use App\Lib\Pagination;
 use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use App\Repository\CommentRepository;
 
 class PostController
 {
     public $twig;
 
+    private $auth;
+
     public function __construct()
     {
         $this->twig = new Twig();
+
+        $userRepository = new UserRepository();
+        $this->auth = new Auth($userRepository);
     }
 
     public function index()
@@ -55,16 +62,19 @@ class PostController
 
         $commentRepository = new CommentRepository();
         $comments = $commentRepository->getAllBy($postId);
+        $totalComments = $commentRepository->countByPost($postId);
         //récupérer tags + category
 
         echo $this->twig->getTwig()->render('frontend/post.twig', [
             'post' => $post,
-            'comments' => $comments
+            'comments' => $comments,
+            'totalComments' => $totalComments
         ]);
     }
 
     public function displayAdminPosts()
     {
+        $this->auth->checkAdmin();
         $postRepository = new PostRepository();
         $posts = $postRepository->getAll();
 
@@ -75,12 +85,15 @@ class PostController
 
     public function createForm()
     {
+        $this->auth->checkAdmin();
         echo $this->twig->getTwig()->render('backend/forms/addPost.twig');
     }
 
-    public function create(array $params)
+    public function create(array $postData)
     {
+        $this->auth->checkAdmin();
         $postData = $_POST;
+        $postData['userId'] = $_SESSION['userId'];
 
         if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'], $postData['postStatus'])) {
             throw new \Exception('Les données du formulaire sont invalides.');
@@ -123,6 +136,7 @@ class PostController
 
     public function updateForm(array $id)
     {
+        $this->auth->checkAdmin();
         $postId = (int)$id['id'];
 
         $postRepository = new PostRepository();
@@ -141,9 +155,11 @@ class PostController
 
     public function update(array $id)
     {
+        $this->auth->checkAdmin();
         $postId = (int)$id['id'];
 
         $postData = $_POST;
+        $postData['userId'] = $_SESSION['userId'];
 
         if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'])) {
             throw new \Exception('Les données du formulaire sont invalides.');
@@ -191,6 +207,7 @@ class PostController
 
     public function delete(array $id)
     {
+        $this->auth->checkAdmin();
         $id = (int)$id['id'];
 
         $postRepository = new PostRepository();
