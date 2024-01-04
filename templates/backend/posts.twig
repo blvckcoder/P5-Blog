@@ -10,7 +10,7 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Liste des articles | Publiées</h6>
+                <h6 class="text-white text-capitalize ps-3">Liste des 6 derniers articles | Publiées</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -30,14 +30,14 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {% for post in posts %}
+                    {% for post in published %}
                     {% if post.postStatus == 'published' %}
                     <tr>
                       <td>
                         <div class="d-flex px-2 py-1">
                           <div>
-                            <img src="../public/assets/img/cards/{{post.imgCard}}" class="avatar avatar-sm me-3 border-radius-lg"
-                              alt="user1">
+                            <img src="../public/assets/img/cards/{{post.imgCard}}"
+                              class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
                           </div>
                           <div class="d-flex flex-column justify-content-center">
                             <h6 class="mb-0 text-sm">{{post.title }}</h6>
@@ -55,50 +55,56 @@
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{post.createdDate }}</span>
                       </td>
-                        <td class="align-middle text-center">
-                          <!-- BTN UPDATE -->
-                          <a class="btn btn-link text-secondary px-3 mb-0" href="/admin/postupdate/{{post.id}}"><i
-                              class="material-icons text-sm me-2">edit</i>Modifier</a>
-                          <!-- BTN DELETE -->    
-                          <a class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal"
-                            data-bs-target="#modal-delete{{post.id}}"><i
-                              class="material-icons text-sm me-2">delete</i>Supprimer</a>
-                              <!-- MODAL DELETE -->
-                              <div class="modal fade" id="modal-delete{{post.id}}" tabindex="-1"
-                                aria-labelledby="modal-delete{{post.id}}" style="display: none;" aria-hidden="true">
-                                <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h6 class="modal-title font-weight-normal" id="modal-title-delete{{post.id}}">Confirmation
-                                        de suppression</h6>
-                                      <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
-                                        aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                      </button>
-                                    </div>
-                                    <div class="modal-body">
-                                      <div class="py-3 text-center">
-                                        <span class="display-2"><i class="text-dark fas fa-skull-crossbones"></i></span>
-                                        <h4 class="text-gradient text-danger mt-4">Supprimer cet article?</h4>
-                                        <p>Attention, cette action est irréversible</p>
-                                      </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                      <a role="button" class="btn btn-danger"
-                                        href="/admin/postdelete/{{post.id}}">Oui, supprimer</a>
-                                      <button type="button" class="btn btn-link ml-auto text-danger"
-                                        data-bs-dismiss="modal">Annuler</button>
-                                    </div>
-                                  </div>
+                      <td class="align-middle text-center">
+                        <!-- BTN UPDATE -->
+                        <a class="btn btn-link text-secondary px-3 mb-0" href="/admin/postupdate/{{post.id}}"><i
+                            class="material-icons text-sm me-2">edit</i>Modifier</a>
+                        <!-- BTN DELETE -->
+                        <a class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal"
+                          data-bs-target="#modal-delete{{post.id}}"><i
+                            class="material-icons text-sm me-2">delete</i>Supprimer</a>
+                        <!-- MODAL DELETE -->
+                        <div class="modal fade" id="modal-delete{{post.id}}" tabindex="-1"
+                          aria-labelledby="modal-delete{{post.id}}" style="display: none;" aria-hidden="true">
+                          <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h6 class="modal-title font-weight-normal" id="modal-title-delete{{post.id}}">
+                                  Confirmation
+                                  de suppression</h6>
+                                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
+                                  aria-label="Close">
+                                  <span aria-hidden="true">×</span>
+                                </button>
+                              </div>
+                              <div class="modal-body">
+                                <div class="py-3 text-center">
+                                  <span class="display-2"><i class="text-dark fas fa-skull-crossbones"></i></span>
+                                  <h4 class="text-gradient text-danger mt-4">Supprimer cet article?</h4>
+                                  <p>Attention, cette action est irréversible</p>
                                 </div>
                               </div>
-                              <!-- END MODAL DELETE -->
-                        </td>
+                              <div class="modal-footer">
+                                <a role="button" class="btn btn-danger" href="/admin/postdelete/{{post.id}}">Oui,
+                                  supprimer</a>
+                                <button type="button" class="btn btn-link ml-auto text-danger"
+                                  data-bs-dismiss="modal">Annuler</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- END MODAL DELETE -->
+                      </td>
                     </tr>
                     {% endif %}
                     {% endfor %}
                   </tbody>
                 </table>
+                <div class="text-center my-4">
+                  <a href="/admin/validatedposts">
+                    <button type="button" class="btn btn-outline-dark btn-sm mb-0">Voir tout</button>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -111,7 +117,7 @@
             <div class="card my-4">
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div class="bg-gradient-light shadow-secondary border-radius-lg pt-4 pb-3">
-                  <h6 class="text-dark text-capitalize ps-3">Liste des articles | Brouillons</h6>
+                  <h6 class="text-dark text-capitalize ps-3">Liste des 6 derniers articles | Brouillons</h6>
                 </div>
               </div>
               <div class="card-body px-0 pb-2">
@@ -132,18 +138,18 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% for post in posts %}
-                      {% if post.postStatus == 'draft' %}
+                      {% for draft in drafts %}
+                      {% if draft.postStatus == 'draft' %}
                       <tr>
                         <td>
                           <div class="d-flex px-2 py-1">
                             <div>
-                              <img src="../public/assets/img/cards/{{post.imgCard}}" class="avatar avatar-sm me-3 border-radius-lg"
-                                alt="user1">
+                              <img src="../public/assets/img/cards/{{draft.imgCard}}"
+                                class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
                             </div>
                             <div class="d-flex flex-column justify-content-center">
-                              <h6 class="mb-0 text-sm">{{post.title }}</h6>
-                              <p class="text-xs text-secondary mb-0">{{post.author.nickname }}</p>
+                              <h6 class="mb-0 text-sm">{{draft.title }}</h6>
+                              <p class="text-xs text-secondary mb-0">{{draft.author.nickname }}</p>
                             </div>
                           </div>
                         </td>
@@ -155,52 +161,59 @@
                           <span class="badge badge-sm bg-gradient-secondary">brouillon</span>
                         </td>
                         <td class="align-middle text-center">
-                          <span class="text-secondary text-xs font-weight-bold">{{post.createdDate }}</span>
+                          <span class="text-secondary text-xs font-weight-bold">{{draft.createdDate }}</span>
                         </td>
                         <td class="align-middle text-center">
                           <!-- BTN UPDATE -->
-                          <a class="btn btn-link text-secondary px-3 mb-0" href="/admin/postupdate/{{post.id}}"><i
+                          <a class="btn btn-link text-secondary px-3 mb-0" href="/admin/postupdate/{{draft.id}}"><i
                               class="material-icons text-sm me-2">edit</i>Modifier</a>
-                          <!-- BTN DELETE -->    
+                          <!-- BTN DELETE -->
                           <a class="btn btn-link text-danger text-gradient px-3 mb-0" data-bs-toggle="modal"
-                            data-bs-target="#modal-delete{{post.id}}"><i
+                            data-bs-target="#modal-delete{{draft.id}}"><i
                               class="material-icons text-sm me-2">delete</i>Supprimer</a>
-                              <!-- MODAL DELETE -->
-                              <div class="modal fade" id="modal-delete{{post.id}}" tabindex="-1"
-                                aria-labelledby="modal-delete{{post.id}}" style="display: none;" aria-hidden="true">
-                                <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h6 class="modal-title font-weight-normal" id="modal-title-delete{{post.id}}">Confirmation
-                                        de suppression</h6>
-                                      <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
-                                        aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                      </button>
-                                    </div>
-                                    <div class="modal-body">
-                                      <div class="py-3 text-center">
-                                        <span class="display-2"><i class="text-dark fas fa-skull-crossbones"></i></span>
-                                        <h4 class="text-gradient text-danger mt-4">Supprimer cet article?</h4>
-                                        <p>Attention, cette action est irréversible</p>
-                                      </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                      <a role="button" class="btn btn-danger"
-                                        href="/admin/postdelete/{{post.id}}">Oui, supprimer</a>
-                                      <button type="button" class="btn btn-link ml-auto text-danger"
-                                        data-bs-dismiss="modal">Annuler</button>
-                                    </div>
+                          <!-- MODAL DELETE -->
+                          <div class="modal fade" id="modal-delete{{draft.id}}" tabindex="-1"
+                            aria-labelledby="modal-delete{{draft.id}}" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h6 class="modal-title font-weight-normal" id="modal-title-delete{{draft.id}}">
+                                    Confirmation
+                                    de suppression</h6>
+                                  <button type="button" class="btn-close text-dark" data-bs-dismiss="modal"
+                                    aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="py-3 text-center">
+                                    <span class="display-2"><i class="text-dark fas fa-skull-crossbones"></i></span>
+                                    <h4 class="text-gradient text-danger mt-4">Supprimer cet article?</h4>
+                                    <p>Attention, cette action est irréversible</p>
                                   </div>
                                 </div>
+                                <div class="modal-footer">
+                                  <a role="button" class="btn btn-danger" href="/admin/postdelete/{{draft.id}}">Oui,
+                                    supprimer</a>
+                                  <button type="button" class="btn btn-link ml-auto text-danger"
+                                    data-bs-dismiss="modal">Annuler</button>
+                                </div>
                               </div>
-                              <!-- END MODAL DELETE -->
+                            </div>
+                          </div>
+                          <!-- END MODAL DELETE -->
                         </td>
                       </tr>
                       {% endif %}
                       {% endfor %}
+
                     </tbody>
                   </table>
+                  <div class="text-center my-4">
+                    <a href="/admin/draftedposts">
+                      <button type="button" class="btn btn-outline-dark btn-sm mb-0">Voir tout</button>
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

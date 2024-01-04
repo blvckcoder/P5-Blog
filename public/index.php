@@ -29,6 +29,8 @@ $router->map('GET', '/admin/documents', 'App\Controllers\AdminController#docForm
 $router->map('GET', '/admin/mails', 'App\Controllers\AdminController#displayMails', 'AllMails');//🔴
 //posts
 $router->map('GET', '/admin/posts', 'App\Controllers\PostController#displayAdminPosts', 'AdminPosts'); //✔️
+$router->map('GET', '/admin/validatedposts', 'App\Controllers\PostController#displayAdminValidatedPosts', 'AdminValidatedPosts'); //✔️
+$router->map('GET', '/admin/draftedposts', 'App\Controllers\PostController#displayAdminDraftedPosts', 'AdminDraftedPosts'); //✔️
 $router->map('GET', '/admin/postcreate', 'App\Controllers\PostController#createForm', 'CreatePostForm'); //✔️
 $router->map('POST', '/admin/postcreate', 'App\Controllers\PostController#create', 'CreatePost'); //✔️
 $router->map('GET', '/admin/postupdate/[i:id]', 'App\Controllers\PostController#updateForm', 'UpdatePostForm'); //✔️

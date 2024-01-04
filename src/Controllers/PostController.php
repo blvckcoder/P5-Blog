@@ -37,6 +37,7 @@ class PostController
 
     public function displayPosts()
     {
+        $postStatus = "published";
         $itemsPerPage = 9;
         $currentPage = intval($_GET['page'] ?? 1);
 
@@ -45,7 +46,7 @@ class PostController
         
         $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
 
-        $posts = $postRepository->getPaginated($itemsPerPage, $pagination->getOffset());
+        $posts = $postRepository->getPaginated($postStatus, $itemsPerPage, $pagination->getOffset());
 
         echo $this->twig->getTwig()->render('frontend/blog.twig', [
             'posts' => $posts,
@@ -75,11 +76,63 @@ class PostController
     public function displayAdminPosts()
     {
         $this->auth->checkAdmin();
+
+        $postValidatedStatus = "published";
+        $postDraftedStatus = "draft";
+        $itemsPerPage = 6;
+        $pagination = 0;
+
         $postRepository = new PostRepository();
-        $posts = $postRepository->getAll();
+        $postsValidated = $postRepository->getPaginated($postValidatedStatus, $itemsPerPage, $pagination);
+        $postsDrafted = $postRepository->getPaginated($postDraftedStatus, $itemsPerPage, $pagination);
 
         echo $this->twig->getTwig()->render('backend/posts.twig', [
-            'posts' => $posts
+            'published' => $postsValidated,
+            'drafts' => $postsDrafted
+        ]);
+    }
+
+    public function displayAdminValidatedPosts()
+    {
+        $this->auth->checkAdmin();
+
+        $postStatus = "published";
+        $itemsPerPage = 9;
+        $currentPage = intval($_GET['page'] ?? 1);
+
+        $postRepository = new PostRepository();
+        $totalItems = $postRepository->count();
+        
+        $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
+
+        $posts = $postRepository->getPaginated($postStatus, $itemsPerPage, $pagination->getOffset());
+
+
+        echo $this->twig->getTwig()->render('backend/validatedposts.twig', [
+            'posts' => $posts,
+            'pagination' => $pagination
+        ]);
+    }
+
+    public function displayAdminDraftedPosts()
+    {
+        $this->auth->checkAdmin();
+
+        $postStatus = "draft";
+        $itemsPerPage = 9;
+        $currentPage = intval($_GET['page'] ?? 1);
+
+        $postRepository = new PostRepository();
+        $totalItems = $postRepository->count();
+        
+        $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
+
+        $posts = $postRepository->getPaginated($postStatus, $itemsPerPage, $pagination->getOffset());
+
+
+        echo $this->twig->getTwig()->render('backend/draftedposts.twig', [
+            'posts' => $posts,
+            'pagination' => $pagination
         ]);
     }
 
