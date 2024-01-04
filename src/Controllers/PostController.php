@@ -107,10 +107,11 @@ class PostController
 
         $posts = $postRepository->getPaginated($postStatus, $itemsPerPage, $pagination->getOffset());
 
+        $paginationHtml = $pagination->renderHtml();
 
         echo $this->twig->getTwig()->render('backend/validatedposts.twig', [
             'posts' => $posts,
-            'pagination' => $pagination
+            'pagination' => $paginationHtml
         ]);
     }
 
@@ -129,10 +130,11 @@ class PostController
 
         $posts = $postRepository->getPaginated($postStatus, $itemsPerPage, $pagination->getOffset());
 
+        $paginationHtml = $pagination->renderHtml();
 
         echo $this->twig->getTwig()->render('backend/draftedposts.twig', [
             'posts' => $posts,
-            'pagination' => $pagination
+            'pagination' => $paginationHtml
         ]);
     }
 
