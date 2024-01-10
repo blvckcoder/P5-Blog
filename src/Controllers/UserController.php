@@ -2,27 +2,13 @@
 
 namespace App\Controllers;
 
-use App\Lib\Auth;
-use App\Lib\Twig;
 use App\Entity\User;
 use App\Lib\Hydrator;
 use App\Lib\Pagination;
 use App\Repository\UserRepository;
 
-class UserController
+class UserController extends DefaultController
 {
-    public $twig;
-
-    public $auth;
-
-    public function __construct()
-    {
-        $this->twig = new Twig();
-
-        $userRepository = new UserRepository();
-        $this->auth = new Auth($userRepository);
-    }
-
     public function displayAdminUsers()
     {
         $this->auth->checkAdmin();

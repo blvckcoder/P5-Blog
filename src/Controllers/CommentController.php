@@ -2,28 +2,13 @@
 
 namespace App\Controllers;
 
-use App\Lib\Auth;
-use App\Lib\Twig;
 use App\Lib\Hydrator;
 use App\Entity\Comment;
 use App\Lib\Pagination;
-use App\Repository\UserRepository;
 use App\Repository\CommentRepository;
 
-class CommentController
+class CommentController extends DefaultController
 {
-    public $twig;
-
-    public $auth;
-
-    public function __construct()
-    {
-        $this->twig = new Twig();
-
-        $userRepository = new UserRepository();
-        $this->auth = new Auth($userRepository);
-    }
-
     public function displayAdminComments()
     {
         $this->auth->checkAdmin();
@@ -36,17 +21,17 @@ class CommentController
         $commentRepository = new CommentRepository();
         $commentsValidated = $commentRepository->getPaginated($commentValidatedStatus, $itemsPerPage, $pagination);
         $commentsValidatedNumb = $commentRepository->countByStatus($commentValidatedStatus);
-        
+
         $commentsBlocked = $commentRepository->getPaginated($commentBlockedStatus, $itemsPerPage, $pagination);
         $commentsBlockedNumb = $commentRepository->countByStatus($commentBlockedStatus);
-        
+
 
         echo $this->twig->getTwig()->render('backend/comments.twig', [
             'published' => $commentsValidated,
             'publishedNumb' => $commentsValidatedNumb,
             'draft' => $commentsBlocked,
             'draftNumb' => $commentsBlockedNumb
-            
+
         ]);
     }
 
@@ -60,7 +45,7 @@ class CommentController
 
         $commentRepository = new CommentRepository();
         $totalItems = $commentRepository->count();
-        
+
         $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
 
         $comments = $commentRepository->getPaginated($commentStatus, $itemsPerPage, $pagination->getOffset());
@@ -83,7 +68,7 @@ class CommentController
 
         $commentRepository = new CommentRepository();
         $totalItems = $commentRepository->count();
-        
+
         $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
 
         $comments = $commentRepository->getPaginated($commentStatus, $itemsPerPage, $pagination->getOffset());
@@ -125,7 +110,7 @@ class CommentController
         $commentRepository = new CommentRepository();
         $comment = $commentRepository->getById($id);
 
-        $currentUserId = $_SESSION['userId'] ?? null; 
+        $currentUserId = $_SESSION['userId'] ?? null;
         if ($comment->getUserId() !== $currentUserId) {
             throw new \Exception('Vous n\'êtes pas autorisé à supprimer ce commentaire.');
         }

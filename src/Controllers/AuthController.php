@@ -2,26 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Lib\Auth;
-use App\Lib\Twig;
 use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Lib\Hydrator;
 
-class AuthController
+class AuthController extends DefaultController
 {
-    private $auth;
-
-    public $twig;
-
-    public function __construct()
-    {
-        $this->twig = new Twig();
-        
-        $userRepository = new UserRepository();
-        $this->auth = new Auth($userRepository);
-    }
-
     public function loginForm()
     {
         echo $this->twig->getTwig()->render('auth/login.twig');
