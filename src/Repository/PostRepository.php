@@ -19,7 +19,7 @@ class PostRepository implements Repository
     public function getLast()
     {
         $statement = $this->connection->query(
-            "SELECT id FROM post ORDER BY createdDate DESC LIMIT 3"
+            "SELECT id FROM post WHERE postStatus = 'published' ORDER BY createdDate DESC LIMIT 3"
         );
 
         $statement->execute();
