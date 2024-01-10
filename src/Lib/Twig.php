@@ -2,6 +2,7 @@
 
 namespace App\Lib;
 
+use App\Lib\Auth;
 use Twig\Extra\String\StringExtension;
 use Twig\Extra\Intl\IntlExtension;
 
@@ -10,7 +11,7 @@ class Twig
     private $twig;
     private $loader;
 
-    public function __construct()
+    public function __construct(private Auth $auth)
     {
         $this->loader = new \Twig\Loader\FilesystemLoader('../templates');
         $this->twig = new \Twig\Environment($this->loader, [
@@ -19,9 +20,9 @@ class Twig
         ]);
 
         $this->twig->addGlobal('isLoggedIn', isset($_SESSION['userId']) && $_SESSION['userId']);
-        $this->twig->addGlobal('userId', $_SESSION['userId'] ?? null);
-        $this->twig->addGlobal('nickname', $_SESSION['nickname'] ?? 'Invité');
-        $this->twig->addGlobal('picture', $_SESSION['picture'] ?? 'avatar.jpg');
+        $this->twig->addGlobal('userId', $auth->getUserInfo() != null ? $auth->getUserInfo()->getId() : null);
+        $this->twig->addGlobal('nickname', $auth->getUserInfo() != null ? $auth->getUserInfo()->getNickname() : 'Invité');
+        $this->twig->addGlobal('picture', $auth->getUserInfo() != null ? $auth->getUserInfo()->getPicture() : 'avatar.jpg');
 
 
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
