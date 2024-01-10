@@ -2,9 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Lib\Twig;
 use App\Lib\Auth;
+use App\Lib\Twig;
 use App\Lib\Hydrator;
+use App\Lib\Pagination;
 use App\Entity\Category;
 use App\Repository\UserRepository;
 use App\Repository\CategoryRepository;
@@ -26,11 +27,22 @@ class CategoryController
     public function displayAdminCategories()
     {
         $this->auth->checkAdmin();
+
+        $itemsPerPage = 9;
+        $currentPage = intval($_GET['page'] ?? 1);
+
         $categoryRepository = new CategoryRepository();
-        $categories = $categoryRepository->getAll();
+        $totalItems = $categoryRepository->count();
+        
+        $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
+
+        $categories = $categoryRepository->getPaginated($itemsPerPage, $pagination->getOffset());
+
+        $paginationHtml = $pagination->renderHtml();
 
         echo $this->twig->getTwig()->render('backend/categories.twig', [
-            'categories' => $categories
+            'categories' => $categories,
+            'pagination' => $paginationHtml
         ]);
 
     }

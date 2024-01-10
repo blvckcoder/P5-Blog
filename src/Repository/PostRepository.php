@@ -34,12 +34,13 @@ class PostRepository implements Repository
         return $posts;
     }
 
-    public function getPaginated(int $limit, int $offset)
+    public function getPaginated(string $postStatus, int $limit, int $offset)
     {
         $statement = $this->connection->prepare(
-            "SELECT id FROM post ORDER BY createdDate DESC LIMIT :limit OFFSET :offset"
+            "SELECT id FROM post WHERE postStatus = :postStatus ORDER BY createdDate DESC LIMIT :limit OFFSET :offset"
         );
 
+        $statement->bindValue(':postStatus', $postStatus, PDO::PARAM_STR);
         $statement->bindValue(':limit', $limit, PDO::PARAM_INT);
         $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
         $statement->execute();

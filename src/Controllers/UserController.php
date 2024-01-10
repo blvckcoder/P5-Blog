@@ -4,9 +4,10 @@ namespace App\Controllers;
 
 use App\Lib\Auth;
 use App\Lib\Twig;
-use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Lib\Hydrator;
+use App\Lib\Pagination;
+use App\Repository\UserRepository;
 
 class UserController
 {
@@ -25,11 +26,22 @@ class UserController
     public function displayAdminUsers()
     {
         $this->auth->checkAdmin();
+        
+        $itemsPerPage = 9;
+        $currentPage = intval($_GET['page'] ?? 1);
+
         $userRepository = new UserRepository();
-        $users = $userRepository->getAll();
+        $totalItems = $userRepository->count();
+
+        $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
+
+        $users = $userRepository->getPaginated($itemsPerPage, $pagination->getOffset());
+
+        $paginationHtml = $pagination->renderHtml();
 
         echo $this->twig->getTwig()->render('backend/users.twig', [
-            'users' => $users
+            'users' => $users,
+            'pagination' => $paginationHtml
         ]);
     }
 

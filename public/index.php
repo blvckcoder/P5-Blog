@@ -29,6 +29,8 @@ $router->map('GET', '/admin/documents', 'App\Controllers\AdminController#docForm
 $router->map('GET', '/admin/mails', 'App\Controllers\AdminController#displayMails', 'AllMails');//🔴
 //posts
 $router->map('GET', '/admin/posts', 'App\Controllers\PostController#displayAdminPosts', 'AdminPosts'); //✔️
+$router->map('GET', '/admin/postsvalidated', 'App\Controllers\PostController#displayAdminValidatedPosts', 'AdminValidatedPosts'); //✔️
+$router->map('GET', '/admin/postsdrafted', 'App\Controllers\PostController#displayAdminDraftedPosts', 'AdminDraftedPosts'); //✔️
 $router->map('GET', '/admin/postcreate', 'App\Controllers\PostController#createForm', 'CreatePostForm'); //✔️
 $router->map('POST', '/admin/postcreate', 'App\Controllers\PostController#create', 'CreatePost'); //✔️
 $router->map('GET', '/admin/postupdate/[i:id]', 'App\Controllers\PostController#updateForm', 'UpdatePostForm'); //✔️
@@ -36,6 +38,8 @@ $router->map('POST', '/admin/postupdate/[i:id]', 'App\Controllers\PostController
 $router->map('GET', '/admin/postdelete/[i:id]', 'App\Controllers\PostController#delete', 'DeletePost'); //✔️
 //comments
 $router->map('GET', '/admin/comments', 'App\Controllers\CommentController#displayAdminComments', 'AdminComments'); //✔️
+$router->map('GET', '/admin/commentsvalidated', 'App\Controllers\CommentController#displayAdminValidatedComments', 'AdminValidatedComments'); //✔️
+$router->map('GET', '/admin/commentsdrafted', 'App\Controllers\CommentController#displayAdminDraftedComments', 'AdminDraftedComments'); //✔️
 $router->map('GET', '/admin/commentdelete/[i:id]', 'App\Controllers\CommentController#adminDelete', 'AdminDeleteComment'); //✔️
 //users
 $router->map('GET', '/admin/users', 'App\Controllers\UserController#displayAdminUsers', 'AdminUsers'); //✔️
