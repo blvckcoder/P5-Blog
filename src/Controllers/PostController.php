@@ -111,7 +111,7 @@ class PostController
 
         $paginationHtml = $pagination->renderHtml();
 
-        echo $this->twig->getTwig()->render('backend/validatedposts.twig', [
+        echo $this->twig->getTwig()->render('backend/postsvalidated.twig', [
             'posts' => $posts,
             'pagination' => $paginationHtml
         ]);
@@ -134,7 +134,7 @@ class PostController
 
         $paginationHtml = $pagination->renderHtml();
 
-        echo $this->twig->getTwig()->render('backend/draftedposts.twig', [
+        echo $this->twig->getTwig()->render('backend/postsdrafted.twig', [
             'posts' => $posts,
             'pagination' => $paginationHtml
         ]);

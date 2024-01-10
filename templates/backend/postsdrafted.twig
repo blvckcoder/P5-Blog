@@ -32,7 +32,6 @@
                     </thead>
                     <tbody>
                       {% for post in posts %}
-                      {% if post.postStatus == 'draft' %}
                       <tr>
                         <td>
                           <div class="d-flex px-2 py-1">
@@ -96,7 +95,6 @@
                               <!-- END MODAL DELETE -->
                         </td>
                       </tr>
-                      {% endif %}
                       {% endfor %}
                     </tbody>
                   </table>

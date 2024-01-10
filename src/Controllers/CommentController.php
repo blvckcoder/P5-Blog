@@ -2,12 +2,13 @@
 
 namespace App\Controllers;
 
-use App\Lib\Twig;
 use App\Lib\Auth;
+use App\Lib\Twig;
 use App\Lib\Hydrator;
 use App\Entity\Comment;
-use App\Repository\CommentRepository;
+use App\Lib\Pagination;
 use App\Repository\UserRepository;
+use App\Repository\CommentRepository;
 
 class CommentController
 {
@@ -26,11 +27,72 @@ class CommentController
     public function displayAdminComments()
     {
         $this->auth->checkAdmin();
+
+        $commentValidatedStatus = "published";
+        $commentBlockedStatus = "blocked";
+        $itemsPerPage = 6;
+        $pagination = 0;
+
         $commentRepository = new CommentRepository();
-        $comments = $commentRepository->getAll();
+        $commentsValidated = $commentRepository->getPaginated($commentValidatedStatus, $itemsPerPage, $pagination);
+        $commentsValidatedNumb = $commentRepository->countByStatus($commentValidatedStatus);
+        
+        $commentsBlocked = $commentRepository->getPaginated($commentBlockedStatus, $itemsPerPage, $pagination);
+        $commentsBlockedNumb = $commentRepository->countByStatus($commentBlockedStatus);
+        
 
         echo $this->twig->getTwig()->render('backend/comments.twig', [
-            'comments' => $comments
+            'published' => $commentsValidated,
+            'publishedNumb' => $commentsValidatedNumb,
+            'draft' => $commentsBlocked,
+            'draftNumb' => $commentsBlockedNumb
+            
+        ]);
+    }
+
+    public function displayAdminValidatedComments()
+    {
+        $this->auth->checkAdmin();
+
+        $commentStatus = "published";
+        $itemsPerPage = 9;
+        $currentPage = intval($_GET['page'] ?? 1);
+
+        $commentRepository = new CommentRepository();
+        $totalItems = $commentRepository->count();
+        
+        $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
+
+        $comments = $commentRepository->getPaginated($commentStatus, $itemsPerPage, $pagination->getOffset());
+
+        $paginationHtml = $pagination->renderHtml();
+
+        echo $this->twig->getTwig()->render('backend/commentsvalidated.twig', [
+            'comments' => $comments,
+            'pagination' => $paginationHtml
+        ]);
+    }
+
+    public function displayAdminDraftedComments()
+    {
+        $this->auth->checkAdmin();
+
+        $commentStatus = "blocked";
+        $itemsPerPage = 9;
+        $currentPage = intval($_GET['page'] ?? 1);
+
+        $commentRepository = new CommentRepository();
+        $totalItems = $commentRepository->count();
+        
+        $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
+
+        $comments = $commentRepository->getPaginated($commentStatus, $itemsPerPage, $pagination->getOffset());
+
+        $paginationHtml = $pagination->renderHtml();
+
+        echo $this->twig->getTwig()->render('backend/commentsdrafted.twig', [
+            'comments' => $comments,
+            'pagination' => $paginationHtml
         ]);
     }
 

@@ -71,6 +71,27 @@ class CommentRepository implements Repository
         }
     }
 
+    public function getPaginated(string $commentStatus, int $limit, int $offset)
+    {
+        $statement = $this->connection->prepare(
+            "SELECT id FROM comment WHERE commentStatus = :commentStatus ORDER BY createdDate DESC LIMIT :limit OFFSET :offset"
+        );
+
+        $statement->bindValue(':commentStatus', $commentStatus, PDO::PARAM_STR);
+        $statement->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $statement->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $statement->execute();
+        $commentIds = $statement->fetchAll();
+        $comments = [];
+
+        foreach ($commentIds as $data) {
+            $comment = $this->getById($data['id']);
+            $comments[] = $comment;
+        }
+
+        return $comments;
+    }
+
     public function getAll() {
         $statement = $this->connection->query(
             "SELECT id FROM comment ORDER BY createdDate DESC");
@@ -120,7 +141,6 @@ class CommentRepository implements Repository
         );
         $statement->bindValue(':id', $id);
         $statement->execute();
-        //vérifier que le commentaire existe bien
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\Comment');
         $comment = $statement->fetch();
 
@@ -140,6 +160,14 @@ class CommentRepository implements Repository
     {
         $statement = $this->connection->prepare("SELECT COUNT(*) FROM comment WHERE postId = :postId");
         $statement->bindValue(':postId', $postId);
+        $statement->execute();
+        return $statement->fetchColumn();
+    }
+
+    public function countByStatus(string $commentStatus)
+    {
+        $statement = $this->connection->prepare("SELECT COUNT(*) FROM comment WHERE commentStatus = :commentStatus");
+        $statement->bindValue(':commentStatus', $commentStatus);
         $statement->execute();
         return $statement->fetchColumn();
     }
