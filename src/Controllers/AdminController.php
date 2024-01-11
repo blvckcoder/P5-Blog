@@ -2,30 +2,25 @@
 
 namespace App\Controllers;
 
-use App\Lib\Auth;
-use App\Lib\Twig;
 use App\Repository\UserRepository;
 
-class AdminController
+class AdminController extends DefaultController
 {
-
-    public $twig;
-
-    private $auth;
-
     public function __construct()
     {
-        $this->twig = new Twig();
-
-        $userRepository = new UserRepository();
-        $this->auth = new Auth($userRepository);
+        parent::__construct();
         $this->auth->checkAdmin();
     }
 
 
     public function index()
     {
-        echo $this->twig->getTwig()->render('backend/home.twig');
+        $user = $this->auth->getUserInfo();
+
+        echo $this->twig->getTwig()->render('backend/home.twig', [
+            'user' => $user
+        ]
+    );
     }
 
 }

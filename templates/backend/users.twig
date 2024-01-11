@@ -1,9 +1,11 @@
-{% include 'backend/parts/head.twig' %}
+{% extends 'backend/layout.html.twig' %}
 
-<body class="g-sidenav-show bg-gray-200">
-    {% include 'backend/parts/aside.twig' %}
-    <div class="main-content position-relative max-height-vh-100 h-100">
-        {% include 'backend/parts/navbar.twig' %}
+{% block title %}
+<title>Admin Users</title>
+{% endblock %}
+
+{% block content %}
+
         <div class="container-fluid py-4">
             <div class="row">
                 <div class="col-12">
@@ -131,7 +133,4 @@
             </div>
             {{ pagination|raw }}
 
-            {% include 'backend/parts/footer.twig' %}
-</body>
-
-</html>
+         {% endblock %}

@@ -2,28 +2,13 @@
 
 namespace App\Controllers;
 
-use App\Lib\Auth;
-use App\Lib\Twig;
 use App\Lib\Hydrator;
 use App\Lib\Pagination;
 use App\Entity\Category;
-use App\Repository\UserRepository;
 use App\Repository\CategoryRepository;
 
-class CategoryController
+class CategoryController extends DefaultController
 {
-    public $twig;
-
-    public $auth;
-
-    public function __construct()
-    {
-        $this->twig = new Twig();
-        
-        $userRepository = new UserRepository();
-        $this->auth = new Auth($userRepository);
-    }
-
     public function displayAdminCategories()
     {
         $this->auth->checkAdmin();

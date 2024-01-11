@@ -2,29 +2,14 @@
 
 namespace App\Controllers;
 
-use App\Lib\Auth;
-use App\Lib\Twig;
 use App\Entity\Post;
 use App\Lib\Hydrator;
 use App\Lib\Pagination;
 use App\Repository\PostRepository;
-use App\Repository\UserRepository;
 use App\Repository\CommentRepository;
 
-class PostController
+class PostController extends DefaultController
 {
-    public $twig;
-
-    private $auth;
-
-    public function __construct()
-    {
-        $this->twig = new Twig();
-
-        $userRepository = new UserRepository();
-        $this->auth = new Auth($userRepository);
-    }
-
     public function index()
     {
         $postRepository = new PostRepository();

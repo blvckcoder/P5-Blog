@@ -19,17 +19,20 @@ class Auth
         $user = $this->userRepository->getBy($email);
 
         if ($user && password_verify($password, $user->getPassword())) {
-/*             if (session_status() === PHP_SESSION_NONE) {
-                session_start();
-            } */
             $_SESSION['userId'] = $user->getId();
-            $_SESSION['nickname'] = $user->getNickname();
-            $_SESSION['picture'] = $user->getPicture();
             
-
             return true;
         }
         return false;
+    }
+
+    public function getUserInfo()
+    {
+        if(isset($_SESSION['userId']) && !is_null($_SESSION['userId'])) {
+            return $this->userRepository->getById($_SESSION['userId']);
+        }
+
+        return null;
     }
 
     public function check(): bool
@@ -60,7 +63,6 @@ class Auth
 
     public function logout()
     {
-        unset($_SESSION['userId']);
         session_destroy();
     }
 }
