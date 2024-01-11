@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Repository\UserRepository;
+
 class AdminController extends DefaultController
 {
     public function __construct()
@@ -13,7 +15,12 @@ class AdminController extends DefaultController
 
     public function index()
     {
-        echo $this->twig->getTwig()->render('backend/home.twig');
+        $user = $this->auth->getUserInfo();
+
+        echo $this->twig->getTwig()->render('backend/home.twig', [
+            'user' => $user
+        ]
+    );
     }
 
 }
