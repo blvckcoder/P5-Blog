@@ -1,0 +1,15 @@
+{% include 'backend/parts/_head.twig' %}
+
+<body class="g-sidenav-show bg-gray-200">
+    {% include 'backend/parts/_aside.twig' %}
+    <div class="main-content position-relative max-height-vh-100 h-100">
+        {% include 'backend/parts/_navbar.twig' %}
+
+        {% block content %}
+
+        {% endblock %}
+
+        {% include 'backend/parts/_footer.twig' %}
+</body>
+
+</html>
