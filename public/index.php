@@ -22,6 +22,7 @@ $router->map('GET', '/blog', 'App\Controllers\PostController#displayPosts', 'All
 $router->map('GET', '/post/[i:id]', 'App\Controllers\PostController#displayPost', 'SinglePost'); 
 $router->map('POST', '/comment/create', 'App\Controllers\CommentController#create', 'CreateComment'); 
 $router->map('GET', '/commentdelete/[i:id]', 'App\Controllers\CommentController#delete', 'DeleteComment'); 
+$router->map('POST', '/sendmail', 'App\Controllers\ContactController#handleForm', 'SendMail'); 
 //BACK
 //admin
 $router->map('GET', '/admin', 'App\Controllers\AdminController#index', 'Dashboard'); 
@@ -46,7 +47,6 @@ $router->map('POST', '/admin/usercreate', 'App\Controllers\UserController#create
 $router->map('GET', '/admin/userupdate/[i:id]', 'App\Controllers\UserController#updateForm', 'AdminUpdateUserForm'); 
 $router->map('POST', '/admin/userupdate/[i:id]', 'App\Controllers\UserController#update', 'AdminUpdateUser'); 
 $router->map('GET', '/admin/userdelete/[i:id]', 'App\Controllers\UserController#delete', 'AdminDeleteUser'); 
-$router->map('GET', '/admin/profil', 'App\Controllers\UserController#displayAdminProfil', 'AdminProfil'); //🔴
 //categories
 $router->map('GET', '/admin/categories', 'App\Controllers\CategoryController#displayAdminCategories', 'AdminCategories'); 
 $router->map('GET', '/admin/categorycreate', 'App\Controllers\CategoryController#createForm', 'CreateCategoryForm'); 

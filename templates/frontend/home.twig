@@ -151,13 +151,13 @@
                         <div class="mask bg-gradient-dark opacity-8"></div>
                         <div class="p-5 ps-sm-8 position-relative text-start my-auto z-index-2">
                           <h2 class="text-white">Contact Information</h2>
-                          <p class="text-white opacity-8 mb-4">Fill up the form and our Team will get back to you within 24 hours.</p>
+                          <p class="text-white opacity-8 mb-4">Remplissez le formulaire ci-contre, je vous répondrai dans les plus brefs délais</p>
                           <div class="d-flex p-2 text-white">
                             <div>
                               <i class="fas fa-phone text-sm" aria-hidden="true"></i>
                             </div>
                             <div class="ps-3">
-                              <span class="text-sm opacity-8">(+40) 772 100 200</span>
+                              <span class="text-sm opacity-8">0692 000 000</span>
                             </div>
                           </div>
                           <div class="d-flex p-2 text-white">
@@ -165,7 +165,7 @@
                               <i class="fas fa-envelope text-sm" aria-hidden="true"></i>
                             </div>
                             <div class="ps-3">
-                              <span class="text-sm opacity-8">hello@creative-tim.com</span>
+                              <span class="text-sm opacity-8">hello@blvckcoder.com</span>
                             </div>
                           </div>
                           <div class="d-flex p-2 text-white">
@@ -173,7 +173,7 @@
                               <i class="fas fa-map-marker-alt text-sm" aria-hidden="true"></i>
                             </div>
                             <div class="ps-3">
-                              <span class="text-sm opacity-8">Dyonisie Wolf Bucharest, RO 010458</span>
+                              <span class="text-sm opacity-8">île de la Réunion</span>
                             </div>
                           </div>
                           <div class="mt-4">
@@ -194,35 +194,41 @@
                       </div>
                     </div>
                     <div class="col-lg-7">
-                      <form class="p-3" id="contact-form" method="post">
+                      <form class="p-3" id="contact-form" method="post" action="/sendmail">
                         <div class="card-header px-4 py-sm-5 py-3">
-                          <h2>Say Hi!</h2>
-                          <p class="lead"> We'd like to talk with you.</p>
+                          <h2>Contactez moi</h2>
+                          <p class="lead"> Un conseil, une suggestion ou l'envie de discuter ?</p>
                         </div>
                         <div class="card-body pt-1">
                           <div class="row">
                             <div class="col-md-12 pe-2 mb-3">
                               <div class="input-group input-group-static mb-4">
-                                <label>My name is</label>
-                                <input type="text" class="form-control" placeholder="Full Name">
+                                <label>Mon nom est</label>
+                                <input name="name" type="text" class="form-control" placeholder="Blvck Mortimer">
                               </div>
                             </div>
                             <div class="col-md-12 pe-2 mb-3">
                               <div class="input-group input-group-static mb-4">
-                                <label>I'm looking for</label>
-                                <input type="text" class="form-control" placeholder="What you love">
+                                <label>Mon mail est</label>
+                                <input name="email" type="text" class="form-control" placeholder="hello@mail.com">
                               </div>
                             </div>
                             <div class="col-md-12 pe-2 mb-3">
                               <div class="input-group input-group-static mb-4">
-                                <label>Your message</label>
-                                <textarea name="message" class="form-control" id="message" rows="6" placeholder="I want to say that..."></textarea>
+                                <label>Je te contacte pour</label>
+                                <input name="subject" type="text" class="form-control" placeholder="une mission">
+                              </div>
+                            </div>
+                            <div class="col-md-12 pe-2 mb-3">
+                              <div class="input-group input-group-static mb-4">
+                                <label>Votre message</label>
+                                <textarea name="message" class="form-control" id="message" rows="3" placeholder="Bonjour, j'aimerai te parler de..."></textarea>
                               </div>
                             </div>
                           </div>
                           <div class="row">
                             <div class="col-md-6 text-end ms-auto">
-                              <button type="submit" class="btn bg-gradient-info mb-0">Send Message</button>
+                              <button type="submit" class="btn bg-gradient-dark mb-0">Envoyer Message</button>
                             </div>
                           </div>
                         </div>
