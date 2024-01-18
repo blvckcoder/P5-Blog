@@ -156,10 +156,11 @@ class CommentRepository implements Repository
         return $statement->fetchColumn();
     }
 
-    public function countByPost(int $postId)
+    public function countByPost(int $postId, string $commentStatus)
     {
-        $statement = $this->connection->prepare("SELECT COUNT(*) FROM comment WHERE postId = :postId");
+        $statement = $this->connection->prepare("SELECT COUNT(*) FROM comment WHERE postId = :postId AND commentStatus = :commentStatus");
         $statement->bindValue(':postId', $postId);
+        $statement->bindValue(':commentStatus', $commentStatus);
         $statement->execute();
         return $statement->fetchColumn();
     }

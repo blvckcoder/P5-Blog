@@ -50,7 +50,7 @@ class PostController extends DefaultController
 
         $commentRepository = new CommentRepository();
         $comments = $commentRepository->getAllBy($postId);
-        $totalComments = $commentRepository->countByPost($postId);
+        $totalComments = $commentRepository->countByPost($postId, "published");
         //récupérer tags + category
 
         echo $this->twig->getTwig()->render('frontend/post.twig', [

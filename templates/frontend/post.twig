@@ -44,6 +44,9 @@
             <div class="row">
                 <div class="col-lg-4 offset-2">
                     <small>Posté le {{post.createdDate | format_datetime('medium', 'short', locale='fr') }}</small>
+                    {% if post.updateDate %}
+                    <small> | Modifié le {{ post.updateDate | format_datetime('medium', 'short', locale='fr') }}</small>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -122,19 +125,22 @@
                     <h4 class="text-center mb-5">{{ totalComments }} Commentaire{{ totalComments > 1 ? 's': ''}}</h4>
 
                     {% for comment in comments %}
+                    {% if comment.commentStatus == 'published' %}
                     <div class="d-flex">
                         <div>
                             <a href="javascript:;">
                                 <div class="position-relative">
                                     <div class="blur-shadow-avatar rounded-circle">
-                                        <img class="avatar" src="../public/assets/img/profil/{{comment.author.picture}}" alt="...">
+                                        <img class="avatar" src="../public/assets/img/profil/{{comment.author.picture}}"
+                                            alt="...">
                                     </div>
                                 </div>
                             </a>
                         </div>
                         <div class="ms-3">
                             <h6>{{ comment.author.nickname }} <span class="text-muted text-xs">·
-                                    {{ comment.createdDate | format_datetime('medium', 'short', locale='fr') }}</span></h6>
+                                    {{ comment.createdDate | format_datetime('medium', 'short', locale='fr') }}</span>
+                            </h6>
 
                             <p>{{ comment.content }}</p>
 
@@ -148,9 +154,10 @@
                                     <i class="fas fa-trash"></i> Supprimer
                                 </a>
                             </div>
-                            {% endif%}
+                            {% endif %}
                         </div>
                     </div>
+                    {% endif %}
                     {% endfor %}
 
                 </div>
@@ -173,7 +180,8 @@
                         <form action="/comment/create" method="post">
                             <div class="input-group input-group-static">
                                 <label for="comment">Votre message</label>
-                                <textarea id="comment" name="content" class="form-control" placeholder="Exprimez vous..." rows="4"></textarea>
+                                <textarea id="comment" name="content" class="form-control"
+                                    placeholder="Exprimez vous..." rows="4"></textarea>
                                 <input type="hidden" name="postId" value="{{post.id}}">
                             </div>
                             <div>
@@ -183,7 +191,7 @@
                             </div>
                         </form>
                     </div>
-                </div> 
+                </div>
                 {% endif %}
             </div>
         </div>
