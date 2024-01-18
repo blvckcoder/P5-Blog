@@ -187,7 +187,6 @@ class PostController extends DefaultController
         if (!$existingPost) {
             header($_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
             echo 'Le post n\'existe pas 404 not found baby';
-            die();
         }
 
         echo $this->twig->getTwig()->render('backend/forms/editPost.twig', [

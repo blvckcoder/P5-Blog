@@ -69,7 +69,6 @@ class CategoryController extends DefaultController
         if (!$existingCategory) {
             header( $_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
             echo 'La catégorie n\'existe pas 404 not found baby';
-            die();
         }
 
         echo $this->twig->getTwig()->render('backend/forms/editCategory.twig', [

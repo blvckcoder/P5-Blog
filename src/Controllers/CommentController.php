@@ -121,7 +121,6 @@ class CommentController extends DefaultController
             throw new \Exception('Impossible de supprimer le commentaire !');
         } else {
             header('Location: /post/' . $comment->getPostId());
-            exit;
         }
     }
 

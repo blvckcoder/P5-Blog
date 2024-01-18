@@ -68,7 +68,6 @@ class TagController extends DefaultController
         if (!$existingTag) {
             header( $_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
             echo 'Le tag n\'existe pas 404 not found baby';
-            die();
         }
 
         echo $this->twig->getTwig()->render('backend/forms/editTag.twig', [

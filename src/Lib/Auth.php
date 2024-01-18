@@ -52,12 +52,10 @@ class Auth
     {
         if (!$this->check()) {
             header('Location: /login');
-            exit;
         }
         
         if ($this->user()->getRole() !== 'admin') {
             header('Location: /');
-            exit;
         }
     }
 

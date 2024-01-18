@@ -27,7 +27,6 @@ class AuthController extends DefaultController
                 } else {
                     header('Location: /');
                 }
-                exit;
             } else {
                 throw new \Exception('Identifiants incorrects. Veuillez réessayer.');
             }
@@ -41,7 +40,6 @@ class AuthController extends DefaultController
         $this->auth->logout();
 
         header('Location: /login');
-        exit;
     }
 
     public function registerForm()
