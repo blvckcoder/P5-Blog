@@ -16,8 +16,8 @@ class Mail
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com'; // Votre serveur SMTP
             $mail->SMTPAuth = true;
-            $mail->Username = 'jccorenthy@gmail.com'; // Votre nom d'utilisateur SMTP
-            $mail->Password = 'xcnh upbn wvur ckeo'; // Votre mot de passe SMTP
+            $mail->Username = ''; // Votre nom d'utilisateur SMTP
+            $mail->Password = ''; // Votre mot de passe SMTP
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
             $mail->Port = 465;
             
@@ -25,7 +25,7 @@ class Mail
 
             // Destinataires
             $mail->setFrom($email, $name);
-            $mail->addAddress('jccorenthy@gmail.com');
+            $mail->addAddress('');
 
             // Contenu
             $mail->isHTML(true);
