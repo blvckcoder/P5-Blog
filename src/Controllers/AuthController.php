@@ -23,8 +23,6 @@ class AuthController extends DefaultController
                 $user = $this->auth->user();
 
                 if ($user->getRole() === 'admin') {
-                    var_dump($user->getRole());
-
                     header('Location: /admin');
                 } else {
                     header('Location: /');
@@ -53,8 +51,6 @@ class AuthController extends DefaultController
 
     public function register()
     {
-        /* var_dump($_POST['name']);
-        die;  */
         if (!isset($_POST['name'], $_POST['firstname'], $_POST['nickname'], $_POST['mail'], $_POST['password'])) {
             throw new \Exception('Les données du formulaire sont invalides.');
         } else {
@@ -76,7 +72,6 @@ class AuthController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter l\'utilisateur !');
         } else {
-            //if admin → backend, if user → home
             header('Location: /admin/users');
         }
     }
