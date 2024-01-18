@@ -1,0 +1,243 @@
+[33mcommit 689237c7cc36b37b953e58a75a2da7d0f0f933d4[m[33m ([m[1;36mHEAD -> [m[1;32mfix/enhancement[m[33m)[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Jan 18 14:16:57 2024 +0400
+
+    FIX(home): Change catchphrase on homepage
+
+[33mcommit a8a287d2b6f524fc8c623a75ce16c4c9d9749573[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Jan 18 14:13:33 2024 +0400
+
+    FIX(home): Change logos on homepage
+
+[33mcommit fafc519a74808a0d82f8cd48bcfd47fde69c13b3[m[33m ([m[1;31morigin/fix/enhancement[m[33m)[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Jan 11 10:43:43 2024 +0400
+
+    ENHANCEMENT(admin): Delete useless code & optimize admin page
+
+[33mcommit 0f640eb59ec6f572490e354a996408088898fb0a[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Jan 11 09:29:13 2024 +0400
+
+    FIX(twig backend): Refactoring twig backend using layout
+
+[33mcommit 899d3c67f46a311cc58f2121a493856477bbdc5e[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Wed Jan 10 22:34:08 2024 +0400
+
+    FIX(PostRepository): Show published posts only in getLast
+
+[33mcommit d2489801844c5da1fa1c7b1f7b21e6276a913951[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Wed Jan 10 22:31:40 2024 +0400
+
+    FIX(authentification): Optimize SESSION user info with global variable
+
+[33mcommit 2ea401a2df66d8c81542e46082a33573d2ab955d[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Wed Jan 10 22:21:40 2024 +0400
+
+    FIX(controllers): Delete duplicate code and create defaultcontroller inheritance
+
+[33mcommit f1ff0c2a6684f86ad5fe55e24adce15f6c9df352[m
+Merge: 2b9f36b 92f2224
+Author: BlvckCoder <dev@blvckcoder.com>
+Date:   Wed Jan 10 21:58:26 2024 +0400
+
+    Merge pull request #36 from blvckcoder/feat/pagination-blog
+    
+    Feat/pagination blog
+
+[33mcommit 92f2224d28bb7d2022c8440f20f01a80a51d1d9a[m[33m ([m[1;31morigin/feat/pagination-blog[m[33m)[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Wed Jan 10 21:56:18 2024 +0400
+
+    FEAT(pagination): Add Pagination to comments and adjust post pagination
+
+[33mcommit 33f42c1b652bf534bf79e6a5a5052f35b4607e3d[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Jan 4 15:57:39 2024 +0400
+
+    FEAT(pagination): Add Pagination to users, categories, tags admin
+
+[33mcommit 75b7f37c1501d7f4e0a919f053444273526295bb[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Jan 4 15:35:02 2024 +0400
+
+    FEAT(pagination): Add Pagination html render
+
+[33mcommit f7b670f0ca8f98a8c98641f65c6624298a40615d[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Jan 4 15:14:08 2024 +0400
+
+    FEAT(pagination): Add Pagination to Admin Posts, separated publish and draft posts page
+
+[33mcommit 2b9f36b031a8b97a6307241799cf70e5d8331f92[m
+Merge: aed4661 14ae64a
+Author: BlvckCoder <dev@blvckcoder.com>
+Date:   Thu Jan 4 14:01:51 2024 +0400
+
+    Merge pull request #35 from blvckcoder/fix/enhancement
+    
+    FIX(forms): Fix input forms label design
+
+[33mcommit 14ae64aa0d5aca2a6aca78998b88e1d16c1b302e[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Jan 4 13:54:38 2024 +0400
+
+    FIX(forms): Fix input forms label design
+
+[33mcommit aed46611d6158926541aa5457a930f593aa97395[m
+Merge: 56fdc73 a04635e
+Author: BlvckCoder <dev@blvckcoder.com>
+Date:   Thu Jan 4 10:45:29 2024 +0400
+
+    Merge pull request #33 from blvckcoder/security/authentification
+    
+    FEATURE | Authentication
+
+[33mcommit a04635e7dc5eefcba531e7c36e93e31342e5d4ec[m[33m ([m[1;31morigin/security/authentification[m[33m)[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Jan 4 10:29:10 2024 +0400
+
+    FEAT(authentication): Add userId when create & update post
+
+[33mcommit 22185bbbc189fc5623ff14ee5b39a31d2692f512[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Wed Jan 3 19:00:10 2024 +0400
+
+    FEAT(authentication): Add username in backoffice navbar
+
+[33mcommit 82b171305c939c0833f92e720d0950087db2962b[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Wed Jan 3 18:38:33 2024 +0400
+
+    FEAT(authentication): User can only delete his comment
+
+[33mcommit d7bdeab02554318a7f5332ac4cb144fce1445b99[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Wed Jan 3 18:29:46 2024 +0400
+
+    FEAT(authentication): Add twig global variables for users infos
+
+[33mcommit 14c42230d9923b28dbcbb2ff675ee9f6c1b0ce08[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Tue Jan 2 22:26:20 2024 +0400
+
+    FEAT(authentication): Show comment create form if user logged
+
+[33mcommit b74ea5e2d6ae61c68bb39b5537c014a0653b3b97[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Tue Jan 2 18:29:54 2024 +0400
+
+    FEAT(authentication): Add authentification mechanism
+
+[33mcommit bd54d84515c516bcfbd2dcb4e8d35cc6b0d87bba[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Dec 28 15:47:09 2023 +0400
+
+    FEAT(authentication): Add signup page
+
+[33mcommit bf46b808108bd0a7e9a9e9497cc1a9c80df5fd8f[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Dec 28 14:30:33 2023 +0400
+
+    FEAT(authentication): Add Password Hash to create and update user
+
+[33mcommit 56fdc73464db535e235b09ce41633e55e10650eb[m
+Merge: 47e5276 4b44770
+Author: BlvckCoder <dev@blvckcoder.com>
+Date:   Thu Dec 28 14:02:14 2023 +0400
+
+    Merge pull request #32 from blvckcoder/feat/pagination-blog
+    
+    Feat/pagination blog
+
+[33mcommit 4b44770580718b83e12b00643a47a8a4a6ff4dbc[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Dec 28 13:26:09 2023 +0400
+
+    REFACTOR(pagination): Paginated post function
+
+[33mcommit 8df587451717c89a4f5d991a443e71f7c4abd862[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Dec 28 12:36:22 2023 +0400
+
+    FEAT(pagination): Add blog page pagination
+
+[33mcommit 0176fad2485ce705c886df39eaec8abbe0c3fca5[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Wed Dec 27 11:46:03 2023 +0400
+
+    FEAT(pagination): Add intl twig extension, adjust cards design and infos format date
+
+[33mcommit 63951254e6681a6a36bf9a2c84690833600a5929[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Wed Dec 27 10:59:03 2023 +0400
+
+    FEAT(pagination): Add blog posts page, articles and postStatus adjustment
+
+[33mcommit 47e527620f696013cc97574a4e6967a055152e83[m
+Merge: 1cf3112 dbfcb5d
+Author: BlvckCoder <dev@blvckcoder.com>
+Date:   Fri Dec 22 10:13:49 2023 +0400
+
+    Merge pull request #25 from blvckcoder/feat/update-functions
+    
+    FEAT(update): Add update function for post & adjust img paths
+
+[33mcommit dbfcb5d4efe2e01e4725ed08c3f0d1a7a4479bfb[m[33m ([m[1;31morigin/feat/update-functions[m[33m)[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Fri Dec 22 10:11:56 2023 +0400
+
+    FEAT(update): Add update function for post & adjust img paths
+
+[33mcommit 1cf3112b8c2c3a3799739835440204bf4e844252[m
+Merge: 2ada862 8bbef02
+Author: BlvckCoder <dev@blvckcoder.com>
+Date:   Thu Dec 21 23:23:09 2023 +0400
+
+    Merge pull request #24 from blvckcoder/feat/update-functions
+    
+    FIX(post view): Fix creationDate to createdDate on template
+
+[33mcommit 8bbef02145d5705de25c5f61dd363ef2150870ea[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Dec 21 23:21:22 2023 +0400
+
+    FIX(post view): Fix creationDate to createdDate on template
+
+[33mcommit 2ada86290c67b59216d79cd7d3734ce97ab977a7[m
+Merge: 89df2ee d13b027
+Author: BlvckCoder <dev@blvckcoder.com>
+Date:   Thu Dec 21 23:17:06 2023 +0400
+
+    Merge pull request #23 from blvckcoder/feat/update-functions
+    
+    FEAT(update): Add update functions for Users in BO
+
+[33mcommit d13b027cc70d5f0a6434f85a6c26a0589badf841[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Dec 21 23:14:05 2023 +0400
+
+    FEAT(update): Add update functions for Users in BO
+
+[33mcommit 89df2ee5d14b451212925405e4f8c5248104b0bd[m
+Merge: de09a54 e802457
+Author: BlvckCoder <dev@blvckcoder.com>
+Date:   Thu Dec 21 21:19:08 2023 +0400
+
+    Merge pull request #22 from blvckcoder/feat/update-functions
+    
+    FEAT(update): Add update functions for Categories in BO
+
+[33mcommit e802457dad75da15c04ce3b90f0ca18af9d6ccdc[m
+Author: Blvck Coder <dev@blvckcoder.com>
+Date:   Thu Dec 21 21:15:33 2023 +0400
+
+    FEAT(update): Add update functions for Categories in BO
+
+[33mcommit de09a5495ac76ce88b4d38968b038d79141b0fd3[m
+Merge: 49bac7b 189dea7
+Author: 
