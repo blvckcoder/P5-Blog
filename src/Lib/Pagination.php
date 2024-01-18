@@ -17,7 +17,7 @@ class Pagination
     
     public function getTotalPages(): int 
     {
-        return ceil($this->totalItems / $this->itemsPerPage);
+        return intval(ceil($this->totalItems / $this->itemsPerPage));
     }
     
     public function getCurrentPage(): int
