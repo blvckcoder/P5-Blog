@@ -52,12 +52,16 @@
               </li>
               {% if isLoggedIn %}
               <li class="nav-item ms-lg-auto my-auto ms-3 ms-lg-0">
-                <a class="nav-link nav-link-icon me-2"
-                  href="https://github.com/creativetimofficial/soft-ui-design-system" target="_blank">
-                  <i class="fa fa-github me-1" aria-hidden="true"></i>
-                  <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
-                    data-bs-placement="bottom" data-bs-original-title="Star us on Github">{{nickname}}</p>
+                <a class="author" href="javascript:;">
+                  <div class="position-relative">
+                    <div class="blur-shadow-avatar rounded-circle">
+                      <img class="avatar avatar-xs" alt="32x32" src="../public/assets/img/profil/{{ picture }}">
+                      <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
+                        data-bs-placement="bottom" data-bs-original-title="Star us on Github">{{nickname}}</p>
+                    </div>
+                  </div>
                 </a>
+
               </li>
               {% endif %}
               <li class="nav-item ms-lg-auto my-auto ms-3 ms-lg-0">
