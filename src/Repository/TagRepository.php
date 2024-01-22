@@ -8,19 +8,19 @@ use App\Lib\Database;
 use App\Entity\Tag;
 use \PDO;
 
-class TagRepository implements Repository
+class TagRepository implements RepositoryInterface
 {
     public ?\PDO $connection;
 
-    public function __construct() 
+    public function __construct()
     {
         $database = new Database();
         $this->connection = $database->getConnection();
     }
-    
+
     public function create(object $tag): bool
     {
-        if(!$tag instanceof Tag) {
+        if (!$tag instanceof Tag) {
             return false;
         }
 
@@ -41,7 +41,7 @@ class TagRepository implements Repository
 
     public function update(object $tag): bool
     {
-        if(!$tag instanceof Tag) {
+        if (!$tag instanceof Tag) {
             return false;
         }
 
@@ -63,7 +63,7 @@ class TagRepository implements Repository
 
     public function delete(object $tag): bool
     {
-        if(!$tag instanceof Tag) {
+        if (!$tag instanceof Tag) {
             return false;
         }
 
@@ -139,7 +139,7 @@ class TagRepository implements Repository
     {
         return null;
     }
-    
+
     public function count(): int
     {
         $statement = $this->connection->query("SELECT COUNT(*) FROM tag");

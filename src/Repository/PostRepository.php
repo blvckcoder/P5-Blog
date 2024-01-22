@@ -9,7 +9,7 @@ use App\Lib\HTTPResponse;
 use App\Entity\Post;
 use PDO;
 
-class PostRepository implements Repository
+class PostRepository implements RepositoryInterface
 {
     public ?\PDO $connection;
 

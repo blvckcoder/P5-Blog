@@ -8,7 +8,7 @@ use App\Lib\Database;
 use App\Entity\Comment;
 use PDO;
 
-class CommentRepository implements Repository
+class CommentRepository implements RepositoryInterface
 {
     public ?\PDO $connection;
 
@@ -20,7 +20,7 @@ class CommentRepository implements Repository
 
     public function create(object $comment): bool
     {
-        if(!$comment instanceof Comment) {
+        if (!$comment instanceof Comment) {
             return false;
         }
 
@@ -38,7 +38,6 @@ class CommentRepository implements Repository
         } else {
             return true;
         }
-
     }
 
     public function update(object $comment): bool
@@ -50,7 +49,7 @@ class CommentRepository implements Repository
         $statement->bindValue(':commentStatus', $comment->getCommentStatus());
         $statement->bindValue(':userId', $comment->getUserId());
         $statement->bindValue(':postId', $comment->getPostId());
-    
+
         $affectedLines = $statement->execute();
 
         return ($affectedLines > 0);
@@ -92,10 +91,11 @@ class CommentRepository implements Repository
         return $comments;
     }
 
-    public function getAll(): array 
+    public function getAll(): array
     {
         $statement = $this->connection->query(
-            "SELECT id FROM comment ORDER BY createdDate DESC");
+            "SELECT id FROM comment ORDER BY createdDate DESC"
+        );
 
         $statement->execute();
         $commentIds = $statement->fetchAll();
@@ -107,7 +107,7 @@ class CommentRepository implements Repository
             $comments[] = $comment;
         }
 
-        return $comments;  
+        return $comments;
     }
 
 
@@ -129,7 +129,7 @@ class CommentRepository implements Repository
         }
 
         return $comments;
-    } 
+    }
 
     public function getBy(string $value): ?object
     {
@@ -155,7 +155,7 @@ class CommentRepository implements Repository
 
         return $comment;
     }
-    
+
     public function count(): int
     {
         $statement = $this->connection->query("SELECT COUNT(*) FROM comment");
@@ -178,5 +178,4 @@ class CommentRepository implements Repository
         $statement->execute();
         return $statement->fetchColumn();
     }
-
 }

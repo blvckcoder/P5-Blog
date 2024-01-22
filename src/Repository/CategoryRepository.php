@@ -8,7 +8,7 @@ use App\Lib\Database;
 use App\Entity\Category;
 use \PDO;
 
-class CategoryRepository implements Repository
+class CategoryRepository implements RepositoryInterface
 {
     public ?\PDO $connection;
 
@@ -17,10 +17,10 @@ class CategoryRepository implements Repository
         $database = new Database();
         $this->connection = $database->getConnection();
     }
-    
+
     public function create(object $category): bool
     {
-        if(!$category instanceof Category) {
+        if (!$category instanceof Category) {
             return false;
         }
 
@@ -41,7 +41,7 @@ class CategoryRepository implements Repository
 
     public function update(object $category): bool
     {
-        if(!$category instanceof Category) {
+        if (!$category instanceof Category) {
             return false;
         }
 
@@ -63,7 +63,7 @@ class CategoryRepository implements Repository
 
     public function delete(object $category): bool
     {
-        if(!$category instanceof Category) {
+        if (!$category instanceof Category) {
             return false;
         }
 
@@ -126,7 +126,7 @@ class CategoryRepository implements Repository
     public function getById(int $id): ?Category
     {
         $statement = $this->connection->prepare(
-        "SELECT * FROM category WHERE id = :id"
+            "SELECT * FROM category WHERE id = :id"
         );
         $statement->bindValue(':id', $id);
         $statement->execute();
@@ -139,7 +139,7 @@ class CategoryRepository implements Repository
 
         return $category;
     }
-    
+
     public function count(): int
     {
         $statement = $this->connection->query("SELECT COUNT(*) FROM category");

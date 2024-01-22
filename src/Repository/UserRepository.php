@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -8,7 +8,8 @@ use App\Lib\Database;
 use App\Entity\User;
 use PDO;
 
-class UserRepository implements Repository {
+class UserRepository implements RepositoryInterface
+{
 
     public ?PDO $connection;
 
@@ -20,7 +21,7 @@ class UserRepository implements Repository {
 
     public function create(object $user): bool
     {
-        if(!$user instanceof User) {
+        if (!$user instanceof User) {
             return false;
         }
 
@@ -47,7 +48,7 @@ class UserRepository implements Repository {
 
     public function update(object $user): bool
     {
-        if(!$user instanceof User) {
+        if (!$user instanceof User) {
             return false;
         }
 
@@ -124,32 +125,34 @@ class UserRepository implements Repository {
     public function getBy(string $email): ?User
     {
         $statement = $this->connection->prepare(
-            "SELECT * FROM user WHERE mail = :mail");
+            "SELECT * FROM user WHERE mail = :mail"
+        );
 
         $statement->bindValue(':mail', $email);
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\User');
 
-        return $statement->fetch();    
+        return $statement->fetch();
     }
 
     public function getById(int $id): ?User
     {
         $statement = $this->connection->prepare(
-            "SELECT * FROM user WHERE id = :id");
+            "SELECT * FROM user WHERE id = :id"
+        );
 
         $statement->bindValue(':id', (int)$id);
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\User');
         $user = $statement->fetch();
-        
+
         if (!$user) {
             return null;
         }
 
         return $user;
     }
-    
+
     public function count(): int
     {
         $statement = $this->connection->query("SELECT COUNT(*) FROM user");
