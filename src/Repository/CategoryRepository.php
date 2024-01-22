@@ -146,3 +146,4 @@ class CategoryRepository implements RepositoryInterface
         return $statement->fetchColumn();
     }
 }
+

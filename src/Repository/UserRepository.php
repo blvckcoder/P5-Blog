@@ -159,3 +159,4 @@ class UserRepository implements RepositoryInterface
         return $statement->fetchColumn();
     }
 }
+

@@ -146,3 +146,4 @@ class TagRepository implements RepositoryInterface
         return $statement->fetchColumn();
     }
 }
+
