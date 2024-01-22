@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Entity\User;
 use App\Lib\Hydrator;
 use App\Lib\Pagination;
+use App\Lib\HTTPResponse;
 use App\Repository\UserRepository;
 
 class UserController extends DefaultController
@@ -73,7 +74,7 @@ class UserController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter l\'utilisateur !');
         } else {
-            header('Location: /admin/users');
+            HTTPResponse::redirect('/admin/users');
         }
     }
 
@@ -138,7 +139,7 @@ class UserController extends DefaultController
                 if (!$success) {
                     throw new \Exception('Impossible de mettre à jour l\'utilisateur!');
                 } else {
-                    header('Location: /admin/users');
+                    HTTPResponse::redirect('/admin/users');
                 }
             } else {
                 throw new \Exception('Utilisateur non trouvé.');
@@ -160,7 +161,7 @@ class UserController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible de supprimer l\'utilisateur !');
         } else {
-            header('Location: /admin/users');
+            HTTPResponse::redirect('/admin/users');
         }
     }
 }

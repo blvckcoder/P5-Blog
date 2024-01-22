@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Lib\Hydrator;
 use App\Lib\Pagination;
 use App\Entity\Category;
+use App\Lib\HTTPResponse;
 use App\Repository\CategoryRepository;
 
 class CategoryController extends DefaultController
@@ -54,7 +55,7 @@ class CategoryController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter la catégorie !');
         } else {
-            header('Location: /admin/categories');
+            HTTPResponse::redirect('/admin/categories');
         }
     }
 
@@ -98,7 +99,7 @@ class CategoryController extends DefaultController
                 if (!$success) {
                     throw new \Exception('Impossible de mettre à jour la Catégorie!');
                 } else {
-                    header('Location: /admin/categories');
+                    HTTPResponse::redirect('/admin/categories');
                 }
             } else {
                 throw new \Exception('Catégorie non trouvé.');
@@ -126,7 +127,7 @@ class CategoryController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible de supprimer la categorie!');
         } else {
-            header('Location: /admin/categories');
+            HTTPResponse::redirect('/admin/categories');
         }
     }
 

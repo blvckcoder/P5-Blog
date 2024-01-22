@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Repository\UserRepository;
 use App\Entity\User;
+use App\Lib\HTTPResponse;
 use App\Lib\Hydrator;
 
 class AuthController extends DefaultController
@@ -23,9 +24,9 @@ class AuthController extends DefaultController
                 $user = $this->auth->user();
 
                 if ($user->getRole() === 'admin') {
-                    header('Location: /admin');
+                    HTTPResponse::redirect('/admin');
                 } else {
-                    header('Location: /');
+                    HTTPResponse::redirect('/');
                 }
             } else {
                 throw new \Exception('Identifiants incorrects. Veuillez réessayer.');
@@ -39,7 +40,7 @@ class AuthController extends DefaultController
     {
         $this->auth->logout();
 
-        header('Location: /login');
+        HTTPResponse::redirect('/login');
     }
 
     public function registerForm()
@@ -70,7 +71,7 @@ class AuthController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter l\'utilisateur !');
         } else {
-            header('Location: /admin/users');
+            HTTPResponse::redirect('/admin/users');
         }
     }
 }

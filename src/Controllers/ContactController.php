@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Lib\HTTPResponse;
 use App\Lib\Mail;
 use PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -16,7 +17,7 @@ class ContactController
         $message = $_POST['message'];
 
         if (Mail::send($name, $email, $subject, $message)) {
-            header("Location: /");
+            HTTPResponse::redirect('/');
         } else {
             echo 'echec';
         }

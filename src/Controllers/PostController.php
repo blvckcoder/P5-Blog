@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Entity\Post;
 use App\Lib\Hydrator;
 use App\Lib\Pagination;
+use App\Lib\HTTPResponse;
 use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
 
@@ -172,7 +173,7 @@ class PostController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter l\'article !');
         } else {
-            header('Location: /admin/posts');
+            HTTPResponse::redirect('/admin/posts');
         }
     }
 
@@ -238,7 +239,7 @@ class PostController extends DefaultController
                 if (!$success) {
                     throw new \Exception('Impossible de mettre à jour le post!');
                 } else {
-                    header('Location: /admin/posts');
+                    HTTPResponse::redirect('/admin/posts');
                 }
             } else {
                 throw new \Exception('Post non trouvé.');
@@ -269,7 +270,7 @@ class PostController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible de supprimer l\'article !');
         } else {
-            header('Location: /admin/posts');
+            HTTPResponse::redirect('/admin/posts');
         }
     }
 }

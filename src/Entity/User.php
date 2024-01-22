@@ -6,11 +6,11 @@ namespace App\Entity;
 
 class User
 {
-    private int $id;
-    private string $name;
-    private string $firstname;
-    private string $nickname;
-    private string $biography;
+    private $id;
+    private $name;
+    private $firstname;
+    private $nickname;
+    private $biography;
     private $picture;
     private $mail;
     private $password;
@@ -19,12 +19,12 @@ class User
     private const STATUS_ACTIVE = 'active';
     private const STATUS_INACTIVE = 'inactive';
 
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
 
-    public function setId(int $id)
+    public function setId($id)
     {
         $this->id = $id;
         return $this;

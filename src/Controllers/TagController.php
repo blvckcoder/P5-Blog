@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Entity\Tag;
 use App\Lib\Hydrator;
 use App\Lib\Pagination;
+use App\Lib\HTTPResponse;
 use App\Repository\TagRepository;
 
 class TagController extends DefaultController
@@ -53,7 +54,7 @@ class TagController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter le tag!');
         } else {
-            header('Location: /admin/tags');
+            HTTPResponse::redirect('/admin/tags');
         }
     }
 
@@ -97,7 +98,7 @@ class TagController extends DefaultController
                 if (!$success) {
                     throw new \Exception('Impossible de mettre à jour le tag!');
                 } else {
-                    header('Location: /admin/tags');
+                    HTTPResponse::redirect('/admin/tags');
                 }
             } else {
                 throw new \Exception('Tag non trouvé.');
@@ -124,7 +125,7 @@ class TagController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible de supprimer le tag!');
         } else {
-            header('Location: /admin/tags');
+            HTTPResponse::redirect('/admin/tags');
         }
     }
 }

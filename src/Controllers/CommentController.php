@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Lib\Hydrator;
 use App\Entity\Comment;
 use App\Lib\Pagination;
+use App\Lib\HTTPResponse;
 use App\Repository\CommentRepository;
 
 class CommentController extends DefaultController
@@ -98,7 +99,7 @@ class CommentController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter le commentaire !');
         } else {
-            header('Location: /post/' . $comment->getPostId());
+            HTTPResponse::redirect('/post/' . $comment->getPostId());
         }
     }
 
@@ -120,7 +121,7 @@ class CommentController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible de supprimer le commentaire !');
         } else {
-            header('Location: /post/' . $comment->getPostId());
+            HTTPResponse::redirect('/post/' . $comment->getPostId());
         }
     }
 
@@ -137,7 +138,7 @@ class CommentController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter le commentaire !');
         } else {
-            header('Location: /admin/comments');
+            HTTPResponse::redirect('/admin/comments');
         }
     }
 }
