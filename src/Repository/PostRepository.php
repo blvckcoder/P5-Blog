@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Lib\Database;
+use App\Lib\HTTPResponse;
 use App\Entity\Post;
 use PDO;
 
@@ -86,6 +87,10 @@ class PostRepository implements Repository
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\Post');
         $post = $statement->fetch();
+
+        if (!$post) {
+            HTTPResponse::redirect('/');
+        }
 
         $userRepository = new UserRepository;
         $author = $userRepository->getById($post->getUserId());

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 class Category
@@ -14,9 +16,10 @@ class Category
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(int $id): self
     {
         $this->id = $id;
+        return $this;
     }
 
     public function getName(): string
@@ -24,9 +27,10 @@ class Category
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name): self
     {
         $this->name = $name;
+        return $this;
     }
 
     public function getDescription(): string
@@ -34,9 +38,10 @@ class Category
         return $this->description;
     }
 
-    public function setDescription(string $description): void
+    public function setDescription(string $description): self
     {
         $this->description = $description;
+        return $this;
     }
 
     public function getSlug(): string
@@ -44,8 +49,9 @@ class Category
         return $this->slug;
     }
 
-    public function setSlug(string $slug): void
+    public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+        return $this;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Lib;
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -8,7 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class Mail
 {
-    public static function send($name, $email, $subject, $message)
+    public static function send(string $name, string $email, string $subject, string $message)
     {
         $mail = new PHPMailer(True);
 

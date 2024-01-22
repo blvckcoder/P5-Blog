@@ -1,6 +1,6 @@
 <?php
 
-//declare(strict_types=1);
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -14,7 +14,7 @@ class Post
     private string $imgCard;
     private string $imgCover;
     private int $userId;
-    private object $author;
+    private User $author;
     private string $createdDate;
     private ?string $updateDate = null;
     private string $postStatus = "draft";
@@ -28,7 +28,7 @@ class Post
         return $this->id;
     }
 
-    public function setId(int $id): object
+    public function setId(int $id): self
     {
         $this->id = $id;
         return $this;
@@ -41,7 +41,7 @@ class Post
         return $this->title;
     }
 
-    public function setTitle(string $title): object
+    public function setTitle(string $title): self
     {
         $this->title = $title;
         return $this;
@@ -53,7 +53,7 @@ class Post
         return $this->excerpt;
     }
 
-    public function setExcerpt(string $excerpt): object
+    public function setExcerpt(string $excerpt): self
     {
         $this->excerpt = $excerpt;
         return $this;
@@ -65,7 +65,7 @@ class Post
         return $this->content;
     }
 
-    public function setContent(string $content): object
+    public function setContent(string $content): self
     {
         $this->content = $content;
         return $this;
@@ -77,7 +77,7 @@ class Post
         return $this->imgCard;
     }
 
-    public function setImgCard(string $imgCard): object
+    public function setImgCard(string $imgCard): self
     {
         $this->imgCard = $imgCard;
         return $this;
@@ -89,19 +89,19 @@ class Post
         return $this->imgCover;
     }
 
-    public function setImgCover(string $imgCover): object
+    public function setImgCover(string $imgCover): self
     {
         $this->imgCover = $imgCover;
         return $this;
     }
 
     //AUTHOR
-    public function getAuthor(): object
+    public function getAuthor(): User
     {
         return $this->author;
     }
 
-    public function setAuthor(object $author): object
+    public function setAuthor(User $author): self
     {
         $this->author = $author;
         return $this;
@@ -113,7 +113,7 @@ class Post
         return $this->createdDate;
     }
 
-    public function setCreatedDate(string $createdDate): object
+    public function setCreatedDate(string $createdDate): self
     {
         $this->createdDate = $createdDate;
         return $this;
@@ -125,7 +125,7 @@ class Post
         return $this->updateDate;
     }
 
-    public function setUpdateDate(string $updateDate): object
+    public function setUpdateDate(string $updateDate): self
     {
         $this->updateDate = $updateDate;
         return $this;
@@ -137,7 +137,7 @@ class Post
         return $this->postStatus;
     }
 
-    public function setPostStatus(string $postStatus): object
+    public function setPostStatus(string $postStatus): self
     {
         $this->postStatus = $postStatus;
         return $this;
@@ -149,7 +149,7 @@ class Post
         return $this->userId;
     }
 
-    public function setUserId(int $userId): object
+    public function setUserId(int $userId): self
     {
         $this->userId = $userId;
         return $this;
@@ -161,7 +161,7 @@ class Post
         return $this->comment;
     }
 
-    public function setComment(array $comment): object
+    public function setComment(array $comment): self
     {
         $this->comment = $comment;
         return $this;

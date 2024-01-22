@@ -90,6 +90,7 @@ class CommentController extends DefaultController
         }
 
         $params['post']['userId'] = $_SESSION['userId'];
+        $params['post']['postId'] = (int) $params['post']['postId'];
         $comment = new Comment;
         $comment = Hydrator::hydrate($params['post'], $comment);
 
