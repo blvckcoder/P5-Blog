@@ -88,7 +88,7 @@ class UserRepository implements Repository {
         }
     }
 
-    public function getPaginated(int $limit, int $offset)
+    public function getPaginated(int $limit, int $offset): array
     {
         $statement = $this->connection->prepare(
             "SELECT id FROM user ORDER BY id LIMIT :limit OFFSET :offset"

@@ -142,7 +142,7 @@ class PostController extends DefaultController
         $postData['userId'] = $_SESSION['userId'];
 
         if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'], $postData['postStatus'])) {
-            throw new \Exception('Les données du formulaire sont invalides.');
+            throw new \Exception('Les données de création d\'article sont invalides.');
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -207,7 +207,7 @@ class PostController extends DefaultController
         $postData['userId'] = $_SESSION['userId'];
 
         if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'])) {
-            throw new \Exception('Les données du formulaire sont invalides.');
+            throw new \Exception('Les données de modification d\'article sont invalides.');
         }
 
 
