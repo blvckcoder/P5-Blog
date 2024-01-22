@@ -22,9 +22,9 @@ class Twig
         ]);
 
         $this->twig->addGlobal('isLoggedIn', isset($_SESSION['userId']) && $_SESSION['userId']);
-        $this->twig->addGlobal('userId', $auth->getUserInfo() != null ? $auth->getUserInfo()->getId() : null);
-        $this->twig->addGlobal('nickname', $auth->getUserInfo() != null ? $auth->getUserInfo()->getNickname() : 'Invité');
-        $this->twig->addGlobal('picture', $auth->getUserInfo() != null ? $auth->getUserInfo()->getPicture() : 'avatar.jpg');
+        $this->twig->addGlobal('userId', $auth->getUserInfo() !== null ? $auth->getUserInfo()->getId() : null);
+        $this->twig->addGlobal('nickname', $auth->getUserInfo() !== null ? $auth->getUserInfo()->getNickname() : 'Invité');
+        $this->twig->addGlobal('picture', $auth->getUserInfo() !== null ? $auth->getUserInfo()->getPicture() : 'avatar.jpg');
 
 
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
