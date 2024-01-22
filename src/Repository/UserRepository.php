@@ -1,5 +1,7 @@
 <?php 
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Lib\Database;
@@ -16,7 +18,7 @@ class UserRepository implements Repository {
         $this->connection = $database->getConnection();
     }
 
-    public function create(object $user)
+    public function create(object $user): bool
     {
         if(!$user instanceof User) {
             return false;
@@ -43,7 +45,7 @@ class UserRepository implements Repository {
         }
     }
 
-    public function update(object $user)
+    public function update(object $user): bool
     {
         if(!$user instanceof User) {
             return false;
@@ -71,7 +73,7 @@ class UserRepository implements Repository {
         }
     }
 
-    public function delete(object $user)
+    public function delete(object $user): bool
     {
         $statement = $this->connection->prepare(
             'DELETE FROM user WHERE id = :id'
@@ -106,7 +108,7 @@ class UserRepository implements Repository {
         return $users;
     }
 
-    public function getAll()
+    public function getAll(): array|object
     {
         $statement = $this->connection->query(
             "SELECT * FROM user ORDER BY id"
@@ -119,7 +121,7 @@ class UserRepository implements Repository {
         return $user;
     }
 
-    public function getBy(string $email)
+    public function getBy(string $email): ?User
     {
         $statement = $this->connection->prepare(
             "SELECT * FROM user WHERE mail = :mail");
@@ -131,7 +133,7 @@ class UserRepository implements Repository {
         return $statement->fetch();    
     }
 
-    public function getById(int $id)
+    public function getById(int $id): ?User
     {
         $statement = $this->connection->prepare(
             "SELECT * FROM user WHERE id = :id");
@@ -139,11 +141,16 @@ class UserRepository implements Repository {
         $statement->bindValue(':id', (int)$id);
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\User');
+        $user = $statement->fetch();
+        
+        if (!$user) {
+            return null;
+        }
 
-        return $statement->fetch();
+        return $user;
     }
     
-    public function count()
+    public function count(): int
     {
         $statement = $this->connection->query("SELECT COUNT(*) FROM user");
         return $statement->fetchColumn();

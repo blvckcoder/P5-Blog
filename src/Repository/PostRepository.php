@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Lib\Database;
@@ -17,7 +19,7 @@ class PostRepository implements Repository
         $this->connection = $database->getConnection();
     }
 
-    public function getLast()
+    public function getLast(): array
     {
         $statement = $this->connection->query(
             "SELECT id FROM post WHERE postStatus = 'published' ORDER BY createdDate DESC LIMIT 3"
@@ -35,7 +37,7 @@ class PostRepository implements Repository
         return $posts;
     }
 
-    public function getPaginated(string $postStatus, int $limit, int $offset)
+    public function getPaginated(string $postStatus, int $limit, int $offset): array
     {
         $statement = $this->connection->prepare(
             "SELECT id FROM post WHERE postStatus = :postStatus ORDER BY createdDate DESC LIMIT :limit OFFSET :offset"
@@ -56,7 +58,7 @@ class PostRepository implements Repository
         return $posts;
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         $statement = $this->connection->query(
             "SELECT id FROM post ORDER BY createdDate DESC"
@@ -74,11 +76,12 @@ class PostRepository implements Repository
         return $posts;
     }
 
-    public function getBy(string $value)
+    public function getBy(string $value): ?object
     {
+        return null;
     }
 
-    public function getById(int $id)
+    public function getById(int $id): ?Post
     {
         $statement = $this->connection->prepare(
             "SELECT * FROM post WHERE id = :id"
@@ -106,7 +109,7 @@ class PostRepository implements Repository
         return $post;
     }
 
-    public function create(object $post)
+    public function create(object $post): bool
     {
         if (!$post instanceof Post) {
             return false;
@@ -131,7 +134,7 @@ class PostRepository implements Repository
         }
     }
 
-    public function update(object $post)
+    public function update(object $post): bool
     {
         if (!$post instanceof Post) {
             return false;
@@ -156,7 +159,7 @@ class PostRepository implements Repository
         }
     }
 
-    public function delete(object $post)
+    public function delete(object $post): bool
     {
         $statement = $this->connection->prepare(
             'DELETE FROM post WHERE id = :id'
@@ -171,7 +174,7 @@ class PostRepository implements Repository
         }
     }
 
-    public function count()
+    public function count(): int
     {
         $statement = $this->connection->query("SELECT COUNT(*) FROM post");
         return $statement->fetchColumn();

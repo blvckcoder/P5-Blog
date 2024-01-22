@@ -6,7 +6,7 @@ namespace App\Lib;
 
 class HTTPResponse
 {
-    public static function redirect(string $url)
+    public static function redirect(string $url): void
     {
         header("Location: $url");
         exit;

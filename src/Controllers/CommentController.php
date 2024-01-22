@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Lib\Hydrator;
@@ -10,7 +12,7 @@ use App\Repository\CommentRepository;
 
 class CommentController extends DefaultController
 {
-    public function displayAdminComments()
+    public function displayAdminComments(): void
     {
         $this->auth->checkAdmin();
 
@@ -36,7 +38,7 @@ class CommentController extends DefaultController
         ]);
     }
 
-    public function displayAdminValidatedComments()
+    public function displayAdminValidatedComments(): void
     {
         $this->auth->checkAdmin();
 
@@ -59,7 +61,7 @@ class CommentController extends DefaultController
         ]);
     }
 
-    public function displayAdminDraftedComments()
+    public function displayAdminDraftedComments(): void
     {
         $this->auth->checkAdmin();
 
@@ -82,7 +84,7 @@ class CommentController extends DefaultController
         ]);
     }
 
-    public function create(array $params)
+    public function create(array $params): void
     {
         $this->auth->check();
         if (!isset($_SESSION['userId'], $params['post']['postId'], $params['post']['content'])) {
@@ -104,7 +106,7 @@ class CommentController extends DefaultController
         }
     }
 
-    public function delete(array $id)
+    public function delete(array $id): void
     {
         $this->auth->check();
         $id = (int)$id['id'];
@@ -126,7 +128,7 @@ class CommentController extends DefaultController
         }
     }
 
-    public function adminDelete(array $id)
+    public function adminDelete(array $id): void
     {
         $this->auth->checkAdmin();
         $id = (int)$id['id'];

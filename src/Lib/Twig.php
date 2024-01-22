@@ -32,7 +32,7 @@ class Twig
         $this->twig->addExtension(new IntlExtension());
     }
 
-    public function getTwig()
+    public function getTwig(): \Twig\Environment
     {
         return $this->twig;
     }

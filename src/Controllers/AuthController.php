@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Repository\UserRepository;
@@ -9,12 +11,12 @@ use App\Lib\Hydrator;
 
 class AuthController extends DefaultController
 {
-    public function loginForm()
+    public function loginForm(): void
     {
         echo $this->twig->getTwig()->render('auth/login.twig');
     }
 
-    public function login()
+    public function login(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'] ?? '';
@@ -33,22 +35,22 @@ class AuthController extends DefaultController
             }
         }
 
-        return $this->loginForm();
+        $this->loginForm();
     }
 
-    public function logout()
+    public function logout(): void
     {
         $this->auth->logout();
 
         HTTPResponse::redirect('/login');
     }
 
-    public function registerForm()
+    public function registerForm(): void
     {
         echo $this->twig->getTwig()->render('auth/signup.twig');
     }
 
-    public function register()
+    public function register(): void
     {
         if (!isset($_POST['name'], $_POST['firstname'], $_POST['nickname'], $_POST['mail'], $_POST['password'])) {
             throw new \Exception('Les données du formulaire sont invalides.');

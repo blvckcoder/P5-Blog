@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Lib\Database;
@@ -16,7 +18,7 @@ class CategoryRepository implements Repository
         $this->connection = $database->getConnection();
     }
     
-    public function create(object $category)
+    public function create(object $category): bool
     {
         if(!$category instanceof Category) {
             return false;
@@ -37,7 +39,7 @@ class CategoryRepository implements Repository
         }
     }
 
-    public function update(object $category)
+    public function update(object $category): bool
     {
         if(!$category instanceof Category) {
             return false;
@@ -59,7 +61,7 @@ class CategoryRepository implements Repository
         }
     }
 
-    public function delete(object $category)
+    public function delete(object $category): bool
     {
         if(!$category instanceof Category) {
             return false;
@@ -78,7 +80,7 @@ class CategoryRepository implements Repository
         }
     }
 
-    public function getPaginated(int $limit, int $offset)
+    public function getPaginated(int $limit, int $offset): array
     {
         $statement = $this->connection->prepare(
             "SELECT id FROM category ORDER BY id LIMIT :limit OFFSET :offset"
@@ -98,7 +100,7 @@ class CategoryRepository implements Repository
         return $categories;
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         $statement = $this->connection->query(
             "SELECT * FROM category "
@@ -116,10 +118,12 @@ class CategoryRepository implements Repository
         return $categories;
     }
 
-    public function getBy(string $value)
-    {}
+    public function getBy(string $value): ?object
+    {
+        return null;
+    }
 
-    public function getById(int $id)
+    public function getById(int $id): ?Category
     {
         $statement = $this->connection->prepare(
         "SELECT * FROM category WHERE id = :id"
@@ -129,11 +133,14 @@ class CategoryRepository implements Repository
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\Category');
         $category = $statement->fetch();
 
-        return $category;
+        if (!$category) {
+            return null;
+        }
 
+        return $category;
     }
     
-    public function count()
+    public function count(): int
     {
         $statement = $this->connection->query("SELECT COUNT(*) FROM category");
         return $statement->fetchColumn();

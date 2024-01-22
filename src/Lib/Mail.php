@@ -10,7 +10,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class Mail
 {
-    public static function send(string $name, string $email, string $subject, string $message)
+    public static function send(string $name, string $email, string $subject, string $message): bool
     {
         $mail = new PHPMailer(True);
 

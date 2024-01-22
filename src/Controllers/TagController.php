@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Entity\Tag;
@@ -10,16 +12,16 @@ use App\Repository\TagRepository;
 
 class TagController extends DefaultController
 {
-    public function displayAdminTags()
+    public function displayAdminTags(): void
     {
         $this->auth->checkAdmin();
-        
+
         $itemsPerPage = 9;
         $currentPage = intval($_GET['page'] ?? 1);
 
         $tagRepository = new TagRepository;
         $totalItems = $tagRepository->count();
-        
+
         $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
 
         $tags = $tagRepository->getPaginated($itemsPerPage, $pagination->getOffset());
@@ -32,13 +34,13 @@ class TagController extends DefaultController
         ]);
     }
 
-    public function createForm()
+    public function createForm(): void
     {
         $this->auth->checkAdmin();
         echo $this->twig->getTwig()->render('backend/forms/addTag.twig');
     }
 
-    public function create(array $params)
+    public function create(array $params): void
     {
         $this->auth->checkAdmin();
         if (!isset($params['post']['name'], $params['post']['description'], $params['post']['slug'])) {
@@ -58,7 +60,7 @@ class TagController extends DefaultController
         }
     }
 
-    public function updateForm(array $id)
+    public function updateForm(array $id): void
     {
         $this->auth->checkAdmin();
         $tagId = (int)$id['id'];
@@ -67,7 +69,7 @@ class TagController extends DefaultController
         $existingTag = $tagRepository->getById($tagId);
 
         if (!$existingTag) {
-            header( $_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
+            header($_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
             echo 'Le tag n\'existe pas 404 not found baby';
         }
 
@@ -77,7 +79,7 @@ class TagController extends DefaultController
     }
 
 
-    public function update(array $id)
+    public function update(array $id): void
     {
         $this->auth->checkAdmin();
         $tagId = (int)$id['id'];
@@ -90,11 +92,11 @@ class TagController extends DefaultController
 
             $tagRepository = new TagRepository();
             $tag = $tagRepository->getById($tagId);
-    
+
             if ($tag) {
                 $tag = Hydrator::hydrate($postData, $tag);
                 $success = $tagRepository->update($tag);
-    
+
                 if (!$success) {
                     throw new \Exception('Impossible de mettre à jour le tag!');
                 } else {
@@ -104,28 +106,27 @@ class TagController extends DefaultController
                 throw new \Exception('Tag non trouvé.');
             }
         }
-        
     }
 
-    public function delete(array $id)
+    public function delete(array $id): void
     {
         $this->auth->checkAdmin();
-        $id = (int)$id['id']; 
+        $id = (int)$id['id'];
 
         $tagRepository = new TagRepository();
 
         $tag = $tagRepository->getById($id);
 
-        if($tag->getId() === $id) {
+        if ($tag !== null && $tag->getId() === $id) {
             $success = $tagRepository->delete($tag);
-        } else {
-            return false;
-        }
 
-        if (!$success) {
-            throw new \Exception('Impossible de supprimer le tag!');
-        } else {
+            if (!$success) {
+                throw new \Exception('Impossible de supprimer le tag!');
+            }
+
             HTTPResponse::redirect('/admin/tags');
+        } else {
+            throw new \Exception('Tag non trouvé ou ID incorrect.');
         }
     }
 }

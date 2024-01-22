@@ -1,21 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 interface Repository
 {
-    public function getAll();
+    public function getAll(): array|object;
 
-    public function getBy(string $value);
+    public function getBy(string $value): ?object;
 
-    public function getById(int $id);
+    public function getById(int $id): ?object;
     
-    public function create(object $entity);
+    public function create(object $entity): bool;
 
-    public function update(object $entity);
+    public function update(object $entity): bool;
 
-    public function delete(object $entity);
+    public function delete(object $entity): bool;
 
-    public function count();
+    public function count(): int;
 
 }

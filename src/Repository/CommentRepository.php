@@ -1,6 +1,6 @@
 <?php
 
-//declare(strict_types=1);
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -18,7 +18,7 @@ class CommentRepository implements Repository
         $this->connection = $database->getConnection();
     }
 
-    public function create(object $comment)
+    public function create(object $comment): bool
     {
         if(!$comment instanceof Comment) {
             return false;
@@ -41,7 +41,7 @@ class CommentRepository implements Repository
 
     }
 
-    public function update(object $comment)
+    public function update(object $comment): bool
     {
         $statement = $this->connection->prepare(
             'UPDATE comment SET userId = ?, content = ? WHERE id = ?'
@@ -56,7 +56,7 @@ class CommentRepository implements Repository
         return ($affectedLines > 0);
     }
 
-    public function delete(object $comment)
+    public function delete(object $comment): bool
     {
         $statement = $this->connection->prepare(
             'DELETE FROM comment WHERE id = :id'
@@ -71,7 +71,7 @@ class CommentRepository implements Repository
         }
     }
 
-    public function getPaginated(string $commentStatus, int $limit, int $offset)
+    public function getPaginated(string $commentStatus, int $limit, int $offset): array
     {
         $statement = $this->connection->prepare(
             "SELECT id FROM comment WHERE commentStatus = :commentStatus ORDER BY createdDate DESC LIMIT :limit OFFSET :offset"
@@ -92,7 +92,8 @@ class CommentRepository implements Repository
         return $comments;
     }
 
-    public function getAll() {
+    public function getAll(): array 
+    {
         $statement = $this->connection->query(
             "SELECT id FROM comment ORDER BY createdDate DESC");
 
@@ -110,7 +111,7 @@ class CommentRepository implements Repository
     }
 
 
-    public function getAllBy(int $postId)
+    public function getAllBy(int $postId): array|false
     {
         $statement = $this->connection->prepare(
             "SELECT * FROM comment WHERE postId = :postId ORDER BY createdDate DESC"
@@ -128,13 +129,14 @@ class CommentRepository implements Repository
         }
 
         return $comments;
-
     } 
 
-    public function getBy(string $value)
-    {}
+    public function getBy(string $value): ?object
+    {
+        return null;
+    }
 
-    public function getById(int $id)
+    public function getById(int $id): ?Comment
     {
         $statement = $this->connection->prepare(
             "SELECT * FROM comment WHERE id = :id"
@@ -144,19 +146,23 @@ class CommentRepository implements Repository
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\Comment');
         $comment = $statement->fetch();
 
+        if (!$comment) {
+            return null;
+        }
+
         $userRepository = new UserRepository();
         $comment->setAuthor($userRepository->getById($comment->getUserId()));
 
         return $comment;
     }
     
-    public function count()
+    public function count(): int
     {
         $statement = $this->connection->query("SELECT COUNT(*) FROM comment");
         return $statement->fetchColumn();
     }
 
-    public function countByPost(int $postId, string $commentStatus)
+    public function countByPost(int $postId, string $commentStatus): int
     {
         $statement = $this->connection->prepare("SELECT COUNT(*) FROM comment WHERE postId = :postId AND commentStatus = :commentStatus");
         $statement->bindValue(':postId', $postId);
@@ -165,7 +171,7 @@ class CommentRepository implements Repository
         return $statement->fetchColumn();
     }
 
-    public function countByStatus(string $commentStatus)
+    public function countByStatus(string $commentStatus): int
     {
         $statement = $this->connection->prepare("SELECT COUNT(*) FROM comment WHERE commentStatus = :commentStatus");
         $statement->bindValue(':commentStatus', $commentStatus);

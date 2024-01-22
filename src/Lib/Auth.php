@@ -29,7 +29,7 @@ class Auth
         return false;
     }
 
-    public function getUserInfo()
+    public function getUserInfo(): ?User
     {
         if(isset($_SESSION['userId']) && !is_null($_SESSION['userId'])) {
             return $this->userRepository->getById($_SESSION['userId']);
@@ -51,7 +51,7 @@ class Auth
         return null;
     }
 
-    public function checkAdmin()
+    public function checkAdmin(): void
     {
         if (!$this->check()) {
             HTTPResponse::redirect('/login');
@@ -62,7 +62,7 @@ class Auth
         }
     }
 
-    public function logout()
+    public function logout(): void
     {
         session_destroy();
     }
