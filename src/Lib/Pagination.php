@@ -34,24 +34,26 @@ class Pagination
 
     public function renderHtml(): string {
         $html = '<div class="row"><div class="col-sm-7 text-center"><ul class="pagination pagination-dark mt-4">';
+        $getTotalPages = $this->getTotalPages();
+        $getCurrentPage = $this->getCurrentPage();
 
         // Bouton Précédent
-        $prevClass = $this->getCurrentPage() <= 1 ? 'disabled' : '';
+        $prevClass = $getCurrentPage<= 1 ? 'disabled' : '';
         $html .= '<li class="page-item ms-auto ' . $prevClass . '">';
-        $html .= '<a class="page-link ' . $prevClass . '" href="?page=' . ($this->getCurrentPage() - 1) . '" aria-label="Previous">';
+        $html .= '<a class="page-link ' . $prevClass . '" href="?page=' . ($getCurrentPage- 1) . '" aria-label="Previous">';
         $html .= '<span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span></a></li>';
 
         // Numéros de Page
-        for ($i = 1; $i <= $this->getTotalPages(); $i++) {
-            $activeClass = $i == $this->getCurrentPage() ? 'active' : '';
+        for ($i = 1; $i <= $getTotalPages; $i++) {
+            $activeClass = $i == $getCurrentPage? 'active' : '';
             $html .= '<li class="page-item ' . $activeClass . '">';
             $html .= '<a class="page-link ' . $activeClass . '" href="?page=' . $i . '">' . $i . '</a></li>';
         }
 
         // Bouton Suivant
-        $nextClass = $this->getCurrentPage() >= $this->getTotalPages() ? 'disabled' : '';
+        $nextClass = $getCurrentPage>= $getTotalPages ? 'disabled' : '';
         $html .= '<li class="page-item ' . $nextClass . '">';
-        $html .= '<a class="page-link ' . $nextClass . '" href="?page=' . ($this->getCurrentPage() + 1) . '" aria-label="Next">';
+        $html .= '<a class="page-link ' . $nextClass . '" href="?page=' . ($getCurrentPage+ 1) . '" aria-label="Next">';
         $html .= '<span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span></a></li>';
 
         $html .= '</ul></div></div>';
