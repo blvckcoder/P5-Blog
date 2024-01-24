@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Lib\Hydrator;
 use App\Entity\Comment;
 use App\Lib\Pagination;
+use App\Lib\HTTPResponse;
 use App\Repository\CommentRepository;
 
 class CommentController extends DefaultController
 {
-    public function displayAdminComments()
+    public function displayAdminComments(): void
     {
         $this->auth->checkAdmin();
 
@@ -35,7 +38,7 @@ class CommentController extends DefaultController
         ]);
     }
 
-    public function displayAdminValidatedComments()
+    public function displayAdminValidatedComments(): void
     {
         $this->auth->checkAdmin();
 
@@ -58,7 +61,7 @@ class CommentController extends DefaultController
         ]);
     }
 
-    public function displayAdminDraftedComments()
+    public function displayAdminDraftedComments(): void
     {
         $this->auth->checkAdmin();
 
@@ -81,7 +84,7 @@ class CommentController extends DefaultController
         ]);
     }
 
-    public function create(array $params)
+    public function create(array $params): void
     {
         $this->auth->check();
         if (!isset($_SESSION['userId'], $params['post']['postId'], $params['post']['content'])) {
@@ -89,6 +92,7 @@ class CommentController extends DefaultController
         }
 
         $params['post']['userId'] = $_SESSION['userId'];
+        $params['post']['postId'] = (int) $params['post']['postId'];
         $comment = new Comment;
         $comment = Hydrator::hydrate($params['post'], $comment);
 
@@ -98,11 +102,11 @@ class CommentController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter le commentaire !');
         } else {
-            header('Location: /post/' . $comment->getPostId());
+            HTTPResponse::redirect('/post/' . $comment->getPostId());
         }
     }
 
-    public function delete(array $id)
+    public function delete(array $id): void
     {
         $this->auth->check();
         $id = (int)$id['id'];
@@ -120,12 +124,11 @@ class CommentController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible de supprimer le commentaire !');
         } else {
-            header('Location: /post/' . $comment->getPostId());
-            exit;
+            HTTPResponse::redirect('/post/' . $comment->getPostId());
         }
     }
 
-    public function adminDelete(array $id)
+    public function adminDelete(array $id): void
     {
         $this->auth->checkAdmin();
         $id = (int)$id['id'];
@@ -138,7 +141,7 @@ class CommentController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter le commentaire !');
         } else {
-            header('Location: /admin/comments');
+            HTTPResponse::redirect('/admin/comments');
         }
     }
 }

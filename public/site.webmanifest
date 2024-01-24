@@ -1,0 +1,26 @@
+
+{
+    "lang": "fr-FR",
+
+    "name": "Blog de Blvckcoder",
+
+    "short_name": "Blog P5",
+
+    "description": "Blog du web developer Blvckcoder",
+
+    "start_url": "https://blvckcoder.com",
+
+    "scope": "/app/",
+
+    "orientation": "landscape",
+
+    "display": "fullscreen",
+
+    "background_color": "#212121",
+
+    "theme_color": "rgb(29, 164, 14)",
+
+    "icons": [
+        { "src": "../public/assets/img/apple-icon.png", "sizes": "48x48", "type": "image/png" }
+    ]
+}

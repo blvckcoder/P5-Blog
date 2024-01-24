@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Lib\Auth;
 use App\Lib\Twig;
+use App\Lib\HTTPResponse;
 use App\Repository\UserRepository;
 
 class DefaultController 

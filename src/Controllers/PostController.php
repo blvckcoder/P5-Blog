@@ -1,16 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Entity\Post;
 use App\Lib\Hydrator;
 use App\Lib\Pagination;
+use App\Lib\HTTPResponse;
 use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
+use Exception;
 
 class PostController extends DefaultController
 {
-    public function index()
+    public function index(): void
     {
         $postRepository = new PostRepository();
         $posts = $postRepository->getLast();
@@ -20,7 +24,7 @@ class PostController extends DefaultController
         ]);
     }
 
-    public function displayPosts()
+    public function displayPosts(): void
     {
         $postStatus = "published";
         $itemsPerPage = 9;
@@ -28,7 +32,7 @@ class PostController extends DefaultController
 
         $postRepository = new PostRepository();
         $totalItems = $postRepository->count();
-        
+
         $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
 
         $posts = $postRepository->getPaginated($postStatus, $itemsPerPage, $pagination->getOffset());
@@ -41,9 +45,9 @@ class PostController extends DefaultController
         ]);
     }
 
-    public function displayPost(array $params)
+    public function displayPost(array $params): void
     {
-        $postId = $params['id'];
+        $postId = (int) $params['id'];
 
         $postRepository = new PostRepository();
         $post = $postRepository->getById($postId);
@@ -60,7 +64,7 @@ class PostController extends DefaultController
         ]);
     }
 
-    public function displayAdminPosts()
+    public function displayAdminPosts(): void
     {
         $this->auth->checkAdmin();
 
@@ -79,7 +83,7 @@ class PostController extends DefaultController
         ]);
     }
 
-    public function displayAdminValidatedPosts()
+    public function displayAdminValidatedPosts(): void
     {
         $this->auth->checkAdmin();
 
@@ -89,7 +93,7 @@ class PostController extends DefaultController
 
         $postRepository = new PostRepository();
         $totalItems = $postRepository->count();
-        
+
         $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
 
         $posts = $postRepository->getPaginated($postStatus, $itemsPerPage, $pagination->getOffset());
@@ -102,7 +106,7 @@ class PostController extends DefaultController
         ]);
     }
 
-    public function displayAdminDraftedPosts()
+    public function displayAdminDraftedPosts(): void
     {
         $this->auth->checkAdmin();
 
@@ -112,7 +116,7 @@ class PostController extends DefaultController
 
         $postRepository = new PostRepository();
         $totalItems = $postRepository->count();
-        
+
         $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
 
         $posts = $postRepository->getPaginated($postStatus, $itemsPerPage, $pagination->getOffset());
@@ -125,20 +129,20 @@ class PostController extends DefaultController
         ]);
     }
 
-    public function createForm()
+    public function createForm(): void
     {
         $this->auth->checkAdmin();
         echo $this->twig->getTwig()->render('backend/forms/addPost.twig');
     }
 
-    public function create(array $postData)
+    public function create(array $postData): void
     {
         $this->auth->checkAdmin();
         $postData = $_POST;
         $postData['userId'] = $_SESSION['userId'];
 
         if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'], $postData['postStatus'])) {
-            throw new \Exception('Les données du formulaire sont invalides.');
+            throw new \Exception('Les données de création d\'article sont invalides.');
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -172,11 +176,11 @@ class PostController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter l\'article !');
         } else {
-            header('Location: /admin/posts');
+            HTTPResponse::redirect('/admin/posts');
         }
     }
 
-    public function updateForm(array $id)
+    public function updateForm(array $id): void
     {
         $this->auth->checkAdmin();
         $postId = (int)$id['id'];
@@ -187,7 +191,6 @@ class PostController extends DefaultController
         if (!$existingPost) {
             header($_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
             echo 'Le post n\'existe pas 404 not found baby';
-            die();
         }
 
         echo $this->twig->getTwig()->render('backend/forms/editPost.twig', [
@@ -195,7 +198,7 @@ class PostController extends DefaultController
         ]);
     }
 
-    public function update(array $id)
+    public function update(array $id): void
     {
         $this->auth->checkAdmin();
         $postId = (int)$id['id'];
@@ -204,7 +207,7 @@ class PostController extends DefaultController
         $postData['userId'] = $_SESSION['userId'];
 
         if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'])) {
-            throw new \Exception('Les données du formulaire sont invalides.');
+            throw new \Exception('Les données de modification d\'article sont invalides.');
         }
 
 
@@ -239,7 +242,7 @@ class PostController extends DefaultController
                 if (!$success) {
                     throw new \Exception('Impossible de mettre à jour le post!');
                 } else {
-                    header('Location: /admin/posts');
+                    HTTPResponse::redirect('/admin/posts');
                 }
             } else {
                 throw new \Exception('Post non trouvé.');
@@ -247,7 +250,7 @@ class PostController extends DefaultController
         }
     }
 
-    public function delete(array $id)
+    public function delete(array $id): void
     {
         $this->auth->checkAdmin();
         $id = (int)$id['id'];
@@ -257,20 +260,20 @@ class PostController extends DefaultController
 
         $post = $postRepository->getById($id);
 
-        if ($post->getId() === $id) {
+        if ($post !== null && $post->getId() === $id) {
             $comments = $commentRepository->getAllBy($id);
             foreach ($comments as $comment) {
                 $commentRepository->delete($comment);
             }
             $success = $postRepository->delete($post);
-        } else {
-            return false;
-        }
 
-        if (!$success) {
-            throw new \Exception('Impossible de supprimer l\'article !');
+            if (!$success) {
+                throw new \Exception('Impossible de supprimer l\'article !');
+            }
+
+            HTTPResponse::redirect('/admin/posts');
         } else {
-            header('Location: /admin/posts');
+            throw new \Exception('Le post n\'a pas été trouvé ou l\'ID est incorrect');
         }
     }
 }

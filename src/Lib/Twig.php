@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Lib;
 
 use App\Lib\Auth;
@@ -20,9 +22,9 @@ class Twig
         ]);
 
         $this->twig->addGlobal('isLoggedIn', isset($_SESSION['userId']) && $_SESSION['userId']);
-        $this->twig->addGlobal('userId', $auth->getUserInfo() != null ? $auth->getUserInfo()->getId() : null);
-        $this->twig->addGlobal('nickname', $auth->getUserInfo() != null ? $auth->getUserInfo()->getNickname() : 'Invité');
-        $this->twig->addGlobal('picture', $auth->getUserInfo() != null ? $auth->getUserInfo()->getPicture() : 'avatar.jpg');
+        $this->twig->addGlobal('userId', $auth->getUserInfo() !== null ? $auth->getUserInfo()->getId() : null);
+        $this->twig->addGlobal('nickname', $auth->getUserInfo() !== null ? $auth->getUserInfo()->getNickname() : 'Invité');
+        $this->twig->addGlobal('picture', $auth->getUserInfo() !== null ? $auth->getUserInfo()->getPicture() : 'avatar.jpg');
 
 
         $this->twig->addExtension(new \Twig\Extension\DebugExtension());
@@ -30,8 +32,9 @@ class Twig
         $this->twig->addExtension(new IntlExtension());
     }
 
-    public function getTwig()
+    public function getTwig(): \Twig\Environment
     {
         return $this->twig;
     }
 }
+

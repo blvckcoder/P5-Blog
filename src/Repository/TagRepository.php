@@ -1,24 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Lib\Database;
 use App\Entity\Tag;
 use \PDO;
 
-class TagRepository implements Repository
+class TagRepository implements RepositoryInterface
 {
     public ?\PDO $connection;
 
-    public function __construct() 
+    public function __construct()
     {
         $database = new Database();
         $this->connection = $database->getConnection();
     }
-    
-    public function create(object $tag)
+
+    public function create(object $tag): bool
     {
-        if(!$tag instanceof Tag) {
+        if (!$tag instanceof Tag) {
             return false;
         }
 
@@ -37,9 +39,9 @@ class TagRepository implements Repository
         }
     }
 
-    public function update(object $tag)
+    public function update(object $tag): bool
     {
-        if(!$tag instanceof Tag) {
+        if (!$tag instanceof Tag) {
             return false;
         }
 
@@ -59,9 +61,9 @@ class TagRepository implements Repository
         }
     }
 
-    public function delete(object $tag)
+    public function delete(object $tag): bool
     {
-        if(!$tag instanceof Tag) {
+        if (!$tag instanceof Tag) {
             return false;
         }
 
@@ -78,7 +80,7 @@ class TagRepository implements Repository
         }
     }
 
-    public function getPaginated(int $limit, int $offset)
+    public function getPaginated(int $limit, int $offset): array
     {
         $statement = $this->connection->prepare(
             "SELECT id FROM tag ORDER BY id LIMIT :limit OFFSET :offset"
@@ -98,7 +100,7 @@ class TagRepository implements Repository
         return $tags;
     }
 
-    public function getAll()
+    public function getAll(): array
     {
         $statement = $this->connection->query(
             "SELECT id FROM tag ORDER BY id"
@@ -116,7 +118,7 @@ class TagRepository implements Repository
         return $tags;
     }
 
-    public function getById(int $id)
+    public function getById(int $id): ?Tag
     {
         $statement = $this->connection->prepare(
             "SELECT * FROM tag WHERE id = :id"
@@ -126,15 +128,22 @@ class TagRepository implements Repository
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\Tag');
         $tag = $statement->fetch();
 
+        if (!$tag) {
+            return null;
+        }
+
         return $tag;
     }
 
-    public function getBy(string $value)
-    {}
-    
-    public function count()
+    public function getBy(string $value): ?object
+    {
+        return null;
+    }
+
+    public function count(): int
     {
         $statement = $this->connection->query("SELECT COUNT(*) FROM tag");
         return $statement->fetchColumn();
     }
 }
+

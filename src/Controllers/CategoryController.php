@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Lib\Hydrator;
 use App\Lib\Pagination;
 use App\Entity\Category;
+use App\Lib\HTTPResponse;
 use App\Repository\CategoryRepository;
 
 class CategoryController extends DefaultController
 {
-    public function displayAdminCategories()
+    public function displayAdminCategories(): void
     {
         $this->auth->checkAdmin();
 
@@ -18,7 +21,7 @@ class CategoryController extends DefaultController
 
         $categoryRepository = new CategoryRepository();
         $totalItems = $categoryRepository->count();
-        
+
         $pagination = new Pagination($totalItems, $itemsPerPage, $currentPage);
 
         $categories = $categoryRepository->getPaginated($itemsPerPage, $pagination->getOffset());
@@ -29,16 +32,15 @@ class CategoryController extends DefaultController
             'categories' => $categories,
             'pagination' => $paginationHtml
         ]);
-
     }
 
-    public function createForm()
+    public function createForm(): void
     {
         $this->auth->checkAdmin();
         echo $this->twig->getTwig()->render('backend/forms/addCategory.twig');
     }
 
-    public function create(array $params)
+    public function create(array $params): void
     {
         $this->auth->checkAdmin();
         if (!isset($params['post']['name'], $params['post']['description'], $params['post']['slug'])) {
@@ -54,11 +56,11 @@ class CategoryController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter la catégorie !');
         } else {
-            header('Location: /admin/categories');
+            HTTPResponse::redirect('/admin/categories');
         }
     }
 
-    public function updateForm(array $id)
+    public function updateForm(array $id): void
     {
         $this->auth->checkAdmin();
         $categoryId = (int)$id['id'];
@@ -67,9 +69,8 @@ class CategoryController extends DefaultController
         $existingCategory = $categoryRepository->getById($categoryId);
 
         if (!$existingCategory) {
-            header( $_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
+            header($_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
             echo 'La catégorie n\'existe pas 404 not found baby';
-            die();
         }
 
         echo $this->twig->getTwig()->render('backend/forms/editCategory.twig', [
@@ -78,7 +79,7 @@ class CategoryController extends DefaultController
     }
 
 
-    public function update(array $id)
+    public function update(array $id): void
     {
         $this->auth->checkAdmin();
         $categoryId = (int)$id['id'];
@@ -91,44 +92,42 @@ class CategoryController extends DefaultController
 
             $categoryRepository = new CategoryRepository();
             $category = $categoryRepository->getById($categoryId);
-    
+
             if ($category) {
                 $category = Hydrator::hydrate($postData, $category);
                 $success = $categoryRepository->update($category);
-    
+
                 if (!$success) {
                     throw new \Exception('Impossible de mettre à jour la Catégorie!');
                 } else {
-                    header('Location: /admin/categories');
+                    HTTPResponse::redirect('/admin/categories');
                 }
             } else {
                 throw new \Exception('Catégorie non trouvé.');
             }
         }
-        
     }
 
 
-    public function delete(array $id)
+    public function delete(array $id): void
     {
         $this->auth->checkAdmin();
-        $id = (int)$id['id']; 
+        $id = (int)$id['id'];
 
         $categoryRepository = new CategoryRepository();
 
         $category = $categoryRepository->getById($id);
 
-        if($category->getId() === $id) {
+        if ($category !== null && $category->getId() === $id) {
             $success = $categoryRepository->delete($category);
-        } else {
-            return false;
-        }
 
-        if (!$success) {
-            throw new \Exception('Impossible de supprimer la categorie!');
+            if (!$success) {
+                throw new \Exception('Impossible de supprimer la categorie!');
+            }
+
+            HTTPResponse::redirect('/admin/categories');
         } else {
-            header('Location: /admin/categories');
+            throw new \Exception('Categorie non trouvée ou ID incorrect.');
         }
     }
-
 }

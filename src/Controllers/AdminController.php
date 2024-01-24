@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Repository\UserRepository;
@@ -13,7 +15,7 @@ class AdminController extends DefaultController
     }
 
 
-    public function index()
+    public function index(): void
     {
         $user = $this->auth->getUserInfo();
 

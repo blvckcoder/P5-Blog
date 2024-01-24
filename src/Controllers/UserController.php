@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Entity\User;
 use App\Lib\Hydrator;
 use App\Lib\Pagination;
+use App\Lib\HTTPResponse;
 use App\Repository\UserRepository;
 
 class UserController extends DefaultController
 {
-    public function displayAdminUsers()
+    public function displayAdminUsers(): void
     {
         $this->auth->checkAdmin();
         
@@ -31,13 +34,13 @@ class UserController extends DefaultController
         ]);
     }
 
-    public function createForm()
+    public function createForm(): void
     {
         $this->auth->checkAdmin();
         echo $this->twig->getTwig()->render('backend/forms/addUser.twig');
     }
 
-    public function create(array $params)
+    public function create(array $params): void
     {
         $this->auth->checkAdmin();
         if (!isset($params['post']['name'], $params['post']['firstname'], $params['post']['nickname'], $params['post']['biography'], $params['post']['picture'], $params['post']['mail'], $params['post']['password'], $params['post']['role'], $params['post']['status'])) {
@@ -73,11 +76,11 @@ class UserController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter l\'utilisateur !');
         } else {
-            header('Location: /admin/users');
+            HTTPResponse::redirect('/admin/users');
         }
     }
 
-    public function updateForm(array $id)
+    public function updateForm(array $id): void
     {
         $this->auth->checkAdmin();
         $userId = (int)$id['id'];
@@ -88,7 +91,6 @@ class UserController extends DefaultController
         if (!$existingUser) {
             header($_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
             echo 'L\'utilisateur n\'existe pas 404 not found baby';
-            die();
         }
 
         echo $this->twig->getTwig()->render('backend/forms/editUser.twig', [
@@ -97,7 +99,7 @@ class UserController extends DefaultController
     }
 
 
-    public function update(array $id)
+    public function update(array $id): void
     {
         $this->auth->checkAdmin();
         $userId = (int)$id['id'];
@@ -139,7 +141,7 @@ class UserController extends DefaultController
                 if (!$success) {
                     throw new \Exception('Impossible de mettre à jour l\'utilisateur!');
                 } else {
-                    header('Location: /admin/users');
+                    HTTPResponse::redirect('/admin/users');
                 }
             } else {
                 throw new \Exception('Utilisateur non trouvé.');
@@ -148,7 +150,7 @@ class UserController extends DefaultController
     }
 
 
-    public function delete(array $id)
+    public function delete(array $id): void
     {
         $this->auth->checkAdmin();
         $id = (int)$id['id'];
@@ -157,11 +159,10 @@ class UserController extends DefaultController
         $user = $userRepository->getById($id);
         $success = $userRepository->delete($user);
 
-        // Redirection après le succès
         if (!$success) {
             throw new \Exception('Impossible de supprimer l\'utilisateur !');
         } else {
-            header('Location: /admin/users');
+            HTTPResponse::redirect('/admin/users');
         }
     }
 }

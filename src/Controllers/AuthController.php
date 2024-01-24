@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Repository\UserRepository;
 use App\Entity\User;
+use App\Lib\HTTPResponse;
 use App\Lib\Hydrator;
 
 class AuthController extends DefaultController
 {
-    public function loginForm()
+    public function loginForm(): void
     {
         echo $this->twig->getTwig()->render('auth/login.twig');
     }
 
-    public function login()
+    public function login(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'] ?? '';
@@ -23,38 +26,32 @@ class AuthController extends DefaultController
                 $user = $this->auth->user();
 
                 if ($user->getRole() === 'admin') {
-                    var_dump($user->getRole());
-
-                    header('Location: /admin');
+                    HTTPResponse::redirect('/admin');
                 } else {
-                    header('Location: /');
+                    HTTPResponse::redirect('/');
                 }
-                exit;
             } else {
                 throw new \Exception('Identifiants incorrects. Veuillez réessayer.');
             }
         }
 
-        return $this->loginForm();
+        $this->loginForm();
     }
 
-    public function logout()
+    public function logout(): void
     {
         $this->auth->logout();
 
-        header('Location: /login');
-        exit;
+        HTTPResponse::redirect('/login');
     }
 
-    public function registerForm()
+    public function registerForm(): void
     {
         echo $this->twig->getTwig()->render('auth/signup.twig');
     }
 
-    public function register()
+    public function register(): void
     {
-        /* var_dump($_POST['name']);
-        die;  */
         if (!isset($_POST['name'], $_POST['firstname'], $_POST['nickname'], $_POST['mail'], $_POST['password'])) {
             throw new \Exception('Les données du formulaire sont invalides.');
         } else {
@@ -76,8 +73,7 @@ class AuthController extends DefaultController
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter l\'utilisateur !');
         } else {
-            //if admin → backend, if user → home
-            header('Location: /admin/users');
+            HTTPResponse::redirect('/admin/users');
         }
     }
 }

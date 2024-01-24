@@ -1,0 +1,8 @@
+# Autoriser tous les robots à accéder à tout
+User-agent: *
+
+# Empêcher les robots d'accéder à un répertoire spécifique
+Disallow: /vendor/
+
+# Sitemap 
+Sitemap: https://p5.blvckcoder.com/sitemap.xml

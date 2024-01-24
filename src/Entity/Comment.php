@@ -1,6 +1,6 @@
 <?php
 
-//declare(strict_types=1);
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -9,7 +9,7 @@ class Comment
 {
     private int $id;
     private int $userId;
-    private object $author;
+    private User $author;
     private string $content;
     private string $createdDate;
     private string $commentStatus = "blocked";
@@ -21,7 +21,7 @@ class Comment
         return $this->id;
     }
 
-    public function setId(int $id): object
+    public function setId(int $id): self
     {
         $this->id = $id;
         return $this;
@@ -33,19 +33,19 @@ class Comment
         return $this->userId;
     }
 
-    public function setUserId(int $userId): object
+    public function setUserId(int $userId): self
     {
         $this->userId = $userId;
         return $this;
     }
 
     //AUTHOR
-    public function getAuthor(): object
+    public function getAuthor(): User
     {
         return $this->author;
     }
 
-    public function setAuthor(object $author): object
+    public function setAuthor(User $author): self
     {
         $this->author = $author;
         return $this;
@@ -57,7 +57,7 @@ class Comment
         return $this->content;
     }
 
-    public function setContent(string $content): object
+    public function setContent(string $content): self
     {
         $this->content = $content;
         return $this;
@@ -69,7 +69,7 @@ class Comment
         return $this->createdDate;
     }
 
-    public function setCreatedDate(string $createdDate): object
+    public function setCreatedDate(string $createdDate): self
     {
         $this->createdDate = $createdDate;
         return $this;
@@ -81,7 +81,7 @@ class Comment
         return $this->commentStatus;
     }
 
-    public function setcommentStatus(string $commentStatus): object
+    public function setcommentStatus(string $commentStatus): self
     {
         $this->commentStatus = $commentStatus;
         return $this;
@@ -93,7 +93,7 @@ class Comment
         return $this->postId;
     }
 
-    public function setPostId(int $postId): object
+    public function setPostId(int $postId): self
     {
         $this->postId = $postId;
         return $this;

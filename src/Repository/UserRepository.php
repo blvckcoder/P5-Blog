@@ -1,4 +1,6 @@
-<?php 
+<?php
+
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -6,7 +8,8 @@ use App\Lib\Database;
 use App\Entity\User;
 use PDO;
 
-class UserRepository implements Repository {
+class UserRepository implements RepositoryInterface
+{
 
     public ?PDO $connection;
 
@@ -16,9 +19,9 @@ class UserRepository implements Repository {
         $this->connection = $database->getConnection();
     }
 
-    public function create(object $user)
+    public function create(object $user): bool
     {
-        if(!$user instanceof User) {
+        if (!$user instanceof User) {
             return false;
         }
 
@@ -43,9 +46,9 @@ class UserRepository implements Repository {
         }
     }
 
-    public function update(object $user)
+    public function update(object $user): bool
     {
-        if(!$user instanceof User) {
+        if (!$user instanceof User) {
             return false;
         }
 
@@ -71,7 +74,7 @@ class UserRepository implements Repository {
         }
     }
 
-    public function delete(object $user)
+    public function delete(object $user): bool
     {
         $statement = $this->connection->prepare(
             'DELETE FROM user WHERE id = :id'
@@ -86,7 +89,7 @@ class UserRepository implements Repository {
         }
     }
 
-    public function getPaginated(int $limit, int $offset)
+    public function getPaginated(int $limit, int $offset): array
     {
         $statement = $this->connection->prepare(
             "SELECT id FROM user ORDER BY id LIMIT :limit OFFSET :offset"
@@ -106,7 +109,7 @@ class UserRepository implements Repository {
         return $users;
     }
 
-    public function getAll()
+    public function getAll(): array|object
     {
         $statement = $this->connection->query(
             "SELECT * FROM user ORDER BY id"
@@ -119,33 +122,41 @@ class UserRepository implements Repository {
         return $user;
     }
 
-    public function getBy(string $email)
+    public function getBy(string $email): ?User
     {
         $statement = $this->connection->prepare(
-            "SELECT * FROM user WHERE mail = :mail");
+            "SELECT * FROM user WHERE mail = :mail"
+        );
 
         $statement->bindValue(':mail', $email);
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\User');
 
-        return $statement->fetch();    
+        return $statement->fetch();
     }
 
-    public function getById(int $id)
+    public function getById(int $id): ?User
     {
         $statement = $this->connection->prepare(
-            "SELECT * FROM user WHERE id = :id");
+            "SELECT * FROM user WHERE id = :id"
+        );
 
         $statement->bindValue(':id', (int)$id);
         $statement->execute();
         $statement->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\User');
+        $user = $statement->fetch();
 
-        return $statement->fetch();
+        if (!$user) {
+            return null;
+        }
+
+        return $user;
     }
-    
-    public function count()
+
+    public function count(): int
     {
         $statement = $this->connection->query("SELECT COUNT(*) FROM user");
         return $statement->fetchColumn();
     }
 }
+

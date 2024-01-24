@@ -1,14 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
+use App\Lib\HTTPResponse;
 use App\Lib\Mail;
 use PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 class ContactController
 {
-    public function handleForm()
+    public function handleForm(): void
     {
         $name = $_POST['name'];
         $subject = $_POST['subject'];
@@ -16,9 +19,9 @@ class ContactController
         $message = $_POST['message'];
 
         if (Mail::send($name, $email, $subject, $message)) {
-            header("Location: /");
+            HTTPResponse::redirect('/');
         } else {
-            echo 'echec';
+            throw new \Exception('Impossible d\'envoyer le mail!');
         }
     }
 }
