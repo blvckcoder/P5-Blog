@@ -1,0 +1,75 @@
+{% extends 'backend/layout.html.twig' %}
+
+{% block title %}
+<title>Admin Modifier Commentaire</title>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-2 px-md-4">
+  <div class="page-header min-height-300 border-radius-xl mt-4"
+    style="background-image: url('https://images.unsplash.com/photo-1531512073830-ba890ca4eba2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');">
+    <span class="mask  bg-gradient-info opacity-6"></span>
+  </div>
+  <div class="card card-body mx-3 mx-md-4 mt-n6">
+    <div class="row gx-4 mb-2">
+
+      <h4 class="text-center mb-4 mt-5">Modifier un Commentaire</h4>
+      <div class="d-flex">
+        <div class="ms-3 w-100">
+          <form action="/admin/commentupdate/{{comment.id}}" method="post">
+
+            <div class="row">
+              <div class="col-4">
+                <p>
+                  <strong class="text-dark">Auteur:</strong>
+                  {{comment.author.nickname}}
+                </p>
+              </div>
+              <div class="col-4">
+                <p>
+                  <strong class="text-dark">Créé le:</strong>
+                  {{comment.createdDate | format_datetime('medium', 'short', locale='fr')}}
+                </p>
+              </div>
+              <div class="col-4">
+                <p>
+                  <strong class="text-dark">Article:</strong>
+                  {{comment.post.title}}
+                </p>
+              </div>
+            </div>
+
+            <div class="row">
+              <p>
+                <strong class="text-dark">Commentaire:</strong>
+                {{comment.content}}
+              </p>
+            </div>
+
+            <div class="input-group input-group-static my-2">
+              <label for="commentStatus" class="ms-0">Status</label>
+              <select class="form-control" id="commentStatus" name="commentStatus">
+                <option value="published" {% if comment.commentStatus == 'published' %}selected{% endif %}>Publier</option>
+                <option value="blocked" {% if comment.commentStatus == 'blocked' %}selected{% endif %}>En attente
+                </option>
+              </select>
+            </div>
+
+
+            <div>
+              <button type="submit" class="btn bg-gradient-dark pull-end mt-4">
+                <i class="fa fa-send me-2"></i> Enregistrer
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div> 
+    </div>
+
+  </div>
+</div>
+
+
+
+{% endblock %}
