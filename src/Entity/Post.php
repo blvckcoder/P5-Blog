@@ -19,8 +19,9 @@ class Post
     private ?string $updateDate = null;
     private string $postStatus = "draft";
     private array $comment;
+    private array $category;
+    private array $tag;
 
-    // category, slug, comment, tag
 
     //ID
     public function getId(): int
@@ -155,7 +156,7 @@ class Post
         return $this;
     }
 
-    //USER
+    //COMMENT
     public function getComment(): array
     {
         return $this->comment;
@@ -164,6 +165,30 @@ class Post
     public function setComment(array $comment): self
     {
         $this->comment = $comment;
+        return $this;
+    }
+
+    //CATEGORY
+    public function getCategory(): array
+    {
+        return $this->category;
+    }
+
+    public function setCategory(array $categoryId): self
+    {
+        $this->category = $categoryId;
+        return $this;
+    }
+
+    //TAG
+    public function getTag(): array
+    {
+        return $this->tag;
+    }
+
+    public function setTag(array $tagId): self
+    {
+        $this->tag = $tagId;
         return $this;
     }
 }

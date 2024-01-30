@@ -13,6 +13,8 @@ class PostRepository implements RepositoryInterface
 {
     public ?\PDO $connection;
 
+    private ?int $lastInsertId = null;
+
     public function __construct()
     {
         $database = new Database();
@@ -102,7 +104,13 @@ class PostRepository implements RepositoryInterface
         $commentRepository = new CommentRepository;
         $comments = $commentRepository->getAllBy($post->getId());
         $post->setComment($comments);
+
         //categoryRepository
+        $categoryRepository = new CategoryRepository;
+        $categories = $categoryRepository->getForPost($post->getId());
+        $post->setCategory($categories);
+        //var_dump($post); die;
+
         //tagRepository
 
 
@@ -130,6 +138,7 @@ class PostRepository implements RepositoryInterface
         if (!$statement->execute()) {
             throw new \RuntimeException('Erreur lors de l\'insertion du post.');
         } else {
+            $this->lastInsertId = (int)$this->connection->lastInsertId();
             return true;
         }
     }
@@ -178,5 +187,36 @@ class PostRepository implements RepositoryInterface
     {
         $statement = $this->connection->query("SELECT COUNT(*) FROM post");
         return $statement->fetchColumn();
+    }
+
+    public function getLastInsertId(): int
+    {
+        return $this->lastInsertId;
+    }
+
+    public function addCategoryToPost(int $postId, int $categoryId): void
+    {
+        $statement = $this->connection->prepare(
+            'INSERT INTO post_has_category (postId, categoryId) VALUES (:postId, :categoryId)'
+        );
+
+        $statement->bindValue(':postId', $postId, PDO::PARAM_INT);
+        $statement->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
+
+        if (!$statement->execute()) {
+            throw new \RuntimeException('Erreur lors de l\'association de la catégorie au post.');
+        }
+    }
+
+    public function removeCategoryToPost(int $postId, int $categoryId): bool
+    {
+        $statement = $this->connection->prepare(
+            'DELETE FROM post_has_category WHERE postId = :postId AND categoryId = :categoryId'
+        );
+
+        $statement->bindValue(':postId', $postId, PDO::PARAM_INT);
+        $statement->bindValue(':categoryId', $categoryId, PDO::PARAM_INT);
+
+        return $statement->execute();
     }
 }

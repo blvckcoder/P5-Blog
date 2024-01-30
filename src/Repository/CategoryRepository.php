@@ -140,10 +140,26 @@ class CategoryRepository implements RepositoryInterface
         return $category;
     }
 
+    public function getForPost(int $postId): array
+    {
+        $statement = $this->connection->prepare(
+            "SELECT categoryId FROM post_has_category WHERE postId = :postId"
+        );
+        $statement->bindValue(':postId', $postId, PDO::PARAM_INT);
+        $statement->execute();
+        $categoryIds = $statement->fetchAll(PDO::FETCH_COLUMN);
+
+        $categories = [];
+        foreach ($categoryIds as $categoryId) {
+            $categories[] = $this->getById((int)$categoryId);
+        }
+
+        return $categories;
+    }
+
     public function count(): int
     {
         $statement = $this->connection->query("SELECT COUNT(*) FROM category");
         return $statement->fetchColumn();
     }
 }
-

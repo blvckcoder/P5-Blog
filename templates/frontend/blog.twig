@@ -32,8 +32,13 @@
                         </a>
                     </div>
                     <div class="card-body pt-2">
-                        <span
-                            class="text-gradient text-warning text-uppercase text-xs font-weight-bold my-2">{{ post.category.name|default('Non classé') }}</span>
+                        {% if post.category|length > 0 %}
+                            {% for category in post.category %}
+                                <span class="text-gradient text-warning text-uppercase text-xs font-weight-bold my-2">{{ category.name }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="text-gradient text-warning text-uppercase text-xs font-weight-bold my-2">Non classé</span>
+                        {% endif %}
                         <a href="post/{{ post.id }}" class="h5 d-block text-dark">
                             {{ post.title | u.truncate(40, '...') }}
                         </a>
@@ -65,7 +70,7 @@
 
         </div>
 
-         {{ pagination|raw }}
+        {{ pagination|raw }}
 
     </div>
 
