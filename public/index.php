@@ -56,13 +56,6 @@ $router->map('POST', '/admin/categorycreate', 'App\Controllers\CategoryControlle
 $router->map('GET', '/admin/categoryupdate/[i:id]', 'App\Controllers\CategoryController#updateForm', 'UpdateCategoryForm'); 
 $router->map('POST', '/admin/categoryupdate/[i:id]', 'App\Controllers\CategoryController#update', 'UpdateCategory'); 
 $router->map('GET', '/admin/categorydelete/[i:id]', 'App\Controllers\CategoryController#delete', 'DeleteCategory'); 
-//tags
-$router->map('GET', '/admin/tags', 'App\Controllers\TagController#displayAdminTags', 'AdminTags'); 
-$router->map('GET', '/admin/tagcreate', 'App\Controllers\TagController#createForm', 'CreateTagForm'); 
-$router->map('POST', '/admin/tagcreate', 'App\Controllers\TagController#create', 'CreateTag'); 
-$router->map('GET', '/admin/tagupdate/[i:id]', 'App\Controllers\TagController#updateForm', 'UpdateTagForm'); 
-$router->map('POST', '/admin/tagupdate/[i:id]', 'App\Controllers\TagController#update', 'UpdateTag'); 
-$router->map('GET', '/admin/tagdelete/[i:id]', 'App\Controllers\TagController#delete', 'DeleteTag'); 
 
 $match = $router->match();
 
