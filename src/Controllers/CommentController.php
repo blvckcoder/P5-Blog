@@ -144,4 +144,53 @@ class CommentController extends DefaultController
             HTTPResponse::redirect('/admin/comments');
         }
     }
+
+    public function adminUpdateForm(array $id): void
+    {
+        $this->auth->checkAdmin();
+        $commentId = (int)$id['id'];
+
+        $commentRepository = new CommentRepository();
+        $existingComment = $commentRepository->getById($commentId);
+
+        if(!$existingComment) {
+            header($_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
+            echo 'Le commentaire n\'existe pas 404 not found';
+        }
+
+        echo $this->twig->getTwig()->render('backend/forms/editComment.twig', [
+            'comment' => $existingComment
+        ]);
+    }
+
+    public function adminUpdate(array $id): void
+    {
+        $this->auth->checkAdmin();
+        $commentId = (int)$id['id'];
+        $commentData = $_POST;
+
+
+        if (!isset($commentId, $commentData['commentStatus'])) {
+            throw new \Exception('Les données sont invalides.');
+        }
+
+        
+
+        $commentRepository = new CommentRepository();
+        $comment = $commentRepository->getById($commentId);
+        
+        if($comment) {
+            $comment = Hydrator::hydrate($commentData, $comment);
+            $success = $commentRepository->update($comment);
+
+            if (!$success) {
+                throw new \Exception('Impossible de modifier le commentaire !');
+            } else {
+                HTTPResponse::redirect('/admin/comments');
+            }
+        } else {
+            throw new \Exception('Commentaire non trouvé.');
+        }
+
+    }
 }

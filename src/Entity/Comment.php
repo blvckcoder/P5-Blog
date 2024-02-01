@@ -14,6 +14,7 @@ class Comment
     private string $createdDate;
     private string $commentStatus = "blocked";
     private int $postId;
+    private Post $post;
 
     //ID
     public function getId(): int
@@ -96,6 +97,17 @@ class Comment
     public function setPostId(int $postId): self
     {
         $this->postId = $postId;
+        return $this;
+    }
+
+    public function getPost(): Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(Post $post): self
+    {
+        $this->post = $post;
         return $this;
     }
 }

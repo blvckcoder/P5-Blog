@@ -61,22 +61,10 @@
                     <div class="row">
                         <div class="col-md-6 my-auto">
                             <div>
-                                <span class="badge badge-sm bg-gradient-primary">Photography</span>
-                                <span class="badge badge-sm bg-gradient-primary">Stories</span>
-                                <span class="badge badge-sm bg-gradient-primary">Castle</span>
+                                {% for category in post.category %}
+                                <span class="badge badge-sm bg-gradient-primary">{{ category.name }}</span>
+                                {% endfor %}
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <a href="javascript:;" class="btn btn-pinterest btn-sm mb-0 mx-1 mt-md-0 mt-4 float-md-end">
-                                <i class="fab fa-pinterest me-2"></i> 232
-                            </a>
-                            <a href="javascript:;" class="btn btn-twitter btn-sm mb-0 mx-1 mt-md-0 mt-4 float-md-end">
-                                <i class="fab fa-twitter me-2"></i> 910
-                            </a>
-                            <a href="javascript:;" class="btn btn-facebook btn-sm mb-0 mx-1 mt-md-0 mt-4 float-md-end">
-                                <i class="fab fa-facebook me-2"></i> 872
-                            </a>
-
                         </div>
                     </div>
 
@@ -84,7 +72,7 @@
 
                     <div class="d-flex">
                         <div>
-                            <a href="javascript:;">
+                            <a>
                                 <div class="position-relative">
                                     <div class="blur-shadow-avatar">
                                         <img class="avatar avatar-xxl border-radius-xl"
@@ -97,12 +85,6 @@
                             <h5>{{post.author.nickname}}</h5>
                             <p class="text-sm mb-0">{{post.author.biography}}</p>
                         </div>
-                        <div class="my-auto d-md-block d-none ms-2">
-                            <button type="button" class="btn btn-dark pull-end mb-0">Follow</button>
-                        </div>
-                    </div>
-                    <div class="my-auto d-md-none d-block ms-2">
-                        <button type="button" class="btn btn-dark mt-3">Follow</button>
                     </div>
                 </div>
             </div>

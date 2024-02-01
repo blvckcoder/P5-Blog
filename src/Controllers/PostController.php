@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
+use Exception;
 use App\Entity\Post;
 use App\Lib\Hydrator;
 use App\Lib\Pagination;
 use App\Lib\HTTPResponse;
 use App\Repository\PostRepository;
 use App\Repository\CommentRepository;
-use Exception;
+use App\Repository\CategoryRepository;
 
 class PostController extends DefaultController
 {
@@ -132,7 +133,13 @@ class PostController extends DefaultController
     public function createForm(): void
     {
         $this->auth->checkAdmin();
-        echo $this->twig->getTwig()->render('backend/forms/addPost.twig');
+
+        $categoryRepository = new CategoryRepository();
+        $categories = $categoryRepository->getAll();
+
+        echo $this->twig->getTwig()->render('backend/forms/addPost.twig', [
+            'categories' => $categories
+        ]);
     }
 
     public function create(array $postData): void
@@ -173,6 +180,20 @@ class PostController extends DefaultController
         $postRepository = new PostRepository();
         $success = $postRepository->create($post);
 
+        if ($success) {
+            $postId = $postRepository->getLastInsertId();
+
+            if (isset($postData['categoryIds']) && is_array($postData['categoryIds'])) {
+                foreach ($postData['categoryIds'] as $categoryId) {
+                    $postRepository->addCategoryToPost((int)$postId, (int)$categoryId);
+                }
+            } else {
+                $postRepository->addCategoryToPost((int)$postId, (int)1);
+            }
+            $success = true; 
+        }
+
+
         if (!$success) {
             throw new \Exception('Impossible d\'ajouter l\'article !');
         } else {
@@ -187,6 +208,8 @@ class PostController extends DefaultController
 
         $postRepository = new PostRepository();
         $existingPost = $postRepository->getById($postId);
+        $categoryRepository = new CategoryRepository();
+        $categories = $categoryRepository->getAll();
 
         if (!$existingPost) {
             header($_SERVER["SERVER_PROTOCOL"] . '404 Not Found');
@@ -194,10 +217,12 @@ class PostController extends DefaultController
         }
 
         echo $this->twig->getTwig()->render('backend/forms/editPost.twig', [
-            'post' => $existingPost
+            'post' => $existingPost,
+            'categories' => $categories
         ]);
     }
 
+    // A refactoriser
     public function update(array $id): void
     {
         $this->auth->checkAdmin();
@@ -233,6 +258,7 @@ class PostController extends DefaultController
             }
 
             $postRepository = new PostRepository();
+            $categoryRepository = new CategoryRepository();
             $post = $postRepository->getById($postId);
 
             if ($post) {
@@ -241,9 +267,27 @@ class PostController extends DefaultController
 
                 if (!$success) {
                     throw new \Exception('Impossible de mettre à jour le post!');
-                } else {
+                } 
+                
+            $currentCategories = $categoryRepository->getForPost($postId);
+            $currentCategoryIds = array_map(function ($category) {
+                return $category->getId();
+            }, $currentCategories);
+
+            $submittedCategoryIds = $postData['categoryIds'] ?? [];
+
+            $categoriesToAdd = array_diff($submittedCategoryIds, $currentCategoryIds);
+
+            foreach ($categoriesToAdd as $categoryId) {
+                $postRepository->addCategoryToPost($postId, (int)$categoryId);
+            }
+
+            $categoriesToRemove = array_diff($currentCategoryIds, $submittedCategoryIds);
+
+            foreach ($categoriesToRemove as $categoryId) {
+                $postRepository->removeCategoryToPost($postId, (int)$categoryId);
+            }
                     HTTPResponse::redirect('/admin/posts');
-                }
             } else {
                 throw new \Exception('Post non trouvé.');
             }

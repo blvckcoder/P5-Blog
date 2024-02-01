@@ -43,12 +43,10 @@ class CommentRepository implements RepositoryInterface
     public function update(object $comment): bool
     {
         $statement = $this->connection->prepare(
-            'UPDATE comment SET userId = ?, content = ? WHERE id = ?'
+            'UPDATE comment SET commentStatus = :commentStatus WHERE id =:id'
         );
-        $statement->bindValue(':content', $comment->getContent());
+        $statement->bindValue(':id', $comment->getId());
         $statement->bindValue(':commentStatus', $comment->getCommentStatus());
-        $statement->bindValue(':userId', $comment->getUserId());
-        $statement->bindValue(':postId', $comment->getPostId());
 
         $affectedLines = $statement->execute();
 
@@ -152,7 +150,9 @@ class CommentRepository implements RepositoryInterface
 
         $userRepository = new UserRepository();
         $comment->setAuthor($userRepository->getById($comment->getUserId()));
-
+        $postRepository = new PostRepository();
+        $comment->setPost($postRepository->getById($comment->getPostId()));
+        
         return $comment;
     }
 

@@ -40,6 +40,8 @@ $router->map('GET', '/admin/comments', 'App\Controllers\CommentController#displa
 $router->map('GET', '/admin/commentsvalidated', 'App\Controllers\CommentController#displayAdminValidatedComments', 'AdminValidatedComments'); 
 $router->map('GET', '/admin/commentsdrafted', 'App\Controllers\CommentController#displayAdminDraftedComments', 'AdminDraftedComments'); 
 $router->map('GET', '/admin/commentdelete/[i:id]', 'App\Controllers\CommentController#adminDelete', 'AdminDeleteComment'); 
+$router->map('GET', '/admin/commentupdate/[i:id]', 'App\Controllers\CommentController#adminUpdateForm', 'AdminUpdateFormComment'); 
+$router->map('POST', '/admin/commentupdate/[i:id]', 'App\Controllers\CommentController#adminUpdate', 'AdminUpdateComment'); 
 //users
 $router->map('GET', '/admin/users', 'App\Controllers\UserController#displayAdminUsers', 'AdminUsers'); 
 $router->map('GET', '/admin/usercreate', 'App\Controllers\UserController#createForm', 'AdminCreateUserForm'); 
