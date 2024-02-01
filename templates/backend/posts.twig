@@ -161,13 +161,13 @@
                       </div>
                     </td>
                     <td>
-                      {% if post.category|length > 0 %}
-                      {% for category in post.category %}
-                      <p class="text-xs text-secondary mb-0">{{ category.name }}</p>
-                      {% endfor %}
-                      {% else %}
-                      <p class="text-xs text-secondary mb-0">Non classé</p>
-                      {% endif %}
+                    {% if draft.category|length > 0 %}
+                    {% for category in draft.category %}
+                    <p class="text-xs text-secondary mb-0">{{ category.name }}</p>
+                    {% endfor %}
+                    {% else %}
+                    <p class="text-xs text-secondary mb-0">Non classé</p>
+                    {% endif %}
                     </td>
                     <td class="align-middle text-center text-sm">
                       <span class="badge badge-sm bg-gradient-secondary">brouillon</span>
