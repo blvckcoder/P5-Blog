@@ -13,12 +13,17 @@ class AuthController extends DefaultController
 {
     public function loginForm(): void
     {
-        echo $this->twig->getTwig()->render('auth/login.twig');
+        $flashMessage = $this->getFlash();
+
+        echo $this->twig->getTwig()->render('auth/login.twig', [
+            'flashMessage' => $flashMessage
+        ]);
     }
 
     public function login(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            //donnees vide
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
             
@@ -26,12 +31,15 @@ class AuthController extends DefaultController
                 $user = $this->auth->user();
 
                 if ($user->getRole() === 'admin') {
+                    $this->addFlash('success', 'Connexion administrateur réussie !');
                     HTTPResponse::redirect('/admin');
                 } else {
+                    $this->addFlash('success', 'Connexion réussie !');
                     HTTPResponse::redirect('/');
                 }
             } else {
-                throw new \Exception('Identifiants incorrects. Veuillez réessayer.');
+                $this->addFlash('error', 'Identifiants ou mot de passe incorrects. Veuillez réessayer!');
+                HTTPResponse::redirect('/login');
             }
         }
 
@@ -42,18 +50,24 @@ class AuthController extends DefaultController
     {
         $this->auth->logout();
 
+        $this->addFlash('success', 'Vous avez été déconnecté.');
         HTTPResponse::redirect('/login');
     }
 
     public function registerForm(): void
     {
-        echo $this->twig->getTwig()->render('auth/signup.twig');
+        $flashMessage = $this->getFlash();
+        echo $this->twig->getTwig()->render('auth/signup.twig', [
+            'flashMessage' => $flashMessage
+        ]);
     }
 
     public function register(): void
     {
         if (!isset($_POST['name'], $_POST['firstname'], $_POST['nickname'], $_POST['mail'], $_POST['password'])) {
-            throw new \Exception('Les données du formulaire sont invalides.');
+            //donnees vide
+            $this->addFlash('error', 'Les données du formulaire ne sont pas valides');
+            HTTPResponse::redirect('/signup');
         } else {
             $_POST['biography'] = null;
             $_POST['picture'] = "avatar.jpg";
@@ -71,9 +85,11 @@ class AuthController extends DefaultController
         $success = $userRepository->create($user);
 
         if (!$success) {
-            throw new \Exception('Impossible d\'ajouter l\'utilisateur !');
+            $this->addFlash('error', 'Impossible d\'enregistrer votre inscription.');
+            HTTPResponse::redirect('/signup');
         } else {
-            HTTPResponse::redirect('/admin/users');
+            $this->addFlash('success', 'Inscription réussie. Veuillez patienter, un administrateur validera votre compte');
+            HTTPResponse::redirect('/');
         }
     }
 }

@@ -20,8 +20,11 @@ class PostController extends DefaultController
         $postRepository = new PostRepository();
         $posts = $postRepository->getLast();
 
+        $flashMessage = $this->getFlash();
+
         echo $this->twig->getTwig()->render('frontend/home.twig', [
-            'posts' => $posts
+            'posts' => $posts,
+            'flashMessage' => $flashMessage
         ]);
     }
 
@@ -56,12 +59,14 @@ class PostController extends DefaultController
         $commentRepository = new CommentRepository();
         $comments = $commentRepository->getAllBy($postId);
         $totalComments = $commentRepository->countByPost($postId, "published");
-        //récupérer tags + category
+       
+        $flashMessage = $this->getFlash();
 
         echo $this->twig->getTwig()->render('frontend/post.twig', [
             'post' => $post,
             'comments' => $comments,
-            'totalComments' => $totalComments
+            'totalComments' => $totalComments,
+            'flashMessage' => $flashMessage
         ]);
     }
 
@@ -77,10 +82,13 @@ class PostController extends DefaultController
         $postRepository = new PostRepository();
         $postsValidated = $postRepository->getPaginated($postValidatedStatus, $itemsPerPage, $pagination);
         $postsDrafted = $postRepository->getPaginated($postDraftedStatus, $itemsPerPage, $pagination);
+        
+        $flashMessage = $this->getFlash();
 
         echo $this->twig->getTwig()->render('backend/posts.twig', [
             'published' => $postsValidated,
-            'drafts' => $postsDrafted
+            'drafts' => $postsDrafted,
+            'flashMessage' => $flashMessage
         ]);
     }
 
@@ -149,7 +157,9 @@ class PostController extends DefaultController
         $postData['userId'] = $_SESSION['userId'];
 
         if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'], $postData['postStatus'])) {
-            throw new \Exception('Les données de création d\'article sont invalides.');
+            //données vide
+            $this->addFlash('error', 'Les données de création de l\'article sont invalides.');
+            HTTPResponse::redirect('/admin/posts'); 
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -195,8 +205,10 @@ class PostController extends DefaultController
 
 
         if (!$success) {
-            throw new \Exception('Impossible d\'ajouter l\'article !');
+            $this->addFlash('error', 'Impossible d\'ajouter l\'article !');
+            HTTPResponse::redirect('/admin/posts'); 
         } else {
+            $this->addFlash('success', 'Article ajouté avec succès !');
             HTTPResponse::redirect('/admin/posts');
         }
     }
@@ -232,7 +244,9 @@ class PostController extends DefaultController
         $postData['userId'] = $_SESSION['userId'];
 
         if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'])) {
-            throw new \Exception('Les données de modification d\'article sont invalides.');
+            //données vide
+            $this->addFlash('error', 'Les données de modification d\'article sont invalides.');
+            HTTPResponse::redirect('/admin/posts'); 
         }
 
 
@@ -266,7 +280,8 @@ class PostController extends DefaultController
                 $success = $postRepository->update($post);
 
                 if (!$success) {
-                    throw new \Exception('Impossible de mettre à jour le post!');
+                    $this->addFlash('error', 'Impossible de mettre à jour le post!');
+                    HTTPResponse::redirect('/admin/posts'); 
                 } 
                 
             $currentCategories = $categoryRepository->getForPost($postId);
@@ -287,9 +302,13 @@ class PostController extends DefaultController
             foreach ($categoriesToRemove as $categoryId) {
                 $postRepository->removeCategoryToPost($postId, (int)$categoryId);
             }
-                    HTTPResponse::redirect('/admin/posts');
+
+            $this->addFlash('success', 'Article modifié avec succès');
+            HTTPResponse::redirect('/admin/posts');
+
             } else {
-                throw new \Exception('Post non trouvé.');
+                $this->addFlash('error', 'Post non trouvé.');
+                HTTPResponse::redirect('/admin/posts'); 
             }
         }
     }
@@ -312,12 +331,15 @@ class PostController extends DefaultController
             $success = $postRepository->delete($post);
 
             if (!$success) {
-                throw new \Exception('Impossible de supprimer l\'article !');
+                $this->addFlash('error', 'Impossible de supprimer l\'article !');
+                HTTPResponse::redirect('/admin/posts'); 
             }
 
+            $this->addFlash('success', 'Article modifié avec succès');
             HTTPResponse::redirect('/admin/posts');
         } else {
-            throw new \Exception('Le post n\'a pas été trouvé ou l\'ID est incorrect');
+            $this->addFlash('error', 'Le post n\'a pas été trouvé ou l\'ID est incorrect');
+            HTTPResponse::redirect('/admin/posts'); 
         }
     }
 }

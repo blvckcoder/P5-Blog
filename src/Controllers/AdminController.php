@@ -19,8 +19,11 @@ class AdminController extends DefaultController
     {
         $user = $this->auth->getUserInfo();
 
+        $flashMessage = $this->getFlash();
+
         echo $this->twig->getTwig()->render('backend/home.twig', [
-            'user' => $user
+            'user' => $user,
+            'flashMessage' => $flashMessage
         ]
     );
     }

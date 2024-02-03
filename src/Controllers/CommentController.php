@@ -28,12 +28,14 @@ class CommentController extends DefaultController
         $commentsBlocked = $commentRepository->getPaginated($commentBlockedStatus, $itemsPerPage, $pagination);
         $commentsBlockedNumb = $commentRepository->countByStatus($commentBlockedStatus);
 
+        $flashMessage = $this->getFlash();
 
         echo $this->twig->getTwig()->render('backend/comments.twig', [
             'published' => $commentsValidated,
             'publishedNumb' => $commentsValidatedNumb,
             'draft' => $commentsBlocked,
-            'draftNumb' => $commentsBlockedNumb
+            'draftNumb' => $commentsBlockedNumb,
+            'flashMessage' => $flashMessage
 
         ]);
     }
@@ -87,21 +89,27 @@ class CommentController extends DefaultController
     public function create(array $params): void
     {
         $this->auth->check();
-        if (!isset($_SESSION['userId'], $params['post']['postId'], $params['post']['content'])) {
-            throw new \Exception('Les données du formulaire sont invalides.');
+        $postData = $params['post'];
+
+        if (!isset($_SESSION['userId'], $postData['postId'], $postData['content'])) {
+            //donnees vide
+            $this->addFlash('error', 'Les données du formulaire sont invalides !');
+            HTTPResponse::redirect('/post/' . $postData['postId']);
         }
 
-        $params['post']['userId'] = $_SESSION['userId'];
-        $params['post']['postId'] = (int) $params['post']['postId'];
+        $postData['userId'] = $_SESSION['userId'];
+        $postData['postId'] = (int) $postData['postId'];
         $comment = new Comment;
-        $comment = Hydrator::hydrate($params['post'], $comment);
+        $comment = Hydrator::hydrate($postData, $comment);
 
         $commentRepository = new CommentRepository();
         $success = $commentRepository->create($comment);
 
         if (!$success) {
-            throw new \Exception('Impossible d\'ajouter le commentaire !');
+            $this->addFlash('error', 'Impossible d\'ajouter le commentaire !');
+            HTTPResponse::redirect('/post/' . $comment->getPostId());
         } else {
+            $this->addFlash('success', 'Commentaire en attente. Un administrateur procède à la modération. Veuillez patienter.');
             HTTPResponse::redirect('/post/' . $comment->getPostId());
         }
     }
@@ -116,14 +124,17 @@ class CommentController extends DefaultController
 
         $currentUserId = $_SESSION['userId'] ?? null;
         if ($comment->getUserId() !== $currentUserId) {
-            throw new \Exception('Vous n\'êtes pas autorisé à supprimer ce commentaire.');
+            $this->addFlash('error', 'Vous n\'êtes pas autorisé à supprimer ce commentaire !');
+            HTTPResponse::redirect('/post/' . $comment->getPostId());
         }
 
         $success = $commentRepository->delete($comment);
 
         if (!$success) {
-            throw new \Exception('Impossible de supprimer le commentaire !');
+            $this->addFlash('error', 'Impossible de supprimer le commentaire !');
+            HTTPResponse::redirect('/post/' . $comment->getPostId());
         } else {
+            $this->addFlash('success', 'Suppression réussie du commentaire.');
             HTTPResponse::redirect('/post/' . $comment->getPostId());
         }
     }
@@ -137,10 +148,11 @@ class CommentController extends DefaultController
         $comment = $commentRepository->getById($id);
         $success = $commentRepository->delete($comment);
 
-        // Redirection après le succès
         if (!$success) {
-            throw new \Exception('Impossible d\'ajouter le commentaire !');
+            $this->addFlash('error', 'Impossible de supprimer ce commentaire !');
+            HTTPResponse::redirect('/admin/comments');
         } else {
+            $this->addFlash('success', 'Commentaire supprimé !');
             HTTPResponse::redirect('/admin/comments');
         }
     }
@@ -171,7 +183,8 @@ class CommentController extends DefaultController
 
 
         if (!isset($commentId, $commentData['commentStatus'])) {
-            throw new \Exception('Les données sont invalides.');
+            $this->addFlash('error', 'Erreur sur la modification de ce commentaire !');
+            HTTPResponse::redirect('/admin/comments');
         }
 
         
@@ -184,12 +197,15 @@ class CommentController extends DefaultController
             $success = $commentRepository->update($comment);
 
             if (!$success) {
-                throw new \Exception('Impossible de modifier le commentaire !');
+                $this->addFlash('error', 'Impossible de modifier le commentaire !');
+                HTTPResponse::redirect('/admin/comments');
             } else {
+                $this->addFlash('success', 'Commentaire modifié avec succès !');
                 HTTPResponse::redirect('/admin/comments');
             }
         } else {
-            throw new \Exception('Commentaire non trouvé.');
+            $this->addFlash('error', 'Commentaire non trouvé.');
+            HTTPResponse::redirect('/admin/comments');
         }
 
     }
