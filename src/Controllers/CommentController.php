@@ -91,9 +91,10 @@ class CommentController extends DefaultController
         $this->auth->check();
         $postData = $params['post'];
 
-        if (!isset($_SESSION['userId'], $postData['postId'], $postData['content'])) {
-            //donnees vide
-            $this->addFlash('error', 'Les données du formulaire sont invalides !');
+        $content = trim($postData['content'] ?? '');
+
+        if (!isset($_SESSION['userId'], $postData['postId']) || empty($content)) {
+            $this->addFlash('error', 'Les données du formulaire sont vides ou invalides !');
             HTTPResponse::redirect('/post/' . $postData['postId']);
         }
 

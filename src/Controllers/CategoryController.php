@@ -48,9 +48,12 @@ class CategoryController extends DefaultController
         $this->auth->checkAdmin();
         $postData = $_POST;
 
-        if (!isset($postData['name'], $postData['description'], $postData['slug']) || empty($postData['name']) || empty($postData['description']) || empty($postData['slug'])) {
-            //donnees vide
-            $this->addFlash('error', 'Les données ne sont pas bonnes !');
+        $name = trim($postData['name'] ?? '');
+        $description = trim($postData['description'] ?? '');
+        $slug = trim($postData['slug'] ?? '');
+
+        if (empty($name) || empty($description) || empty($slug)) {
+            $this->addFlash('error', 'Les données ne doivent pas être vides ou ne sont pas bonnes !');
             HTTPResponse::redirect('/admin/categories');
         }
 
@@ -95,8 +98,12 @@ class CategoryController extends DefaultController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $postData = $_POST;
-            if (!isset($postData['name'], $postData['description'], $postData['slug'])) {
-                //donnees vide
+
+            $name = trim($postData['name'] ?? '');
+            $description = trim($postData['description'] ?? '');
+            $slug = trim($postData['slug'] ?? '');
+
+            if (empty($name) || empty($description) || empty($slug)) {
                 $this->addFlash('error', 'Les données du formulaire modification catégorie sont invalides.');
             }
 
@@ -138,7 +145,7 @@ class CategoryController extends DefaultController
             if (!$success) {
                 $this->addFlash('error', 'Impossible de supprimer la catégorie !');
             }
-            
+
             HTTPResponse::redirect('/admin/categories');
         } else {
             $this->addFlash('error', 'Categorie non trouvée ou ID incorrect.');

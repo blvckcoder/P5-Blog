@@ -23,7 +23,7 @@ class AuthController extends DefaultController
     public function login(): void
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            //donnees vide
+            
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
             
@@ -64,9 +64,16 @@ class AuthController extends DefaultController
 
     public function register(): void
     {
-        if (!isset($_POST['name'], $_POST['firstname'], $_POST['nickname'], $_POST['mail'], $_POST['password'])) {
-            //donnees vide
-            $this->addFlash('error', 'Les données du formulaire ne sont pas valides');
+        $postData = $_POST;
+
+        $name = trim($postData['name'] ?? '');
+        $firstname = trim($postData['firstname'] ?? '');
+        $nickname = trim($postData['nickname'] ?? '');
+        $mail = trim($postData['mail'] ?? '');
+        $password = trim($postData['password'] ?? '');
+
+        if (empty($name) || empty($firstname) || empty($nickname) || empty($mail) || empty($password)) {
+            $this->addFlash('error', 'Les données du formulaire sont vides ou ne sont pas valides');
             HTTPResponse::redirect('/signup');
         } else {
             $_POST['biography'] = null;

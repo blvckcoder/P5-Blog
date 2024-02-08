@@ -156,9 +156,14 @@ class PostController extends DefaultController
         $postData = $_POST;
         $postData['userId'] = $_SESSION['userId'];
 
-        if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'], $postData['postStatus'])) {
-            //données vide
-            $this->addFlash('error', 'Les données de création de l\'article sont invalides.');
+        $userId = $postData['userId'] ?? '';
+        $title = trim($postData['title'] ?? '');
+        $excerpt = trim($postData['excerpt'] ?? '');
+        $content = trim($postData['content'] ?? '');
+        $postStatus = trim($postData['postStatus'] ?? '');
+
+        if (empty($userId) || empty($title) || empty($excerpt) || empty($content) || empty($postStatus)) {
+            $this->addFlash('error', 'Les données de création de l\'article sont vides ou invalides.');
             HTTPResponse::redirect('/admin/posts'); 
         }
 
@@ -243,8 +248,12 @@ class PostController extends DefaultController
         $postData = $_POST;
         $postData['userId'] = $_SESSION['userId'];
 
-        if (!isset($postData['userId'], $postData['title'], $postData['excerpt'], $postData['content'])) {
-            //données vide
+        $title = trim($postData['title'] ?? '');
+        $excerpt = trim($postData['excerpt'] ?? '');
+        $content = trim($postData['content'] ?? '');
+        $postStatus = trim($postData['postStatus'] ?? '');
+
+        if (empty($userId) || empty($title) || empty($excerpt) || empty($content) || empty($postStatus)) {
             $this->addFlash('error', 'Les données de modification d\'article sont invalides.');
             HTTPResponse::redirect('/admin/posts'); 
         }

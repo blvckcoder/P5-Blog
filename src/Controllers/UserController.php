@@ -46,8 +46,19 @@ class UserController extends DefaultController
     public function create(array $params): void
     {
         $this->auth->checkAdmin();
-        if (!isset($params['post']['name'], $params['post']['firstname'], $params['post']['nickname'], $params['post']['biography'], $params['post']['picture'], $params['post']['mail'], $params['post']['password'], $params['post']['role'], $params['post']['status'])) {
-            //données vide
+
+        $postData = $_POST;
+
+        $name = trim($postData['name'] ?? '');
+        $firstname = trim($postData['firstname'] ?? '');
+        $nickname = trim($postData['nickname'] ?? '');
+        $mail = trim($postData['mail'] ?? '');
+        $picture = trim($postData['picture'] ?? '');
+        $password = trim($postData['password'] ?? '');
+        $role = trim($postData['role'] ?? '');
+        $status = trim($postData['status'] ?? '');
+
+        if (empty($name) || empty($firstname) || empty($nickname) || empty($mail) || empty($picture) || empty($password) || empty($role) || empty($status)) {
             $this->addFlash('error', 'Les données du formulaire sont invalides.');
             HTTPResponse::redirect('/admin/users');
         }
@@ -114,9 +125,16 @@ class UserController extends DefaultController
 
         $postData = $_POST;
 
-        if (!isset($postData['name'], $postData['firstname'], $postData['nickname'], $postData['biography'], $postData['mail'], $postData['password'], $postData['role'], $postData['status'])) {
-            //données vide
-            $this->addFlash('error', 'Les données du formulaire sont invalides.');
+        $name = trim($postData['name'] ?? '');
+        $firstname = trim($postData['firstname'] ?? '');
+        $nickname = trim($postData['nickname'] ?? '');
+        $mail = trim($postData['mail'] ?? '');
+        $password = trim($postData['password'] ?? '');
+        $role = trim($postData['role'] ?? '');
+        $status = trim($postData['status'] ?? '');
+
+        if (empty($name) || empty($firstname) || empty($nickname) || empty($mail) || empty($password) || empty($role) || empty($status)) {
+            $this->addFlash('error', 'Les données du formulaire sont vides ou invalides.');
             HTTPResponse::redirect('/admin/users');
         }
 
