@@ -28,9 +28,12 @@ class CategoryController extends DefaultController
 
         $paginationHtml = $pagination->renderHtml();
 
+        $flashMessage = $this->getFlash();
+
         echo $this->twig->getTwig()->render('backend/categories.twig', [
             'categories' => $categories,
-            'pagination' => $paginationHtml
+            'pagination' => $paginationHtml,
+            'flashMessage' => $flashMessage
         ]);
     }
 
@@ -43,19 +46,28 @@ class CategoryController extends DefaultController
     public function create(array $params): void
     {
         $this->auth->checkAdmin();
-        if (!isset($params['post']['name'], $params['post']['description'], $params['post']['slug'])) {
-            throw new \Exception('Les données du formulaire sont invalides.');
+        $postData = $_POST;
+
+        $name = trim($postData['name'] ?? '');
+        $description = trim($postData['description'] ?? '');
+        $slug = trim($postData['slug'] ?? '');
+
+        if (empty($name) || empty($description) || empty($slug)) {
+            $this->addFlash('error', 'Les données ne doivent pas être vides ou ne sont pas bonnes !');
+            HTTPResponse::redirect('/admin/categories');
         }
 
         $category = new Category();
-        $category = Hydrator::hydrate($params['post'], $category);
+        $category = Hydrator::hydrate($postData, $category);
 
         $categoryRepository = new CategoryRepository();
         $success = $categoryRepository->create($category);
 
         if (!$success) {
-            throw new \Exception('Impossible d\'ajouter la catégorie !');
+            $this->addFlash('error', 'Impossible d\'ajouter la catégorie !');
+            HTTPResponse::redirect('/admin/categories');
         } else {
+            $this->addFlash('success', 'Catégorie ajoutée avec succès.');
             HTTPResponse::redirect('/admin/categories');
         }
     }
@@ -86,8 +98,13 @@ class CategoryController extends DefaultController
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $postData = $_POST;
-            if (!isset($postData['name'], $postData['description'], $postData['slug'])) {
-                throw new \Exception('Les données du formulaire sont invalides.');
+
+            $name = trim($postData['name'] ?? '');
+            $description = trim($postData['description'] ?? '');
+            $slug = trim($postData['slug'] ?? '');
+
+            if (empty($name) || empty($description) || empty($slug)) {
+                $this->addFlash('error', 'Les données du formulaire modification catégorie sont invalides.');
             }
 
             $categoryRepository = new CategoryRepository();
@@ -98,12 +115,15 @@ class CategoryController extends DefaultController
                 $success = $categoryRepository->update($category);
 
                 if (!$success) {
-                    throw new \Exception('Impossible de mettre à jour la Catégorie!');
+                    $this->addFlash('error', 'Impossible de mettre à jour la Catégorie !');
+                    HTTPResponse::redirect('/admin/categories');
                 } else {
+                    $this->addFlash('success', 'La catégorie a bien été modifiée !');
                     HTTPResponse::redirect('/admin/categories');
                 }
             } else {
-                throw new \Exception('Catégorie non trouvé.');
+                $this->addFlash('error', 'Catégorie non trouvée !');
+                HTTPResponse::redirect('/admin/categories');
             }
         }
     }
@@ -120,14 +140,16 @@ class CategoryController extends DefaultController
 
         if ($category !== null && $category->getId() === $id) {
             $success = $categoryRepository->delete($category);
+            $this->addFlash('success', 'La catégorie a bien été supprimée !');
 
             if (!$success) {
-                throw new \Exception('Impossible de supprimer la categorie!');
+                $this->addFlash('error', 'Impossible de supprimer la catégorie !');
             }
 
             HTTPResponse::redirect('/admin/categories');
         } else {
-            throw new \Exception('Categorie non trouvée ou ID incorrect.');
+            $this->addFlash('error', 'Categorie non trouvée ou ID incorrect.');
+            HTTPResponse::redirect('/admin/categories');
         }
     }
 }

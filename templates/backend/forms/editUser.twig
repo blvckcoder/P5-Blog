@@ -21,32 +21,32 @@
 
                                 <div class="row">
                                     <div class="input-group input-group-static mb-4">
-                                        <label for="nickname">Pseudo</label>
+                                        <label for="nickname">Pseudo *</label>
                                         <input type="text" class="form-control" id="nickname" name="nickname"
-                                            value="{{user.nickname}}">
+                                            value="{{user.nickname}}" required="required">
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-group input-group-static mb-4">
-                                            <label for="firstname">Prénom</label>
+                                            <label for="firstname">Prénom *</label>
                                             <input type="text" class="form-control" id="firstname" name="firstname"
-                                                value="{{user.firstname}}">
+                                                value="{{user.firstname}}" required="required">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="input-group input-group-static mb-4">
-                                            <label for="name">Nom</label>
+                                            <label for="name">Nom *</label>
                                             <input type="text" class="form-control" id="name" name="name"
-                                                value="{{user.name}}">
+                                                value="{{user.name}}" required="required">
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row py-4">
                                     <div class="col-md-6">
-                                        <label for="picture">Image de profil</label>
+                                        <label for="picture">Image de profil *</label>
                                         <div class="input-group input-group-lg input-group-outline mb-3">
                                             <input type="file" class="form-control" id="picture" name="picture" accept="image/*">
                                         </div>
@@ -69,25 +69,25 @@
 
                                 <div class="mb-4">
                                     <div class="input-group input-group-static">
-                                        <label for="mail">Mail</label>
+                                        <label for="mail">Mail *</label>
                                         <input type="email" id="mail" name="mail" value="{{user.mail}}"
-                                            class="form-control">
+                                            class="form-control" required="required">
                                     </div>
                                 </div>
 
                                 <div class="mb-4">
                                     <div class="input-group input-group-static">
-                                        <label for="password">Mot de Passe</label>
+                                        <label for="password">Mot de Passe *</label>
                                         <input type="password" id="password" name="password" value="{{user.password}}"
-                                            class="form-control">
+                                            class="form-control" required="required">
                                     </div>
                                 </div>
 
                                 <div class="row my-3">
                                     <div class="col-md-6 ps-2">
                                         <div class="input-group input-group-static mb-4">
-                                            <label for="role" class="ms-0">Role</label>
-                                            <select class="form-control" id="role" name="role">
+                                            <label for="role" class="ms-0">Role *</label>
+                                            <select class="form-control" id="role" name="role" required="required">
                                                 <option value="admin" {% if user.role == 'admin' %}selected{% endif %}>
                                                     admin</option>
                                                 <option value="user" {% if user.role == 'user' %}selected{% endif %}>
@@ -98,8 +98,8 @@
 
                                     <div class="col-md-6 ps-2">
                                         <div class="input-group input-group-static mb-4">
-                                            <label for="status" class="ms-0">Status</label>
-                                            <select class="form-control" id="status" name="status">
+                                            <label for="status" class="ms-0">Status *</label>
+                                            <select class="form-control" id="status" name="status" required="required">
                                                 <option value="active"
                                                     {% if user.status == 'active' %}selected{% endif %}>active</option>
                                                 <option value="inactive"

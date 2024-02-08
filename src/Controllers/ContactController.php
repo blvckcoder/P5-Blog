@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Lib\HTTPResponse;
 use App\Lib\Mail;
+use App\Lib\FlashMessage;
 use PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -21,7 +22,9 @@ class ContactController
         if (Mail::send($name, $email, $subject, $message)) {
             HTTPResponse::redirect('/');
         } else {
-            throw new \Exception('Impossible d\'envoyer le mail!');
+            $flash = new FlashMessage;
+            $flash->addFlashMessage('error', 'Impossible d\'envoyer le mail !');
+            HTTPResponse::redirect('/'); 
         }
     }
 }

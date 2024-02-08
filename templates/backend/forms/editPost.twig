@@ -22,8 +22,8 @@
 
             <div class="row">
               <div class="input-group input-group-static mb-4">
-                <label for="title">Titre</label>
-                <input type="text" class="form-control" id="title" name="title" value="{{post.title}}">
+                <label for="title">Titre *</label>
+                <input type="text" class="form-control" id="title" name="title" value="{{post.title}}" required="required">
               </div>
             </div>
 
@@ -45,7 +45,7 @@
               <div class="col-xl-6 col-md-6 mb-xl-0 py-6">
                 <label class="form-label" for="imgCover">Nouvelle image de couverture</label>
                 <div class="input-group input-group-lg input-group-outline mb-3">
-                  <input type="file" class="form-control" id="imgCover" name="imgCover" accept="image/*">
+                  <input type="file" class="form-control" id="imgCover" name="imgCover" accept="image/*" >
                 </div>
               </div>
             </div>
@@ -74,21 +74,21 @@
 
             <div class="mb-4">
               <div class="input-group input-group-static">
-                <label for="excerpt">Résumé</label>
-                <input type="text" id="excerpt" name="excerpt" value="{{post.excerpt}}" class="form-control">
+                <label for="excerpt">Résumé *</label>
+                <input type="text" id="excerpt" name="excerpt" value="{{post.excerpt}}" class="form-control" required="required">
               </div>
             </div>
 
             <div class="row my-3">
               <div class="input-group  input-group-static">
-                <label for="content">Votre article</label>
-                <textarea id="content" name="content" class="form-control" rows="8">{{post.content}}</textarea>
+                <label for="content">Votre article *</label>
+                <textarea id="content" name="content" class="form-control" rows="8" required="required">{{post.content}}</textarea>
               </div>
             </div>
 
             <div class="input-group input-group-static my-2">
-              <label for="postStatus" class="ms-0">Status</label>
-              <select class="form-control" id="postStatus" name="postStatus">
+              <label for="postStatus" class="ms-0">Status *</label>
+              <select class="form-control" id="postStatus" name="postStatus" required="required">
                 <option value="published" {% if post.postStatus == 'published' %}selected{% endif %}>Publier</option>
                 <option value="draft" {% if post.postStatus == 'draft' %}selected{% endif %}>Brouillon
                 </option>

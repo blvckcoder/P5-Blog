@@ -1,0 +1,17 @@
+        {% if flashMessage %}
+            {% for type, messages in flashMessage %}
+                {% for message in messages %}
+                    <div class="alert alert-{% if type == 'error' %}danger{% else %}success{% endif %} alert-dismissible text-white fade show" role="alert">
+                        <span class="alert-icon align-middle">
+                            <span class="material-icons text-md">
+                                {% if type == 'error' %}error_outline{% else %}thumb_up_off_alt{% endif %}
+                            </span>
+                        </span>
+                        <span class="alert-text"><strong>{% if type == 'error' %}ERREUR!{% else %}SUCCÈS!{% endif %}</strong> {{ message }}</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}

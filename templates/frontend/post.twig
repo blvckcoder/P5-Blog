@@ -28,6 +28,7 @@
 
     <section class="py-5 mt-5">
         <div class="container">
+            {% include 'flash/_messageFlash.twig' %}
             <div class="row">
                 <div class="col-lg-8 ms-auto me-auto">
                     <h6 class="opacity-7 text-uppercase font-weight-bolder text-sm">{{post.status}}</h6>
@@ -163,7 +164,7 @@
                             <div class="input-group input-group-static">
                                 <label for="comment">Votre message</label>
                                 <textarea id="comment" name="content" class="form-control"
-                                    placeholder="Exprimez vous..." rows="4"></textarea>
+                                    placeholder="Exprimez vous..." rows="4" required="required"></textarea>
                                 <input type="hidden" name="postId" value="{{post.id}}">
                             </div>
                             <div>

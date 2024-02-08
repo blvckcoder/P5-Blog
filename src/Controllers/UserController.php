@@ -15,7 +15,7 @@ class UserController extends DefaultController
     public function displayAdminUsers(): void
     {
         $this->auth->checkAdmin();
-        
+
         $itemsPerPage = 9;
         $currentPage = intval($_GET['page'] ?? 1);
 
@@ -28,9 +28,12 @@ class UserController extends DefaultController
 
         $paginationHtml = $pagination->renderHtml();
 
+        $flashMessage = $this->getFlash();
+
         echo $this->twig->getTwig()->render('backend/users.twig', [
             'users' => $users,
-            'pagination' => $paginationHtml
+            'pagination' => $paginationHtml,
+            'flashMessage' => $flashMessage
         ]);
     }
 
@@ -43,10 +46,24 @@ class UserController extends DefaultController
     public function create(array $params): void
     {
         $this->auth->checkAdmin();
-        if (!isset($params['post']['name'], $params['post']['firstname'], $params['post']['nickname'], $params['post']['biography'], $params['post']['picture'], $params['post']['mail'], $params['post']['password'], $params['post']['role'], $params['post']['status'])) {
-            throw new \Exception('Les données du formulaire sont invalides.');
+
+        $postData = $_POST;
+
+        $name = trim($postData['name'] ?? '');
+        $firstname = trim($postData['firstname'] ?? '');
+        $nickname = trim($postData['nickname'] ?? '');
+        $mail = trim($postData['mail'] ?? '');
+        $picture = trim($postData['picture'] ?? '');
+        $password = trim($postData['password'] ?? '');
+        $role = trim($postData['role'] ?? '');
+        $status = trim($postData['status'] ?? '');
+
+        if (empty($name) || empty($firstname) || empty($nickname) || empty($mail) || empty($picture) || empty($password) || empty($role) || empty($status)) {
+            $this->addFlash('error', 'Les données du formulaire sont invalides.');
+            HTTPResponse::redirect('/admin/users');
         }
 
+        //fonction handler
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             function handleFileUpload(array $file, string $destinationFolder): string
             {
@@ -74,8 +91,10 @@ class UserController extends DefaultController
         $success = $userRepository->create($user);
 
         if (!$success) {
-            throw new \Exception('Impossible d\'ajouter l\'utilisateur !');
+            $this->addFlash('error', 'Impossible d\'ajouter l\'utilisateur !');
+            HTTPResponse::redirect('/admin/users');
         } else {
+            $this->addFlash('error', 'Utilisateur ajouté avec succès');
             HTTPResponse::redirect('/admin/users');
         }
     }
@@ -106,11 +125,21 @@ class UserController extends DefaultController
 
         $postData = $_POST;
 
-        if (!isset($postData['name'], $postData['firstname'], $postData['nickname'], $postData['biography'], $postData['mail'], $postData['password'], $postData['role'], $postData['status'])) {
-            throw new \Exception('Les données du formulaire sont invalides.');
+        $name = trim($postData['name'] ?? '');
+        $firstname = trim($postData['firstname'] ?? '');
+        $nickname = trim($postData['nickname'] ?? '');
+        $mail = trim($postData['mail'] ?? '');
+        $password = trim($postData['password'] ?? '');
+        $role = trim($postData['role'] ?? '');
+        $status = trim($postData['status'] ?? '');
+
+        if (empty($name) || empty($firstname) || empty($nickname) || empty($mail) || empty($password) || empty($role) || empty($status)) {
+            $this->addFlash('error', 'Les données du formulaire sont vides ou invalides.');
+            HTTPResponse::redirect('/admin/users');
         }
 
 
+        //fonction handler
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             function handleFileUpload(array $file, string $destinationFolder): string
             {
@@ -135,16 +164,19 @@ class UserController extends DefaultController
 
                 $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
                 $user->setPassword($hashedPassword);
-                
+
                 $success = $userRepository->update($user);
 
                 if (!$success) {
-                    throw new \Exception('Impossible de mettre à jour l\'utilisateur!');
+                    $this->addFlash('error', 'Impossible de mettre à jour l\'utilisateur !');
+                    HTTPResponse::redirect('/admin/users');
                 } else {
+                    $this->addFlash('succes', 'Mise à jour de l\'utilisateur réussie !');
                     HTTPResponse::redirect('/admin/users');
                 }
             } else {
-                throw new \Exception('Utilisateur non trouvé.');
+                $this->addFlash('error', 'Utilisateur non trouvé.');
+                HTTPResponse::redirect('/admin/users');
             }
         }
     }
@@ -160,8 +192,10 @@ class UserController extends DefaultController
         $success = $userRepository->delete($user);
 
         if (!$success) {
-            throw new \Exception('Impossible de supprimer l\'utilisateur !');
+            $this->addFlash('error', 'Impossible de supprimer l\'utilisateur !');
+            HTTPResponse::redirect('/admin/users');
         } else {
+            $this->addFlash('success', 'L\'utilisateur a été supprimé avec succès !');
             HTTPResponse::redirect('/admin/users');
         }
     }
