@@ -1,11 +1,16 @@
 <?php
 session_start();
 
+use Dotenv\Dotenv;
+
 require "../vendor/autoload.php";
 
 $whoops = new \Whoops\Run;
 $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 $whoops->register();
+
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 $router = new AltoRouter();
 
