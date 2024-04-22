@@ -27,6 +27,7 @@ $router->map('GET', '/blog', 'App\Controllers\PostController#displayPosts', 'All
 $router->map('GET', '/post/[i:id]', 'App\Controllers\PostController#displayPost', 'SinglePost'); 
 $router->map('POST', '/comment/create', 'App\Controllers\CommentController#create', 'CreateComment'); 
 $router->map('GET', '/commentdelete/[i:id]', 'App\Controllers\CommentController#delete', 'DeleteComment'); 
+$router->map('GET', '/contact', 'App\Controllers\ContactController#displayContactForm', 'ContactForm'); 
 $router->map('POST', '/sendmail', 'App\Controllers\ContactController#handleForm', 'SendMail'); 
 //BACK
 //admin
