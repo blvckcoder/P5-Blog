@@ -53,7 +53,7 @@ class UserController extends DefaultController
         $firstname = trim($postData['firstname'] ?? '');
         $nickname = trim($postData['nickname'] ?? '');
         $mail = trim($postData['mail'] ?? '');
-        $picture = trim($postData['picture'] ?? '');
+        $picture = $_FILES['picture'] ?? 'avatar.jpg';
         $password = trim($postData['password'] ?? '');
         $role = trim($postData['role'] ?? '');
         $status = trim($postData['status'] ?? '');
@@ -76,8 +76,8 @@ class UserController extends DefaultController
 
             if (isset($_FILES['picture']) && $_FILES['picture']['error'] === UPLOAD_ERR_OK) {
                 $destinationFolder = 'assets/img/profil/';
-                $pictureFilePath = handleFileUpload($_FILES['picture'], $destinationFolder);
-                $params['post']['picture'] = $pictureFilePath;
+                handleFileUpload($_FILES['picture'], $destinationFolder);
+                $params['post']['picture'] = $_FILES['picture']['name'];
             }
         }
 
@@ -94,7 +94,7 @@ class UserController extends DefaultController
             $this->addFlash('error', 'Impossible d\'ajouter l\'utilisateur !');
             HTTPResponse::redirect('/admin/users');
         } else {
-            $this->addFlash('error', 'Utilisateur ajouté avec succès');
+            $this->addFlash('success', 'Utilisateur ajouté avec succès');
             HTTPResponse::redirect('/admin/users');
         }
     }
@@ -152,7 +152,7 @@ class UserController extends DefaultController
 
             if (isset($_FILES['picture']) && $_FILES['picture']['error'] === UPLOAD_ERR_OK) {
                 $destinationFolder = 'assets/img/profil/';
-                $pictureFilePath = handleFileUpload($_FILES['picture'], $destinationFolder);
+                handleFileUpload($_FILES['picture'], $destinationFolder);
                 $postData['picture'] = $_FILES['picture']['name'];
             }
 
