@@ -43,10 +43,11 @@
     <section>
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 offset-2">
+                <div class="col-lg-6 offset-2">
                     <small>Posté le {{post.createdDate | format_datetime('medium', 'short', locale='fr') }}</small>
                     {% if post.updateDate %}
-                    <small> | Modifié le {{ post.updateDate | format_datetime('medium', 'short', locale='fr') }}</small>
+                    <br class="d-lg-none">
+                    <small> <span class="d-none d-lg-inline">|</span> Modifié le {{ post.updateDate | format_datetime('medium', 'short', locale='fr') }}</small>
                     {% endif %}
                 </div>
             </div>
