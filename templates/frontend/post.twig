@@ -126,18 +126,15 @@
                                     {{ comment.createdDate | format_datetime('medium', 'short', locale='fr') }}</span>
                             </h6>
 
-                            <p>{{ comment.content }}</p>
+                            <p>{{ comment.content }}
 
                             {% if comment.author.id == userId %}
-                            <div class="ms-auto text-end">
-                                <a href="javascript:;" class="btn text-dark px-2 btn-link" rel="tooltip" title=""
-                                    data-original-title="Update Comment">
-                                    <i class="fa fa-pen"></i> Modifier
-                                </a>
-                                <a href="/commentdelete/{{comment.id}}" class="btn text-danger px-2 btn-link">
+                            <span class="ms-auto text-end">
+                                <a href="/commentdelete/{{comment.id}}" class="btn text-danger btn-link">
                                     <i class="fas fa-trash"></i> Supprimer
                                 </a>
-                            </div>
+                            </span>
+                            </p>
                             {% endif %}
                         </div>
                     </div>
