@@ -55,7 +55,7 @@
 
 <div class="container">
   <!-- Section d'en-tête -->
-  <section class="">
+  <section id="about" class="">
     <!-- Contenu de la section d'en-tête avec la phrase d'accroche -->
     <div class="row">
       <div class="text-center">
@@ -73,7 +73,7 @@
   </section>
 
   <!-- Section des derniers articles de blog -->
-  <section class="py-8 blog">
+  <section id="blog" class="py-8 blog">
 
     <div class="container">
       <div class="row">
@@ -89,7 +89,7 @@
 
       <div class="row">
         {% for post in posts %}
-        <div class="col-lg-4 mb-lg-0 mb-4">
+        <div class="col-lg-4 mb-lg-0 mb-5">
           <div class="card">
             <div class="card-header p-0 m-3 mt-n4 position-relative z-index-2">
               <a href="post/{{ post.id }}" class="d-block blur-shadow-image">
@@ -140,7 +140,7 @@
 
 
   <!-- Section du formulaire de contact -->
-  <section class="py-8">
+  <section id="contact" class="py-8">
     <div class="container">
 
       <div class="row">
@@ -261,7 +261,7 @@
   </section>
 
   <!-- Section du lien vers le CV en PDF -->
-  <section class="py-8">
+  <section id="cv" class="py-8">
     <div class="container">
       <div class="row">
         <div class="col-8 mx-auto text-center mb-5">

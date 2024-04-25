@@ -3,10 +3,10 @@
   <div class="row">
     <div class="col-12">
       <nav
-        class="navbar navbar-expand-lg  blur border-radius-xl top-0 z-index-fixed shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
+        class="navbar navbar-expand-xl  blur border-radius-xl top-0 z-index-fixed shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
         <div class="container-fluid">
           <a class="navbar-brand font-weight-bolder ms-sm-3" href="/" rel="tooltip"
-            title="Designed and Coded by Creative Tim" data-placement="bottom">
+            title="Designé et Codé par Blvckcoder" data-placement="bottom">
             Blvckcoder
           </a>
           <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse"
@@ -28,36 +28,33 @@
               </li>
 
               <li class="nav-item dropdown dropdown-hover mx-2">
-                <a href="/about" class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuDocs"
-                  data-bs-toggle="dropdown" aria-expanded="false">
+                <a href="/#about" class="nav-link ps-2 d-flex cursor-pointer align-items-center" >
                   <i class="material-icons opacity-6 me-2 text-md">article</i>
                   A Propos
                 </a>
               </li>
 
               <li class="nav-item dropdown dropdown-hover mx-2">
-                <a href="/blog" class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuDocs"
-                  data-bs-toggle="dropdown" aria-expanded="false">
+                <a href="/blog" class="nav-link ps-2 d-flex cursor-pointer align-items-center" >
                   <i class="material-icons opacity-6 me-2 text-md">article</i>
                   Blog
                 </a>
               </li>
 
               <li class="nav-item dropdown dropdown-hover mx-2">
-                <a href="/contact" class="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuDocs"
-                  data-bs-toggle="dropdown" aria-expanded="false">
+                <a href="/contact" class="nav-link ps-2 d-flex cursor-pointer align-items-center" >
                   <i class="material-icons opacity-6 me-2 text-md">article</i>
                   Contact
                 </a>
               </li>
               {% if isLoggedIn %}
               <li class="nav-item ms-lg-auto my-auto ms-3 ms-lg-0">
-                <a class="author" href="javascript:;">
+                <a class="author" href="#">
                   <div class="position-relative">
                     <div class="blur-shadow-avatar rounded-circle">
                       <img class="avatar avatar-xs" alt="32x32" src="../public/assets/img/profil/{{ picture }}">
                       <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
-                        data-bs-placement="bottom" data-bs-original-title="Star us on Github">{{nickname}}</p>
+                        data-bs-placement="bottom" data-bs-original-title="Vous êtes connecté">{{nickname}}</p>
                     </div>
                   </div>
                 </a>

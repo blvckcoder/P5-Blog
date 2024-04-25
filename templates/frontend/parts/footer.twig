@@ -4,39 +4,46 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-8 mb-4 mx-auto text-center">
-        <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-          Company
+        <a href="/" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+          Accueil
         </a>
-        <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-          About Us
+        <a href="/#about" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+          A Propos
         </a>
-        <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-          Team
-        </a>
-        <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-          Products
-        </a>
-        <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+        <a href="/blog" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
           Blog
         </a>
-        <a href="javascript:;" target="_blank" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
-          Pricing
+        <a href="/#cv" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+          Curriculum Vitae
         </a>
+        <a href="/contact" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+          Contact
+        </a>
+        {% if isLoggedIn %}
+          <a href="/admin" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+            Backend
+          </a>
+        {% else %}
+          <a href="/login" class="text-secondary me-xl-5 me-3 mb-sm-0 mb-2">
+            Se Connecter
+          </a>
+        {% endif %}
+
       </div>
       <div class="col-lg-8 mx-auto text-center mb-4 mt-2">
-        <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+        <a href="https://www.facebook.com/blvckcoder" class="text-secondary me-xl-4 me-4">
           <span class="text-lg fab fa-facebook"></span>
         </a>
-        <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+        <a href="https://twitter.com/CCorenthy" class="text-secondary me-xl-4 me-4">
           <span class="text-lg fab fa-twitter"></span>
         </a>
-        <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+        <a href="https://www.instagram.com/blvck.coder/" class="text-secondary me-xl-4 me-4">
           <span class="text-lg fab fa-instagram"></span>
         </a>
-        <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+        <a href="https://www.pinterest.fr/Blvckcoder/" class="text-secondary me-xl-4 me-4">
           <span class="text-lg fab fa-pinterest"></span>
         </a>
-        <a href="javascript:;" target="_blank" class="text-secondary me-xl-4 me-4">
+        <a href="https://github.com/blvckcoder" class="text-secondary me-xl-4 me-4">
           <span class="text-lg fab fa-github"></span>
         </a>
       </div>
@@ -54,9 +61,12 @@
 <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
 
 
-
+<!--   Core JS Files   -->
+  <script src="../public/assets/js/core/popper.min.js"></script>
+  <script src="../public/assets/js/core/bootstrap.min.js"></script>
+  
     <!-- Fichier JavaScript externe -->
-    <script src="../public/assets/js/script.js"></script>
+    <script src="../public/assets/js/material-kit.js"></script>
     
     <!-- Affiche un message si JavaScript est désactivé -->
     <noscript>Votre navigateur ne prend pas en charge JavaScript.</noscript>

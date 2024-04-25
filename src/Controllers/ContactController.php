@@ -10,8 +10,17 @@ use App\Lib\FlashMessage;
 use PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-class ContactController
+class ContactController extends DefaultController
 {
+    public function displayContactForm(): void
+    {
+        $flashMessage = $this->getFlash();
+
+        echo $this->twig->getTwig()->render('frontend/contact.twig', [
+            'flashMessage' => $flashMessage
+        ]);
+    }
+
     public function handleForm(): void
     {
         $name = $_POST['name'];
