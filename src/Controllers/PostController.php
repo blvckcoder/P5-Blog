@@ -239,7 +239,7 @@ class PostController extends DefaultController
         ]);
     }
 
-    // A refactoriser
+
     public function update(array $id): void
     {
         $this->auth->checkAdmin();
@@ -253,7 +253,7 @@ class PostController extends DefaultController
         $content = trim($postData['content'] ?? '');
         $postStatus = trim($postData['postStatus'] ?? '');
 
-        if (empty($userId) || empty($title) || empty($excerpt) || empty($content) || empty($postStatus)) {
+        if (empty($postData['userId']) || empty($title) || empty($excerpt) || empty($content) || empty($postStatus)) {
             $this->addFlash('error', 'Les données de modification d\'article sont invalides.');
             HTTPResponse::redirect('/admin/posts'); 
         }
